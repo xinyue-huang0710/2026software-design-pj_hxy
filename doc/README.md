@@ -185,6 +185,33 @@ node tools/replay.mjs
 
 已按功能里程碑逐次提交并推送到 [GitHub 仓库](https://github.com/xinyue-huang0710/2026software-design-pj_hxy)。远程初始 README 提交通过普通 merge 保留，未强推、未压缩开发历史。最终交付使用 `final` 标签，定位方式为 `git show final`；可通过 `git ls-remote origin refs/tags/final` 检查远程。
 
-用户确认截止日期为 **2026 年 10 月 25 日**（未提供当天具体时刻）；本次实现和验收日期为 2026 年 10 月 16 日。最终标签在本轮文档提交和最后验证完成后创建、推送，实际指向与时间以 Git 标签为准。
+用户提供的 eLearning 作业说明截图明确截止时间为 **10 月 25 日 23:59**（按当前课程年份记为 2026 年）；本次实现和验收日期为 2026 年 10 月 16 日。最终标签在本轮文档提交和最后验证完成后创建、推送，实际指向与时间以 Git 标签为准。
 
 作业没有 GitHub/Gitee 仓库命名要求，也没有要求公开仓库。当前 npm 包名为 svg-cli-editor。需要确保教师能够访问所提交的仓库；本项目不代填课程平台提交记录。
+
+### 4.4 eLearning 作业说明补充核对
+
+来源：用户提供的 eLearning 作业说明截图；保留原始 phase_cli_1.md 不作改写。
+
+| 截图要求 | 与作业文件的关系 | 当前交付 |
+| --- | --- | --- |
+| CLI SVG 编辑器及创建、读写、编辑、结构查看、撤销重做 | 是原文 §2–§6 的概述，没有新增命令 | 六类图形、19 个命令；需求覆盖与回放见 §4.1–§4.2 |
+| Git 管理、推送远程、历史体现开发过程、最终版本 final 标签 | 与原文 §1.1 一致 | 已按里程碑提交并推送，修正后 final 跟随最终验收版本 |
+| 工程 doc/README.md 使用 Markdown | 与原文 §1.2 一致 | 本文件 |
+| 架构方案、与 AI 协作过程、一致性自查、功能完整性及质量保证 | 与原文 §1.2 一致；截图再次强调功能完整性 | 本文四节、需求覆盖表、测试及示例回放证据 |
+| 截止时间 10 月 25 日 23:59，共两周 | 补充原文件未写明的具体截止时间 | 已同步到本文与 plan.md；标签需在此前完成 |
+
+截图展示的是作业说明，没有展示 eLearning 的提交输入框、附件要求或最终提交按钮。因此不能据此断言“只填链接”“必须传 ZIP”或“推送 GitHub 就等于已在 eLearning 提交”。目前已完成仓库交付，尚未在 eLearning 执行提交；具体平台操作需以实际提交区为准。
+
+以下是可填写到 eLearning 文本框的交付信息（如果该提交区接受文本/链接）：
+
+```text
+项目：PJ1 Phase 1 — CLI SVG 编辑器
+代码仓库：https://github.com/xinyue-huang0710/2026software-design-pj_hxy
+最终版本：https://github.com/xinyue-huang0710/2026software-design-pj_hxy/tree/final
+项目文档：https://github.com/xinyue-huang0710/2026software-design-pj_hxy/blob/final/doc/README.md
+运行：npm ci；npm run cli
+验证：npm run check（27 项测试、严格类型检查、构建通过）
+```
+
+这是准备好的交付信息，不代表平台已接收作业。截图未要求额外报告、演示视频或压缩包，未据此增加未明确要求的材料。

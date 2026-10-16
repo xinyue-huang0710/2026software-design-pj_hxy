@@ -483,7 +483,7 @@ save 建议同目录临时文件写出完成后再替换目标，验证目标平
 | P6 收尾 | 浏览器预览、需求覆盖表、过程记录、依赖/目录自查 | 全部检查有真实结果，文档反映最终实现 |
 | P7 提交交付 | 按要求推送远程，在最终提交打并推送 `final` | 远程与本地一致，tag 指向验收版本且早于截止 |
 
-每个可运行里程碑做一次有明确含义的提交；不积累成一个最终大提交。用户已提供 https://github.com/xinyue-huang0710/2026software-design-pj_hxy.git，里程碑已逐次推送；后续仍按独立功能和验证结果提交，不压缩为一次提交。用户确认截止日期为 2026 年 10 月 25 日；最终验收版本按作业要求标记 final。
+每个可运行里程碑做一次有明确含义的提交；不积累成一个最终大提交。用户已提供 https://github.com/xinyue-huang0710/2026software-design-pj_hxy.git，里程碑已逐次推送；后续仍按独立功能和验证结果提交，不压缩为一次提交。用户提供的 eLearning 截图明确截止时间为 2026 年 10 月 25 日 23:59；最终验收版本按作业要求标记 final。
 
 ## 10. 质量保证与验收依据
 
@@ -561,3 +561,8 @@ CLI、真实文件系统和原文会话使用集成测试与回放。Provider �
 用户补充老师关于树形打印插件式演进的要求。CLI 原来直接创建 TreeFormatter，现改为依赖 TreePrinter 接口，由 main 注入默认 TreeFormatter。ShapeQueryService 只生成树形查询数据，具体打印器决定输出形式。后续新增打印格式不用修改领域和命令。
 
 接入已有库时可采用 Adapter：TreePrinter 是 Target，包装转换类是 Adapter，已有树打印库才是 Adaptee。测试专用 OutlineTreeAdapter/OutlineLibrary 验证不兼容 API 的接入；生产不提前引入动态插件加载器，也不增加第三个按名称分派点。详见 [树打印实现说明](doc/tree-printing.md)。
+
+
+## 13. eLearning 补充说明核对
+
+用户提供的课程平台截图与原作业的功能、Git 分步提交、final 标签及 doc/README.md 文档要求一致；新增明确截止时间为 10 月 25 日 23:59。截图没有展示提交区，不能确定需要文本链接还是附件，也不能把已推送仓库视为已完成 eLearning 提交。详细对照与可复制的交付信息见 doc/README.md §4.4。原始 phase_cli_1.md 保持原文。
