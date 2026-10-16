@@ -154,13 +154,13 @@ node tools/replay.mjs
 
 `check` 顺序运行严格 TypeScript 检查、Node test runner + tsx 测试、生产构建。依赖使用确切版本并提交 package-lock.json：saxes 6.0.0；开发使用 TypeScript 5.9.3、tsx 4.20.6、@types/node 24.10.0。saxes 只解析文本，不拉取外部 DTD；应用额外拒绝 DOCTYPE。
 
-本机验证环境：Windows、Node.js 24.14.0、npm 11.9.0。26 项测试已通过，类型检查和构建通过；[实际检查输出](validation/check-output.txt) 已随仓库保存。测试数量不等于需求数量，多个表驱动测试覆盖多类形状或命令。
+本机验证环境：Windows、Node.js 24.14.0、npm 11.9.0。27 项测试已通过，类型检查和构建通过；[实际检查输出](validation/check-output.txt) 已随仓库保存。测试数量不等于需求数量，多个表驱动测试覆盖多类形状或命令。
 
 | 需求 | 验证文件/证据 |
 | --- | --- |
 | 几何、白名单、深复制、Composite | tests/domain/geometry.test.ts |
 | ID、循环、分组顺序、解组位置 | tests/domain/document.test.ts、reorder.test.ts |
-| 编辑撤销重做、失败原子性、屏障 | tests/application/history.test.ts、structure.test.ts |
+| 编辑撤销重做、失败原子性、屏障 | tests/application/history.test.ts、structure.test.ts、tests/cli/history-barrier.test.ts |
 | 六类映射与第七类型扩展 | tests/infrastructure/providers.test.ts |
 | SVG 往返、警告、恶意/无效 XML、IO 和默认路径 | tests/infrastructure/svg.test.ts |
 | 复合 Provider 获得完整子树、预序 ID 与后序导入 | tests/infrastructure/composite-import.test.ts |

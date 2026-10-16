@@ -8,18 +8,18 @@ export class HistoryManager {
   barrier():void { this.#undo=[];this.#redo=[];this.#blocked=true; }
   record(entry:HistoryEntry):void { this.#undo.push(entry);this.#redo=[];this.#blocked=false; }
   undo():readonly string[] {
-    this.allowed('undo');
+    this.allowed();
     const entry=this.#undo.at(-1);
     if(!entry) throw new EditorError('nothing to undo');
     const lines=entry.undo();this.#undo.pop();this.#redo.push(entry);return lines;
   }
   redo():readonly string[] {
-    this.allowed('redo');
+    this.allowed();
     const entry=this.#redo.at(-1);
     if(!entry) throw new EditorError('nothing to redo');
     const lines=entry.redo(); this.#redo.pop();this.#undo.push(entry);return lines;
   }
-  private allowed(action:string):void {
-    if(this.#blocked) throw new EditorError(`${action} not allowed after io command`);
+  private allowed():void {
+    if(this.#blocked) throw new EditorError('undo not allowed after io command');
   }
 }

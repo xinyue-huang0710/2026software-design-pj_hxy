@@ -68,3 +68,10 @@
 - 最后 npm run check：26 项测试、严格类型检查和生产构建全部通过，完整输出保存在 doc/validation/check-output.txt。
 - 完成文档本地链接检查。随后将本提交作为 final 验收版本，推送并核对远程指向。
 
+
+## 规格复核：统一历史禁用提示
+- 用户要求修复复核发现的 redo 文案差异。先新增四种文档操作的 CLI 回归测试，实际在 init -> redo 失败，输出 redo not allowed，与规定的 undo not allowed 不同。
+- HistoryManager 统一屏障提示为 undo not allowed after io command，移除不再需要的 action 参数；空栈错误仍区分 nothing to undo/redo。
+- 验证 init/read/save/canvas 后两种命令均准确报错，拒绝后文档、路径和历史不变；下一次成功编辑恢复撤销重做。
+- npm run check：27 项测试、类型检查、构建通过。
+

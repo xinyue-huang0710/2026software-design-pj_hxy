@@ -10,40 +10,41 @@
 > svg-cli-editor@0.1.0 test
 > tsx --test tests/**/*.test.ts
 
-✔ edit snapshot undo/redo is exact and failed edits preserve redo (6.0049ms)
-✔ each structural and attribute edit restores complete nested order on undo/redo (13.2526ms)
-✔ partial group overflow is discarded, document barriers and IO failures preserve state (3.8376ms)
-✔ class filenames and source import directions follow the architecture (50.2695ms)
-✔ assignment §6 and §6.1 A replay produces expected errors, geometry and SVG (14.9594ms)
-✔ all document-dependent commands reject before init and preserve empty history (1.115ms)
-✔ tokenizer preserves quoted text, Windows paths, colors and quoted in (2.2242ms)
-✔ CLI commands, read-only formatting and dispatch construction (6.885ms)
-✔ real stdin pipeline handles sequential commands through EOF (237.283ms)
-✔ CLI uses an injected adapter to print full and selected trees without changing state (4.228ms)
-✔ insert indexes descendants and rejects duplicate IDs without mutation (2.6953ms)
-✔ cross-parent group uses LCA and document order; ungroup restores nested slot (1.5253ms)
-✔ cycle and ancestor/descendant selection fail atomically (0.3834ms)
-✔ moving a circle changes its center and preserves radius (2.3017ms)
-✔ leaves obey translation and origin scaling contracts (1.408ms)
-✔ nested groups transform descendants once and clone deeply (0.6322ms)
-✔ invalid dimensions, attributes and overflow leave a leaf unchanged (0.5179ms)
-✔ group follows current draw order after front/back (2.5465ms)
-✔ reader passes completed children to the parent provider, with preorder ID assignment (3.333ms)
-✔ factory rejects duplicate registration, forged keys and incorrect constructor results (1.1396ms)
-✔ seventh test-only type works across unchanged commands queries SVG and snapshots (4.7513ms)
-✔ provider output maps all six types without adding implicit styles (1.3609ms)
-✔ six-type nested round trip preserves text, style absence and order (5.5282ms)
-✔ automatic IDs reserve later explicit IDs, import rejects lossy or malformed SVG (1.5882ms)
-✔ real file writes replace atomically; failed replacement cleans temporary file (14.1033ms)
-✔ read/save barriers, read path lifetime, failure atomicity and delayed warnings (1.2377ms)
-ℹ tests 26
+✔ edit snapshot undo/redo is exact and failed edits preserve redo (6.0581ms)
+✔ each structural and attribute edit restores complete nested order on undo/redo (10.567ms)
+✔ partial group overflow is discarded, document barriers and IO failures preserve state (2.8504ms)
+✔ class filenames and source import directions follow the architecture (53.7803ms)
+✔ assignment §6 and §6.1 A replay produces expected errors, geometry and SVG (14.1444ms)
+✔ all document-dependent commands reject before init and preserve empty history (1.1079ms)
+✔ tokenizer preserves quoted text, Windows paths, colors and quoted in (1.838ms)
+✔ CLI commands, read-only formatting and dispatch construction (5.9955ms)
+✔ real stdin pipeline handles sequential commands through EOF (264.0379ms)
+✔ all document barriers use the assignment error for both undo and redo (6.6464ms)
+✔ CLI uses an injected adapter to print full and selected trees without changing state (5.1536ms)
+✔ insert indexes descendants and rejects duplicate IDs without mutation (2.2953ms)
+✔ cross-parent group uses LCA and document order; ungroup restores nested slot (1.9986ms)
+✔ cycle and ancestor/descendant selection fail atomically (0.4401ms)
+✔ moving a circle changes its center and preserves radius (2.1555ms)
+✔ leaves obey translation and origin scaling contracts (1.3993ms)
+✔ nested groups transform descendants once and clone deeply (0.6599ms)
+✔ invalid dimensions, attributes and overflow leave a leaf unchanged (0.4377ms)
+✔ group follows current draw order after front/back (3.4325ms)
+✔ reader passes completed children to the parent provider, with preorder ID assignment (4.1007ms)
+✔ factory rejects duplicate registration, forged keys and incorrect constructor results (1.5623ms)
+✔ seventh test-only type works across unchanged commands queries SVG and snapshots (5.5113ms)
+✔ provider output maps all six types without adding implicit styles (1.8022ms)
+✔ six-type nested round trip preserves text, style absence and order (7.5562ms)
+✔ automatic IDs reserve later explicit IDs, import rejects lossy or malformed SVG (2.4158ms)
+✔ real file writes replace atomically; failed replacement cleans temporary file (18.6683ms)
+✔ read/save barriers, read path lifetime, failure atomicity and delayed warnings (1.5039ms)
+ℹ tests 27
 ℹ suites 0
-ℹ pass 26
+ℹ pass 27
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 758.4867
+ℹ duration_ms 817.9497
 
 > svg-cli-editor@0.1.0 build
 > tsc -p tsconfig.build.json
