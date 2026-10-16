@@ -1,0 +1,27 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam backgroundColor white
+title Phase 1 SVG CLI 模块依赖
+skinparam componentStyle rectangle
+component "main\n依赖组装" as Main
+component "cli（表现层）\n输入 / 命令构造 / 输出" as CLI
+component "application（应用层）\nCommand / Session / History\nShapeFactory / ShapeQueryService" as App
+component "DocumentStore\napplication/ports" as Store <<interface>>
+component "domain（领域层）\n文档 / 图形 / 几何行为" as Domain
+component "infrastructure（基础设施层）\n文件 / SVG 编解码\n各类型 Provider" as Infra
+component "ShapeProvider\napplication/shapes" as Provider <<interface>>
+component "Node.js / XML 库" as Runtime
+Main --> CLI
+Main --> App
+Main --> Infra
+CLI --> App
+App --> Domain
+App --> Store
+App --> Provider
+Infra ..|> Store
+Infra ..|> Provider
+Infra --> Domain
+Infra --> Runtime
+CLI --> Runtime : 终端 IO
+@enduml

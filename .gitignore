@@ -1,0 +1,8 @@
+# Local tools and generated files
+/tools/plantuml/plantuml.jar
+/node_modules/
+/dist/
+/coverage/
+/tmp/
+*.log
+/.vscode/settings.json

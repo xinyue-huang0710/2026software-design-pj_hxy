@@ -1,0 +1,50 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam backgroundColor white
+title Command 五个参与者：以 MoveCommand 为例
+skinparam classAttributeIconSize 0
+class "main + CommandDispatcher" as Client <<Client>>
+class CommandInvoker <<Invoker>> {
+  +executeCommand(command: Command)
+}
+interface Command {
+  +execute(): CommandResult
+}
+abstract class EditCommand {
+  #receiver: EditorSession
+  +execute(): CommandResult
+  +undo()
+  +redo()
+  #executeAction()
+}
+class MoveCommand <<ConcreteCommand>> {
+  -id: string
+  -dx: number
+  -dy: number
+  #executeAction()
+}
+class EditorSession <<Receiver>> {
+  +move(id, dx, dy)
+  +group(newId, ids)
+}
+class SvgDocument {
+  +findShape(id): Shape
+  +group(newId, ids)
+}
+abstract class Shape {
+  +move(dx, dy)
+}
+class HistoryManager
+Client ..> EditorSession : 创建 / 注入
+Client ..> MoveCommand : new(receiver, id, dx, dy)
+Client ..> CommandInvoker : 装配调用入口
+CommandInvoker --> Command : 调用 execute()
+CommandInvoker --> HistoryManager : 协调历史策略
+EditCommand ..|> Command
+MoveCommand --|> EditCommand
+EditCommand --> EditorSession : 持有 receiver
+MoveCommand ..> EditorSession : 转发 move 请求
+EditorSession --> SvgDocument : 委派领域操作
+SvgDocument --> Shape : 定位 / 多态调用
+@enduml

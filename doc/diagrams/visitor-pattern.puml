@@ -1,0 +1,67 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam nodesep 45
+skinparam ranksep 55
+title 历史方案（已弃用）：经典 Visitor；当前采用 shape-providers 图
+
+interface ShapeVisitor <<Visitor>> {
+  +visitRect(shape: RectShape): void
+  +visitCircle(shape: CircleShape): void
+  +visitEllipse(shape: EllipseShape): void
+  +visitLine(shape: LineShape): void
+  +visitText(shape: TextShape): void
+  +visitGroup(shape: GroupShape): void
+}
+abstract class Shape <<Element>> {
+  +accept(visitor: ShapeVisitor): void
+}
+class RectShape <<ConcreteElement>> {
+  +accept(visitor: ShapeVisitor): void
+}
+abstract class ContainerShape
+class GroupShape <<ConcreteElement>> {
+  +accept(visitor: ShapeVisitor): void
+  +children(): ReadonlyArray<Shape>
+}
+class TreeFormatter <<ConcreteVisitor>> {
+  +visitRect(shape: RectShape): void
+  +visitGroup(shape: GroupShape): void
+  +其余四种 visit 方法
+}
+class ShowFormatter <<ConcreteVisitor>> {
+  +visitRect(shape: RectShape): void
+  +visitGroup(shape: GroupShape): void
+  +其余四种 visit 方法
+}
+class SvgWriter <<ConcreteVisitor>> {
+  +write(document: SvgDocument): string
+  +visitRect(shape: RectShape): void
+  +visitGroup(shape: GroupShape): void
+  +其余四种 visit 方法
+}
+
+TreeFormatter ..|> ShapeVisitor
+ShowFormatter ..|> ShapeVisitor
+SvgWriter ..|> ShapeVisitor
+RectShape --|> Shape
+ContainerShape --|> Shape
+GroupShape --|> ContainerShape
+Shape ..> ShapeVisitor : accept(visitor)
+ShapeVisitor ..> RectShape : visitRect 的参数类型
+ShapeVisitor ..> GroupShape : visitGroup 的参数类型
+
+note right of RectShape
+  accept(v) 仅调用
+  v.visitRect(this)
+  Circle / Ellipse / Line / Text 同理
+end note
+note right of GroupShape
+  accept(v) 仅调用 v.visitGroup(this)
+  子节点递归由具体访问者负责：
+  Tree / SVG 按序遍历
+  Show 只输出当前节点
+end note
+@enduml

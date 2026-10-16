@@ -1,0 +1,86 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+skinparam nodesep 45
+skinparam ranksep 50
+title Shape 行为多态与 ShapeProvider 扩展边界（非 Adapter 模式）
+
+class ShapeFactory {
+  -entries: Map
+  +register(provider, guard)
+  -resolve(typeKey): checked entry
+  +create(typeKey, args): Shape
+  +fromSvg(element, children): Shape
+  +inspect(shape): ShapeView
+  +toSvgElement(shape): SvgElementData
+}
+interface "ShapeProvider<T extends Shape>" as ShapeProvider {
+  +create(args): T
+  +fromSvg(element, children): T
+  +inspect(shape: T): ShapeView
+  +toSvgElement(shape: T): SvgElementData
+}
+class RectProvider
+class CircleProvider
+class ShapeQueryService {
+  +tree(document, id)
+  +show(document, id)
+}
+class TreeFormatter
+class ShowFormatter
+class ShapeView <<readonly data>>
+class SvgWriter {
+  +write(document): string
+}
+class SvgReader
+abstract class Shape {
+  +move(dx, dy)
+  +scale(factor)
+  +setAttribute(name, value)
+  +clone(): Shape
+  +asContainer(): ContainerShape or null
+  +只读领域数据
+}
+class RectShape
+class CircleShape
+abstract class ContainerShape {
+  +只读 children
+  +asContainer(): this
+}
+class GroupShape
+
+ShapeFactory o--> ShapeProvider : 唯一类型映射 D2
+RectProvider ..|> ShapeProvider : T = RectShape
+CircleProvider ..|> ShapeProvider : T = CircleShape
+RectProvider --> RectShape : 构造 / 只读访问
+CircleProvider --> CircleShape : 构造 / 只读访问
+RectShape --|> Shape
+CircleShape --|> Shape
+ContainerShape --|> Shape
+GroupShape --|> ContainerShape
+ShapeQueryService --> ShapeFactory : inspect
+TreeFormatter ..> ShapeView : 树排版
+ShowFormatter ..> ShapeView : 单节点排版
+ShapeQueryService ..> ShapeView : 构建只读结果
+SvgWriter --> ShapeFactory : toSvgElement
+SvgReader --> ShapeFactory : fromSvg
+
+note left of ShapeFactory
+  main 注册六个内置 Provider
+  后续新增类型增加对应 Provider 与注册项
+  不在输出器另建类型映射
+  配对守卫通过后才调用 Provider
+end note
+note right of GroupShape
+  move / scale 递归委派给子图形
+  叶子没有 addChild 操作
+  领域行为不交给 Provider
+end note
+note right of CircleProvider
+  其余四种内置类型结构相同
+  展示摘要与 SVG 属性映射在外层
+  领域类不依赖 Provider
+end note
+@enduml
