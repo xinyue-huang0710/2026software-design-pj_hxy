@@ -16,7 +16,7 @@ export interface ShapeProvider<T extends Shape> {
   readonly typeKey: string;
   readonly accepts: (shape:Shape)=>shape is T;
   readonly create: (id:string,args:readonly string[])=>T;
-  readonly fromSvg: (id:string,element:SvgElementData)=>T;
+  readonly fromSvg: (id:string,element:SvgElementData,children:readonly Shape[])=>T;
   readonly inspect: (shape:T)=>ShapeView;
   readonly toSvgElement: (shape:T)=>SvgElementData;
 }

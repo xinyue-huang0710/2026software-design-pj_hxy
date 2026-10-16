@@ -2,6 +2,7 @@ import { SaxesParser } from 'saxes';
 import type { DocumentReader,ImportResult } from '../../application/ports/DocumentCodec.js';
 import type { SvgElementData } from '../../application/providers/ShapeProvider.js';
 import { ShapeFactory } from '../../application/providers/ShapeFactory.js';
+import type { Shape } from '../../domain/Shape.js';
 import { SvgDocument } from '../../domain/SvgDocument.js';
 import { Numbers } from '../../domain/Numbers.js';
 import { EditorError } from '../../domain/errors/EditorError.js';
@@ -54,7 +55,7 @@ export class SvgReader implements DocumentReader {
     };
     root.children.forEach(reserve);
     const counters=new Map<string,number>();
-    const importNode=(node:ElementNode,parent?:string):void=>{
+    const assignIds=(node:ElementNode):void=>{
       let id=node.attributes.id;
       if(id===undefined){
         let n=counters.get(node.tag)??0;
@@ -62,12 +63,16 @@ export class SvgReader implements DocumentReader {
         counters.set(node.tag,n);reserved.add(id);
         warnings.push(`warning: assigned id ${id} to unnamed <${node.tag}>`);
       }
-      const element:SvgElementData={...node,attributes:{...node.attributes,id}};
-      const shape=this.factory.fromSvg(id,element);document.insert(shape,parent);
-      if(node.children.length&&!shape.asContainer()) throw new EditorError(`not a container: ${id}`);
-      node.children.forEach(child=>importNode(child,id));
+      node.attributes.id=id;
+      node.children.forEach(assignIds);
     };
-    root.children.forEach(node=>importNode(node));document.validate();
+    root.children.forEach(assignIds);
+    const importNode=(node:ElementNode):Shape=>{
+      const children=node.children.map(importNode);
+      const element:SvgElementData=node;
+      return this.factory.fromSvg(node.attributes.id!,element,children);
+    };
+    root.children.forEach(node=>document.insert(importNode(node)));document.validate();
     return {document,warnings};
   }
 }

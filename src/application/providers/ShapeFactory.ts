@@ -3,7 +3,7 @@ import { EditorError } from '../../domain/errors/EditorError.js';
 import type { ShapeProvider, ShapeView, SvgElementData } from './ShapeProvider.js';
 interface Entry {
   create(id:string,args:readonly string[]):Shape;
-  fromSvg(id:string,element:SvgElementData):Shape;
+  fromSvg(id:string,element:SvgElementData,children:readonly Shape[]):Shape;
   inspect(shape:Shape):ShapeView;
   serialize(shape:Shape):SvgElementData;
 }
@@ -24,7 +24,7 @@ export class ShapeFactory {
     };
     this.#entries.set(provider.typeKey,{
       create:(id,args)=>created(provider.create(id,args),id),
-      fromSvg:(id,e)=>created(provider.fromSvg(id,e),id),
+      fromSvg:(id,e,children)=>created(provider.fromSvg(id,e,children),id),
       inspect:s=>provider.inspect(check(s)),
       serialize:s=>provider.toSvgElement(check(s))
     });
@@ -35,10 +35,10 @@ export class ShapeFactory {
     return entry;
   }
   create(key:string,id:string,args:readonly string[]):Shape { return this.entry(key).create(id,args); }
-  fromSvg(id:string,element:SvgElementData):Shape {
+  fromSvg(id:string,element:SvgElementData,children:readonly Shape[]=[]):Shape {
     const kind=element.attributes['data-kind'];
     const key=kind && this.#entries.has(kind)?kind:element.tag;
-    return this.entry(key).fromSvg(id,element);
+    return this.entry(key).fromSvg(id,element,children);
   }
   inspect(shape:Shape):ShapeView { return this.entry(shape.typeKey).inspect(shape); }
   toSvgElement(shape:Shape):SvgElementData { return this.entry(shape.typeKey).serialize(shape); }

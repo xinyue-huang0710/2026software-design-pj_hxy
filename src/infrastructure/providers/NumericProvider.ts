@@ -20,11 +20,11 @@ export abstract class NumericProvider<T extends NumericShape> implements ShapePr
     if(args.length>count) shape.setAttribute(this.optionalStyle,args[count]!);
     return shape;
   }
-  fromSvg(id:string,element:SvgElementData):T {
+  fromSvg(id:string,element:SvgElementData,children:readonly Shape[]=[]):T {
     const allowed=new Set(['id',...this.fields,'fill','stroke','stroke-width']);
     for(const key of Object.keys(element.attributes))
       if(!allowed.has(key)) throw new EditorError(`unsupported attribute: ${key}`);
-    if(element.children?.length) throw new EditorError(`unsupported children in ${this.typeKey}`);
+    if(children.length || element.children?.length) throw new EditorError(`unsupported children in ${this.typeKey}`);
     if(!this.hasText && element.text?.trim()) throw new EditorError(`unexpected text in ${this.typeKey}`);
     const values=this.fields.map(field=>Numbers.parse(element.attributes[field]??'0',field));
     const shape=this.construct(id,values,element.text??'');

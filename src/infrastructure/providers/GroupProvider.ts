@@ -9,7 +9,7 @@ export class GroupProvider implements ShapeProvider<GroupShape> {
     if(args.length) throw new EditorError('invalid parameters for g');
     return new GroupShape(id);
   }
-  fromSvg(id:string,element:SvgElementData):GroupShape {
+  fromSvg(id:string,element:SvgElementData,children:readonly Shape[]=[]):GroupShape {
     const shape=new GroupShape(id);
     for(const [key,value] of Object.entries(element.attributes)){
       if(key==='id'||key==='data-kind') continue;
@@ -17,6 +17,7 @@ export class GroupProvider implements ShapeProvider<GroupShape> {
       shape.setAttribute(key,value);
     }
     if(element.text?.trim()) throw new EditorError('unexpected text in g');
+    for(const child of children) shape.insertAt(shape.children().length,child);
     return shape;
   }
   inspect(s:GroupShape):ShapeView {

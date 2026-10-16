@@ -47,3 +47,9 @@
 - 用户补充老师希望树打印可插件替换。先注入测试库适配器，测试真实失败（CLI 仍输出原树线），再抽取 TreePrinter，改为 main 构造注入。
 - OutlineLibrary 为测试专用 Adaptee，OutlineTreeAdapter 为 Adapter，生产默认 TreeFormatter 保持作业格式。
 
+
+## 复合类型导入边界对齐
+- 对照计划发现 Reader 先创建空父节点再填孩子，Provider 构造时无法校验完整复合结构。
+- 测试先真实失败（父 Provider 收到 0 个孩子，应为 2 个）；改成预序分配 ID、后序构造图形，fromSvg 显式接收 children。
+- 自动 ID/警告仍按文档顺序，子树一次挂入文档索引。26 项测试、类型检查和构建通过。
+
