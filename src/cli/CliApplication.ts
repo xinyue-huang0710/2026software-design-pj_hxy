@@ -3,17 +3,17 @@ import type { Readable,Writable } from 'node:stream';
 import type { CommandInvoker } from '../application/CommandInvoker.js';
 import { CommandDispatcher } from './CommandDispatcher.js';
 import { Tokenizer } from './Tokenizer.js';
-import { TreeFormatter } from './TreeFormatter.js';
+import type { TreePrinter } from './printing/TreePrinter.js';
 import { ShowFormatter } from './ShowFormatter.js';
 export class CliApplication {
-  readonly #tokenizer=new Tokenizer();readonly #tree=new TreeFormatter();readonly #show=new ShowFormatter();
-  constructor(private readonly dispatcher:CommandDispatcher,private readonly invoker:CommandInvoker) {}
+  readonly #tokenizer=new Tokenizer();readonly #show=new ShowFormatter();
+  constructor(private readonly dispatcher:CommandDispatcher,private readonly invoker:CommandInvoker,private readonly treePrinter:TreePrinter) {}
   async executeLine(line:string):Promise<readonly string[]> {
     try {
       const command=this.dispatcher.dispatch(this.#tokenizer.tokenize(line));
       if(!command) return [];
       const result=await this.invoker.executeCommand(command);
-      return [...result.lines,...(result.tree?this.#tree.format(result.tree):[]),
+      return [...result.lines,...(result.tree?this.treePrinter.format(result.tree):[]),
         ...(result.detail?this.#show.format(result.detail):[])];
     } catch(error){
       const message=error instanceof Error?error.message:String(error);

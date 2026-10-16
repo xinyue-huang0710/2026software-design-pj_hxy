@@ -41,3 +41,9 @@
 - XML 属性使用无原型字典，避免特殊属性名被对象原型吞掉。
 - npm run check：22 项测试、类型检查、构建通过。
 
+
+## 树打印接口与远程连接
+- 用户提供 GitHub URL 并要求继续分步提交。保留远程初始 README 提交，以普通合并推送既有 7 个开发提交，未强推。
+- 用户补充老师希望树打印可插件替换。先注入测试库适配器，测试真实失败（CLI 仍输出原树线），再抽取 TreePrinter，改为 main 构造注入。
+- OutlineLibrary 为测试专用 Adaptee，OutlineTreeAdapter 为 Adapter，生产默认 TreeFormatter 保持作业格式。
+

@@ -1,3 +1,4 @@
+import { TreeFormatter } from '../../src/cli/TreeFormatter.js';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { EditorRuntime } from '../../src/EditorRuntime.js';
@@ -27,7 +28,7 @@ test('factory rejects duplicate registration, forged keys and incorrect construc
 });
 test('seventh test-only type works across unchanged commands queries SVG and snapshots',async()=>{
   const r=new EditorRuntime();r.factory.register(new MarkerProvider());
-  const cli=new CliApplication(new CommandDispatcher(r.session,r.history),r.invoker);
+  const cli=new CliApplication(new CommandDispatcher(r.session,r.history),r.invoker,new TreeFormatter());
   for(const line of ['init','create marker m 1 2 3 blue','move m 4 5','scale m 2'])
     assert.doesNotMatch((await cli.executeLine(line)).join('\n'),/error:/);
   assert.match((await cli.executeLine('tree')).join('\n'),/marker#m  x=10 y=14 size=6 fill=blue/);

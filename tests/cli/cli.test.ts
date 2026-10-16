@@ -1,3 +1,4 @@
+import { TreeFormatter } from '../../src/cli/TreeFormatter.js';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
@@ -17,7 +18,7 @@ test('tokenizer preserves quoted text, Windows paths, colors and quoted in',()=>
   assert.throws(()=>t.tokenize('"a"b'),/expected space/);
 });
 test('CLI commands, read-only formatting and dispatch construction',async()=>{
-  const r=new EditorRuntime(),dispatcher=new CommandDispatcher(r.session,r.history),cli=new CliApplication(dispatcher,r.invoker);
+  const r=new EditorRuntime(),dispatcher=new CommandDispatcher(r.session,r.history),cli=new CliApplication(dispatcher,r.invoker,new TreeFormatter());
   assert.match((await cli.executeLine('tree'))[0]!,/^error: no document/);
   assert.match((await cli.executeLine('help'))[0]!,/^init/);
   const command=dispatcher.dispatch(new Tokenizer().tokenize('init'));

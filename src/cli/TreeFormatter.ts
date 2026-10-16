@@ -1,5 +1,6 @@
 import type { TreeView,TreeNode } from '../application/queries/ShapeQueryService.js';
-export class TreeFormatter {
+import type { TreePrinter } from './printing/TreePrinter.js';
+export class TreeFormatter implements TreePrinter {
   format(tree:TreeView):readonly string[] {
     const lines:string[]=[];
     const label=(node:TreeNode):string=>{

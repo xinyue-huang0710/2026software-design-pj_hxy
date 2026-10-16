@@ -572,3 +572,10 @@ CLI、真实文件系统和原文会话使用集成测试与回放。Provider �
 以上记录描述方案讨论与修订，不代表代码已经实现或测试通过。第 7 节全部方案已确认；当前采用图形类型提供者而非经典 Visitor，并计划用 TDD 验证核心行为与扩展边界。
 
 后续实现按当前分层、Command 角色和第 7 节已确认决策推进；本轮工作仍仅更新计划与图表，没有开始编辑器代码实现。
+
+
+## 12. 实现期补充：树打印可替换（2026-10-16）
+
+用户补充老师关于树形打印插件式演进的要求。CLI 原来直接创建 TreeFormatter，现改为依赖 TreePrinter 接口，由 main 注入默认 TreeFormatter。ShapeQueryService 只生成树形查询数据，具体打印器决定输出形式。后续新增打印格式不用修改领域和命令。
+
+接入已有库时可采用 Adapter：TreePrinter 是 Target，包装转换类是 Adapter，已有树打印库才是 Adaptee。测试专用 OutlineTreeAdapter/OutlineLibrary 验证不兼容 API 的接入；生产不提前引入动态插件加载器，也不增加第三个按名称分派点。详见 [树打印实现说明](doc/tree-printing.md)。

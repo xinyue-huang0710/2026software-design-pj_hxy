@@ -1,0 +1,36 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam backgroundColor white
+skinparam classAttributeIconSize 0
+title 树打印：可替换接口与后续 Adapter 接入
+class "main" as Main
+class CliApplication <<Client>>
+class ShapeQueryService
+class TreeView <<readonly data>>
+interface TreePrinter <<Target>> {
+  +format(tree: TreeView): readonly string[]
+}
+class TreeFormatter {
+  +format(tree: TreeView)
+}
+class OutlineTreeAdapter <<Adapter, test only>> {
+  -adaptee: OutlineLibrary
+  +format(tree: TreeView)
+}
+class OutlineLibrary <<Adaptee, test only>> {
+  +draw(nodes: OutlineNode[]): string
+}
+Main ..> TreeFormatter : 创建默认实现
+Main ..> CliApplication : 注入 TreePrinter
+ShapeQueryService ..> TreeView : 生成查询快照
+CliApplication --> TreePrinter : 仅依赖接口
+TreePrinter ..> TreeView : 消费
+TreeFormatter ..|> TreePrinter
+OutlineTreeAdapter ..|> TreePrinter
+OutlineTreeAdapter --> OutlineLibrary : 转换数据 / 委派 draw
+note bottom of TreeFormatter
+  深度优先遍历，生成树线与缩进
+  不导入具体 Shape，不修改领域状态
+end note
+@enduml
