@@ -56,7 +56,7 @@ export class SvgDocument {
   back(id:string): void { this.reorder(id,false); }
   private reorder(id:string,front:boolean): void {
     const shape=this.findShape(id), parent=this.#parents.get(shape)!;
-    parent.detach(shape); parent.insertAt(front?parent.children().length:0,shape);
+    parent.detach(shape); parent.insertAt(front?parent.children().length:0,shape); this.reindex();
   }
   group(newId:string,ids:readonly string[]): void {
     const group=new GroupShape(newId);

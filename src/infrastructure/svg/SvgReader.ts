@@ -15,7 +15,7 @@ export class SvgReader implements DocumentReader {
     parser.on('processinginstruction',()=>{throw new EditorError('processing instructions are not supported');});
     parser.on('opentag',tag=>{
       if(tag.uri!=='' && tag.uri!=='http://www.w3.org/2000/svg') throw new EditorError('unsupported XML namespace');
-      const attributes:Record<string,string>={};
+      const attributes:Record<string,string>=Object.create(null) as Record<string,string>;
       for(const attr of Object.values(tag.attributes)){
         if(attr.uri==='http://www.w3.org/2000/xmlns/') continue;
         if(attr.prefix) throw new EditorError(`unsupported attribute: ${attr.name}`);
