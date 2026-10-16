@@ -1,8 +1,8 @@
 # Phase 1 SVG CLI 编辑器：需求与架构计划
 
-状态：第 7 节 A1–A8 及补充规则已由用户确认采用；根据后续类型扩展要求，将经典 Visitor 改为图形类型提供者方案，核心功能采用 TDD；尚未开始实现。需求来源：`phase_cli_1.md`。
+状态：第 7 节 A1–A8 及补充规则已由用户确认采用；根据后续类型扩展要求，将经典 Visitor 改为图形类型提供者方案，核心功能采用 TDD；Phase 1 代码已实现，核心 TDD、集成回放与树打印替换测试通过，已分步推送 GitHub。需求来源：`phase_cli_1.md`。最终实现说明见 [doc/README.md](doc/README.md)。
 
-本文把“作业明确要求”“本方案的设计选择”“原文未确定的语义”分开记录。当前工作只产出计划；原文中的代码开发、远程推送、最终打 tag 是后续交付要求，不代表本次已经执行或获得执行指令。
+本文把“作业明确要求”“本方案的设计选择”“原文未确定的语义”分开记录。最初为计划审查稿；用户随后明确授权代码实现、分步提交并提供远程仓库。本文已同步实际模块和扩展接口，历史讨论保留在修订记录中。
 
 ## 1. 目标与阶段边界
 
@@ -93,81 +93,63 @@ create 的参数严格对应原文 §4.1：rect 为 x/y/w/h，circle 为 cx/cy/r
 | 应用层 | `application/` | 调用命令、协调编辑事务、当前文档与撤销重做 | 按图形类型计算坐标、XML 解析、终端格式化 |
 | 领域层 | `domain/` | 图形行为、文档树、样式规则、id 与结构不变量 | 文件系统、终端、命令行语法、展示格式 |
 | 基础设施层 | `infrastructure/` | 文件存储、SVG 编解码、各类型的输入输出 Provider | 决定命令历史规则或绕过领域校验 |
-| 组装入口 | `main.ts` | 创建共享对象、注入依赖、连接 CLI 与调用者 | 具体命令业务逻辑 |
+| 组装入口 | `main.ts`、`EditorRuntime.ts` | 创建共享对象、注入依赖、连接 CLI 与调用者 | 具体命令业务逻辑 |
 
 这是职责分层，不是要求每次调用都从上到下穿过四层。日常几何编辑只经过表现层、应用层、领域层；文件操作由应用层调用其拥有的 `DocumentStore` 接口，再由基础设施实现完成。领域层不反向依赖上层。
 
-TypeScript 使用严格类型检查。运行方式对齐作业的 `npm run cli`；依赖版本、XML 解析库及测试工具在实现阶段根据环境选择并锁定，本计划不承诺未经验证的版本。
+TypeScript 使用严格类型检查。运行方式对齐作业的 `npm run cli`；当前依赖和工具版本已在 package-lock.json 锁定，验证结果见 doc/README.md。
 
 ### 3.2 目录与职责
 
-下列为规划目录，不表示已创建；省略的具体命令类、图形类仍各自独立文件。
+下列目录已按实际实现更新；省略的具体命令类、图形类仍各自独立文件。
 
 ```text
 src/
-  main.ts                         # 组装依赖、启动 CLI
+  main.ts                         # CLI 启动与默认 TreePrinter 注入
+  EditorRuntime.ts                # 六类 Provider、Session、IO 与历史的依赖装配
   cli/
-    CliApplication.ts             # REPL 生命周期、逐行输入输出
-    CommandLineTokenizer.ts       # 引号、空白、注释、token 边界
-    CommandDispatcher.ts          # 按名称构造命令，不执行【待重构 D1】
-    TreeFormatter.ts              # 通用树视图排版，不认识具体图形类
-    ShowFormatter.ts              # 通用单节点明细排版，不按类型分派
+    CliApplication.ts
+    Tokenizer.ts
+    CommandDispatcher.ts          # D1：只构造命令
+    TreeFormatter.ts              # 默认树线输出
+    ShowFormatter.ts
+    printing/TreePrinter.ts       # 可替换打印接口
   application/
-    CommandInvoker.ts             # Invoker：统一执行入口、协调历史策略
-    EditorSession.ts              # 稳定接收者：当前文档、路径、事务与用例委派
-    CommandResult.ts              # 消息/警告/查询结果的只读载体
-    ShapeQueryService.ts          # 通过工厂中的 Provider 生成只读树/单节点视图
-    shapes/
-      ShapeFactory.ts             # 唯一类型名称查找与注册入口【待重构 D2】
-      ShapeProvider.ts            # 泛型协议：创建、读回、检查视图、SVG 数据
-      ShapeView.ts                # 输出用只读数据契约，不是领域模型
-      SvgElementData.ts           # 与 XML 库无关的元素数据契约
-    commands/
-      Command.ts                  # Command 接口：统一 execute 协议
-      EditCommand.ts              # 可撤销编辑命令模板
-      CreateCommand.ts            # 每条命令独立类
-      MoveCommand.ts
-      ...
-    history/
-      HistoryManager.ts           # undo/redo 栈与屏障状态
-    ports/
-      DocumentStore.ts            # 读写文档的抽象接口
+    EditorSession.ts              # 稳定接收者与候选文档事务
+    CommandInvoker.ts
+    commands/                     # Command、EditCommand 与各具体命令
+    history/                      # HistoryManager、HistoryEntry
+    providers/                    # ShapeFactory、ShapeProvider、只读视图协议
+    queries/ShapeQueryService.ts
+    ports/                        # DocumentStore、DocumentReader/Writer 协议
   domain/
-    SvgDocument.ts                # 树、id 索引、结构编辑、不变量
-    DocumentSnapshot.ts           # 封装文档快照，不暴露可变节点
-    Shape.ts                      # 图形抽象与统一行为
+    SvgDocument.ts                # 树、ID 索引、结构编辑；clone 生成深快照
+    Shape.ts
+    NumericShape.ts               # 几何封装、校验、缩放和属性白名单
     ContainerShape.ts             # 容器能力与递归操作
-    shapes/
-      RectShape.ts
-      CircleShape.ts
-      EllipseShape.ts
-      LineShape.ts
-      TextShape.ts
-      GroupShape.ts
-    ShapeStyle.ts                 # 公共属性封装与验证
-    errors/
-      EditorError.ts
+    Numbers.ts
+    ShapeStyle.ts
+    shapes/                       # Rect/Circle/Ellipse/Line/Text/GroupShape
+    errors/EditorError.ts
   infrastructure/
-    FileSvgDocumentStore.ts       # DocumentStore 的文件实现
-    shapes/
-      RectProvider.ts           # rect 的参数/导入/展示/序列化映射
-      CircleProvider.ts         # 对应 circle，其余类型同样一类一文件
-      EllipseProvider.ts
-      LineProvider.ts
-      TextProvider.ts
-      GroupProvider.ts
-    svg/
-      SvgReader.ts               # XML 到文档对象
-      SvgWriter.ts               # 通过工厂获取元素数据，通用 XML 写出与递归
+    storage/FileDocumentStore.ts
+    providers/                    # NumericProvider 与六个具体 Provider
+    svg/                          # SvgReader、SvgWriter、XmlEscaper
 tests/
   domain/
-  commands/
-  integration/
-  fixtures/
+  application/
+  infrastructure/
+  cli/
+  architecture/
+  support/                        # 第七类型及打印 Adapter 契约夹具，仅测试注册
+examples/                         # 作业脚本与输入/输出 SVG
 doc/
   README.md                       # 最终提交文档
-  diagrams/                       # PlantUML 源文件及导出的 PNG/SVG
-plan.md                           # 本审查稿
+  tree-printing.md
+  development-log.md
+  diagrams/                       # .puml / PNG / SVG
+  validation/                     # 实际回放与浏览器截图
+plan.md                           # 审查过程与实施对齐
 ```
 
 只读传输结果可以是接口或封装对象；禁止的是把核心图形做成任意可改的数据袋。`main.ts` 是入口，接口定义文件不是类，不适用“文件名等于类名”的要求。
@@ -189,12 +171,12 @@ plan.md                           # 本审查稿
 | domain | domain 内部、语言标准能力 | application、cli、infrastructure、Node 文件/终端 API、XML 库 | 保持业务模型可独立测试 |
 | application | domain、application/ports | cli、infrastructure 的具体实现 | 用例通过抽象调用 IO |
 | cli | application 的命令/查询/视图协议、终端 API | domain 具体图形类、infrastructure 具体类 | 显示只消费视图，不处理图形规则或文件编解码 |
-| infrastructure | domain、application/ports 和 application/shapes 协议及工厂、文件/XML 库 | cli、application 命令和历史实现 | Provider 实现输入输出映射，避免反向依赖 |
+| infrastructure | domain、application/ports 和 application/providers 协议及工厂、文件/XML 库 | cli、application 命令和历史实现 | Provider 实现输入输出映射，避免反向依赖 |
 | main | 上述模块 | 无额外业务规则 | 唯一依赖组装入口 |
 
-命令之间不互相调用以隐式形成多个历史条目；公共规则进入领域对象。`CommandDispatcher` 可以引用具体命令类以构造对象；`CommandInvoker` 只依赖命令协议，不引用 MoveCommand 等具体命令类，也不检查命令名称。实现完成后检查 import，任何反向依赖列入待修复项或写出明确的方案修订。
+命令之间不互相调用以隐式形成多个历史条目；公共规则进入领域对象。CLI 只允许使用领域公共的 Numbers/EditorError 做输入校验，不导入具体 Shape。`CommandDispatcher` 可以引用具体命令类以构造对象；`CommandInvoker` 只依赖命令协议，不引用 MoveCommand 等具体命令类，也不检查命令名称。实现完成后检查 import，任何反向依赖列入待修复项或写出明确的方案修订。
 
-图形类型提供者的接口位于 application/shapes，实现位于 infrastructure/shapes，由 main 注册到同一个 ShapeFactory。应用层只依赖 ShapeProvider 协议，不依赖六个具体 Provider；Provider 通过只读 getter 获取图形数据、通过构造器和领域方法建立合法图形。ShapeQueryService 构建视图，CLI 只接收复制出的只读视图，不持有可变领域对象。
+图形类型提供者的接口位于 application/providers，实现位于 infrastructure/providers，由 main 注册到同一个 ShapeFactory。应用层只依赖 ShapeProvider 协议，不依赖六个具体 Provider；Provider 通过只读 getter 获取图形数据、通过构造器和领域方法建立合法图形。ShapeQueryService 构建视图，CLI 只接收复制出的只读视图，不持有可变领域对象。
 
 领域层不负责展示格式：图形只提供几何、样式、id、稳定的类型键及结构关系等领域数据，不引入 accept，也不生成摘要、树线、XML 或格式化的父节点字符串。图形类型提供者生成输出视图和元素数据，格式化器处理树线/父级信息，SvgWriter 处理 XML 转义；不采用领域图形返回展示摘要的 describe()/summary() 方案。
 
@@ -295,11 +277,11 @@ setAttribute 的契约本来就包含“各类型有自己的支持范围”，�
 ### 4.4 集中工厂：创建、导入和输出共用一处分派
 
 - **D1 待重构：CommandDispatcher** 是唯一的命令名称到命令实现映射，仅构造命令；执行交给 CommandInvoker。
-- **D2 待重构：application/shapes/ShapeFactory** 是唯一的图形类型名称映射。内部映射保存已绑定 Provider 与类型校验的注册条目，不直接把异构的 `ShapeProvider<T>` 强转成可接受任意 Shape 的 Provider。
-- CLI create、SVG 读入、tree/show 视图生成、SVG 写出均通过工厂门面完成 create/fromSvg/inspect/toSvgElement；门面内部共用唯一的 resolve 查找，再调用已绑定 Provider。调用多次不等于多处分派，类型名称与实现的关联只保存在一个映射中；外层拿不到裸 Provider 与图形随意配对。
+- **D2 待重构：application/providers/ShapeFactory** 是唯一的图形类型名称映射。内部映射保存已绑定 Provider 与类型校验的注册条目，不直接把异构的 `ShapeProvider<T>` 强转成可接受任意 Shape 的 Provider。
+- CLI create、SVG 读入、tree/show 视图生成、SVG 写出均通过工厂门面完成 create/fromSvg/inspect/toSvgElement；门面内部共用唯一的 entry 查找，再调用已绑定 Provider。调用多次不等于多处分派，类型名称与实现的关联只保存在一个映射中；外层拿不到裸 Provider 与图形随意配对。
 - 禁止 TreeFormatter、ShowFormatter、SvgWriter、ShapeQueryService 各建一个类型映射、switch(type) 或 instanceof 链。六个 Provider 不再分派其他图形类型。
 - 工厂移到应用层是有意调整：它协调领域构造和外层适配协议，不能让 domain 工厂反向依赖展示/持久化接口。
-- Phase 1 在 main 中显式注册六个 Provider；仍标注 D2 为后续插件化重构点。未来用插件安装流程提供注册项，普通调用方继续使用工厂门面；resolve 是工厂内部实现，不向调用方暴露。
+- Phase 1 在 main 中显式注册六个 Provider；仍标注 D2 为后续插件化重构点。未来用插件安装流程提供注册项，普通调用方继续使用工厂门面；entry 是工厂内部实现，不向调用方暴露。
 - XML 根、注释、文本节点属于格式解析；未知图形和将来的 data-kind 恢复选择仍在 D2 处理，不在 SvgReader 另建图形分派表。
 
 ### 4.5 面向新增类型的输出方案：采用外层图形类型提供者
@@ -333,7 +315,7 @@ setAttribute 的契约本来就包含“各类型有自己的支持范围”，�
 
 **类型配对约束：** 接口使用 `ShapeProvider<T extends Shape>`，create/fromSvg 返回 T，inspect/toSvgElement 接受 T；RectProvider 对应 RectShape。TypeScript 泛型只能约束编译期，不能单凭一个字符串键证明运行时对象类型。
 
-- 注册入口接收同一类型的 Provider 和类型守卫，例如以 RectShape 构造器生成守卫，与 RectProvider 绑定；键从注册项读取且全局唯一，不允许重复覆盖。
+- 注册入口接收 Provider，其中 accepts 提供该类型的运行时守卫，例如 RectProvider.accepts 使用 RectShape 构造器校验；键从注册项读取且全局唯一，不允许重复覆盖。
 - 工厂内部的泛型注册方法捕获这一对对象，生成接收 Shape 的受检调用闭包。inspect/toSvgElement 先验证不可改写的类型键和该条目的类型守卫，再将已收窄为 T 的对象交给 Provider；不把异构 Map 当作保留了所有泛型关联的证明。
 - create/fromSvg 的返回结果同样通过条目的类型和类型键校验后，才能被挂进文档；clone/恢复后的对象再次输出时仍须通过检查。领域对象只知道自己的类型键，不持有 Provider。
 - 工厂内对已选中条目的单次构造器校验用于验证配对，不遍历全部类型寻找匹配项；这是 D2 边界检查，不在输出器新增第三处分派。不得用 `as RectShape`、any 或每个 Provider 各写一次猜测类型的分支代替校验。
@@ -341,7 +323,7 @@ setAttribute 的契约本来就包含“各类型有自己的支持范围”，�
 
 这里的类型守卫与有限闭包只用于一个注册入口，不增加全局服务定位器或庞大的类型框架。若后续跨进程插件无法携带领域类实例，需重新定义该边界，不能假定当前构造器检查自动适用于任意插件系统。
 
-`ShapeView` 是应用层的只读输出数据，包含 id、类型标注、summary 和有序属性项；完整树视图还包含 children 和结构化 parent 信息。`SvgElementData` 包含标签、只读属性键值与可选文本。这些是边界传输数据，不是代替图形行为的公共数据袋。领域层不导入它们，也不生成 summary 或 XML。
+`ShapeView` 是应用层的只读输出数据，包含 id、label、inline 和有序 properties/styles；TreeView 通过 TreeNode 保存 children，DetailView 单独保存 parent。`SvgElementData` 包含标签、只读属性键值与可选文本。这些是边界传输数据，不是代替图形行为的公共数据袋。领域层不导入它们，也不生成 summary 或 XML。
 
 Phase 1 不引入动态插件发现、反射、服务定位器或事件总线。六个 Provider 各自一类一文件；该方案不是“代码更少”的承诺，而是把原来分散在多个访问者中的类型知识集中到图形类型提供者。
 
@@ -349,14 +331,14 @@ Phase 1 不引入动态插件发现、反射、服务定位器或事件总线。
 
 | 功能 | 执行过程 | 不变量 |
 | --- | --- | --- |
-| tree | TreeCommand → ShapeQueryService；对每个节点调用 ShapeFactory.inspect，D2 选取并校验 Provider，按 children 顺序构建只读视图 → TreeFormatter 输出树线、缩进和节点摘要 | 树遍历由查询服务负责；Formatter 不查询图形工厂、不认识 Rect/Circle |
+| tree | TreeCommand → ShapeQueryService；对每个节点调用 ShapeFactory.inspect，D2 选取并校验 Provider，按 children 顺序构建只读视图 → 注入的 TreePrinter 输出；默认 TreeFormatter 生成树线、缩进和节点摘要 | 树遍历由查询服务负责；Formatter 不查询图形工厂、不认识 Rect/Circle |
 | show | ShowCommand → ShapeQueryService，仅 inspect 目标节点，附带父级类型与 id → ShowFormatter 展示属性 | 不展开子树，不接触可变领域对象 |
-| save | SaveCommand → DocumentStore → SvgWriter；逐节点调用 ShapeFactory.toSvgElement，经 D2 校验后委派 Provider，再按领域树顺序写出 | SvgWriter 负责 XML 转义和画布根；Provider 不自行递归，不产生重复子节点 |
+| save | SaveCommand → EditorSession → SvgWriter 生成 XML → DocumentStore；逐节点调用 ShapeFactory.toSvgElement，经 D2 校验后委派 Provider，再按领域树顺序写出 | SvgWriter 负责 XML 转义和画布根；Provider 不自行递归，不产生重复子节点 |
 | read | SvgReader 解析 XML、全局预扫描 id、按后序解析子图形 → D2 → Provider.fromSvg(element, children) → SvgDocument 校验与建立索引 | 嵌套遍历由 Reader 负责；Provider 不递归解析 XML；全部成功后才替换当前文档 |
 
 CircleProvider.inspect 可以排出圆的摘要，CircleProvider.toSvgElement 可以返回 circle/cx/cy/r 等元素数据。这些都位于领域之外；CircleShape 只保留数值、样式与 move/scale/set 行为。
 
-树线、根画布行、父节点字符串及整体排版仍由 Formatter 负责。公共样式映射和数值格式化可在外层通过少量私有方法或辅助对象复用，不再增加一个通用框架。
+查询服务生成画布标题和父节点标注；具体树线、缩进和整体排版由 TreePrinter（默认 TreeFormatter）负责。公共样式映射和数值格式化可在外层通过少量私有方法或辅助对象复用，不再增加一个通用框架。
 
 #### 4.5.4 当前结构图
 
@@ -375,7 +357,7 @@ CircleProvider.inspect 可以排出圆的摘要，CircleProvider.toSvgElement �
 - 通用 TreeFormatter、ShowFormatter、SvgWriter、CommandInvoker、HistoryManager 不新增 box 分支。read 对 data-kind 的定义选择和未安装时降级规则集中在 D2。
 - 现有 clone 必须多态复制实际对象类型与内部结构，不能使用只支持六类的快照解码开关，否则撤销仍会成为扩展障碍。
 
-Phase 1 只实现六种内置类型，create box 仍报未知类型；不提前实现 BoxProvider。后续仍需增加插件加载、data-kind 识别/回退与 schema 安装等能力，不能声称已经达到“所有新类型零修改内核”。目标是在既有边界增加能力，而不是替换命令、领域树、历史和全部输出架构。
+Phase 1 只实现六种内置类型，create box 仍报未知类型；不提前实现 BoxProvider。后续仍需增加插件加载、复合类型的 data-kind 恢复校验与参数 schema 安装等能力，不能声称已经达到“所有新类型零修改内核”。目标是在既有边界增加能力，而不是替换命令、领域树、历史和全部输出架构。
 
 #### 4.5.6 限制与验证
 
@@ -501,7 +483,7 @@ save 建议同目录临时文件写出完成后再替换目标，验证目标平
 | P6 收尾 | 浏览器预览、需求覆盖表、过程记录、依赖/目录自查 | 全部检查有真实结果，文档反映最终实现 |
 | P7 提交交付 | 按要求推送远程，在最终提交打并推送 `final` | 远程与本地一致，tag 指向验收版本且早于截止 |
 
-每个可运行里程碑做一次有明确含义的提交；不积累成一个最终大提交。远程仓库地址和截止时间原文未提供，后续交付前补齐；本次不创建远程、不推送、不打 tag。
+每个可运行里程碑做一次有明确含义的提交；不积累成一个最终大提交。用户已提供 https://github.com/xinyue-huang0710/2026software-design-pj_hxy.git，里程碑已逐次推送；后续仍按独立功能和验证结果提交，不压缩为一次提交。用户确认截止日期为 2026 年 10 月 25 日；最终验收版本按作业要求标记 final。
 
 ## 10. 质量保证与验收依据
 
@@ -566,12 +548,12 @@ CLI、真实文件系统和原文会话使用集成测试与回放。Provider �
 | 对照 Visitor PPT 后发现原计划缺少具体协议 | 曾补充三个 ConcreteVisitor、双分派和遍历责任 | 历史方案，已被本轮类型扩展决策替代；旧图仅作为讨论记录 |
 | 用户要求领域层不关心展示格式，同时希望控制复杂度 | 曾将 SVG 访问者合并进 SvgWriter；持续保留“领域不生成展示摘要”的约束 | Visitor 实现选择已替代，领域与展示分离的约束继续有效 |
 | 用户要求认真考虑已知的后续图形扩展，避免阶段之间重做架构 | 放弃按图形枚举 visitXxx，采用外层 Provider + 唯一工厂注册 + 通用输出；增加第七类型测试契约 | 当前方案见 §4.4–§4.5，明确新增类型与新增输出的取舍 |
-| 用户接受针对第一阶段核心行为使用 TDD | 补充红→绿→重构流程、适用范围和真实过程记录要求 | 见 §10.0；尚未实施，不预填测试结果 |
+| 用户接受针对第一阶段核心行为使用 TDD | 补充红→绿→重构流程、适用范围和真实过程记录要求 | 见 §10.0；现已记录真实红→绿证据，结果见 doc/development-log.md |
 | 用户追问 Adapter 命名与不同 Shape 的多态适用性 | 统一 ShapeProvider 名称，明确不是 GoF Adapter；新增共同契约/专属能力划分，工厂集中验证 Provider 与 Shape 配对 | 当前 §4.2、§4.4–§4.5 及新图为实现依据，保留 TDD 和领域不处理展示的约束 |
 
-以上记录描述方案讨论与修订，不代表代码已经实现或测试通过。第 7 节全部方案已确认；当前采用图形类型提供者而非经典 Visitor，并计划用 TDD 验证核心行为与扩展边界。
+以上表格保留方案讨论与修订背景。第 7 节全部方案已确认；当前实现采用图形类型提供者而非经典 Visitor，并已验证核心行为与扩展边界。
 
-后续实现按当前分层、Command 角色和第 7 节已确认决策推进；本轮工作仍仅更新计划与图表，没有开始编辑器代码实现。
+实现已按当前分层、Command 角色和第 7 节决策完成；具体修订、真实测试和远程提交记录以 doc/README.md、doc/development-log.md 及 Git 历史为准。
 
 
 ## 12. 实现期补充：树打印可替换（2026-10-16）

@@ -60,3 +60,11 @@
 - 已用独立无界面 Chrome 打开 flowchart.svg 并人工查看截图：蓝/橙节点、中文标签和黑色连线正确。
 - 已实际验证 npm.cmd run cli 的 svg> 提示符、init/create/show 和 Ctrl+C 退出。
 
+
+## 最终文档与交付验证（2026-10-16）
+- 用户确认截止日期 10 月 25 日。远程仓库为 xinyue-huang0710/2026software-design-pj_hxy。
+- doc/README.md 按作业四节组织，同步运行说明、依赖/类名自查、实际目录、树打印注入、复合导入和已知 SVG 子集。
+- 重新导出架构、Command、Provider 图；新增树打印图已经人工查看，正文 PNG 不依赖 IDE 插件。
+- 最后 npm run check：26 项测试、严格类型检查和生产构建全部通过，完整输出保存在 doc/validation/check-output.txt。
+- 完成文档本地链接检查。随后将本提交作为 final 验收版本，推送并核对远程指向。
+

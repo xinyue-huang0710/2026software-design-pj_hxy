@@ -4,7 +4,7 @@ skinparam defaultFontName Microsoft YaHei
 skinparam backgroundColor white
 title Command 五个参与者：以 MoveCommand 为例
 skinparam classAttributeIconSize 0
-class "main + CommandDispatcher" as Client <<Client>>
+class "EditorRuntime + CommandDispatcher" as Client <<Client>>
 class CommandInvoker <<Invoker>> {
   +executeCommand(command: Command)
 }

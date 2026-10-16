@@ -1,5 +1,7 @@
 # 架构图源文件与预览
 
+新增 tree-printing.puml 展示 TreePrinter 注入接口与测试 Adapter/Adaptee 的对应。
+
 当前图表为 `architecture.puml`（分层组件图）、`command-pattern.puml`（Command 类图）、`shape-providers.puml`（Shape 行为多态、Provider 与受检工厂边界，非 GoF Adapter 模式）。原 `shape-adapters.*` 已更名为 `shape-providers.*`，请打开新文件。`visitor-pattern.puml` 是已弃用的历史讨论方案，图中已注明，不作为实现依据。对应 PNG 和 SVG 均由 PlantUML 实际导出，`plan.md` 直接引用本地 PNG，因此查看计划不需要安装 PlantUML 插件或联网。
 
 ## 为什么原来显示错误

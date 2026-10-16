@@ -9,16 +9,17 @@ title Shape 行为多态与 ShapeProvider 扩展边界（非 Adapter 模式）
 
 class ShapeFactory {
   -entries: Map
-  +register(provider, guard)
-  -resolve(typeKey): checked entry
-  +create(typeKey, args): Shape
-  +fromSvg(element, children): Shape
+  +register(provider)
+  -entry(typeKey): checked entry
+  +create(typeKey, id, args): Shape
+  +fromSvg(id, element, children): Shape
   +inspect(shape): ShapeView
   +toSvgElement(shape): SvgElementData
 }
 interface "ShapeProvider<T extends Shape>" as ShapeProvider {
-  +create(args): T
-  +fromSvg(element, children): T
+  +accepts(shape): shape is T
+  +create(id, args): T
+  +fromSvg(id, element, children): T
   +inspect(shape: T): ShapeView
   +toSvgElement(shape: T): SvgElementData
 }
@@ -28,6 +29,7 @@ class ShapeQueryService {
   +tree(document, id)
   +show(document, id)
 }
+interface TreePrinter
 class TreeFormatter
 class ShowFormatter
 class ShapeView <<readonly data>>
@@ -61,14 +63,16 @@ CircleShape --|> Shape
 ContainerShape --|> Shape
 GroupShape --|> ContainerShape
 ShapeQueryService --> ShapeFactory : inspect
-TreeFormatter ..> ShapeView : 树排版
+TreeFormatter ..|> TreePrinter
+TreePrinter ..> ShapeView : 树打印协议
+TreeFormatter ..> ShapeView : 默认树排版
 ShowFormatter ..> ShapeView : 单节点排版
 ShapeQueryService ..> ShapeView : 构建只读结果
 SvgWriter --> ShapeFactory : toSvgElement
 SvgReader --> ShapeFactory : fromSvg
 
 note left of ShapeFactory
-  main 注册六个内置 Provider
+  EditorRuntime 注册六个内置 Provider
   后续新增类型增加对应 Provider 与注册项
   不在输出器另建类型映射
   配对守卫通过后才调用 Provider
