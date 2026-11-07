@@ -1,51 +1,52 @@
-# 2026-pj_hxy — SVG CLI Editor (Phase 1)
+# SVG CLI Editor — PJ1 Phase 2
 
-TypeScript 面向对象 SVG 编辑器。实现六种图形、19 种命令、嵌套分组、撤销重做和 SVG 读写。
+TypeScript SVG 编辑器：保留 Phase 1 的六种图形、19 条命令、分组、撤销重做和 SVG 读写；Phase 2 增加插件内核、stats/dir、box、树标签及 VS Code SVG 标记/大纲扩展。
 
 ## 运行
 
-需要 Node.js 22 或更新版本（本机验证为 Node.js 24.14.0）。
+需要 Node.js >=22。在仓库根执行：
 
-```sh
+~~~sh
 npm ci
+npm run build
 npm run cli
-```
+~~~
 
-在 `svg>` 后输入 `help`。Windows PowerShell 若拦截 `npm.ps1`，使用 `npm.cmd`。
+在 svg> 后输入 help。Windows PowerShell 若拦截 npm.ps1，使用 npm.cmd。
 
-```text
-init 400 200
-create g scene
-create rect r 20 40 100 60 #4a90d9 in scene
-create text label 40 75 "你好 SVG" in scene
-move scene 10 0
-undo
+~~~text
+dir
+init
+create box n1 120 100 160 60 "开始"
+set n1 fill #f5a623
+set n1 label "处理数据"
 tree
-save examples/my-drawing.svg
-```
+stats
+undo
+save examples/my-box.svg
+~~~
 
-SVG 可直接拖入浏览器。退出交互模式使用 Ctrl+C；脚本模式读到 EOF 后退出。
+默认使用代码装配。配置装配：npm run cli -- --config plugins.config.json；只用 Phase 1 默认能力：npm run cli -- --builtin-only。编译入口：node packages/host/dist/main.js。退出用 Ctrl+C，脚本输入 EOF 后退出。
 
-## 验证与示例
+## VS Code 扩展
 
-```sh
+VS Code 打开仓库，选择调试配置 PJ1 SVG Tools，点击“运行 → 启动调试”（F5 或 Fn+F5），会先构建扩展再打开开发宿主。SVG 若显示为图片，右键标签页选择“重新打开编辑器的方式 → 文本编辑器”，展开左下角“大纲”。
+
+[扩展说明](extensions/svg-tools/README.md) · [人工验证](doc/validation/vscode-manual.md)
+
+## 验证与文档
+
+~~~sh
 npm run check
-node tools/replay.mjs
-```
+npm run extension:test
+node tools/replay-phase2.mjs
+node tools/verify-plugin-diffs.mjs
+~~~
 
-第一条运行严格类型检查、行为测试和构建；第二条重新回放作业两组样例，覆盖 `examples/demo.svg`、`examples/flowchart.svg` 和 `doc/validation/*-output.txt`。
+- [Phase 2 完整报告、扩展点清单、ADR 与 AI 交互记录](doc/README.md)
+- [自动源码指标与文件职责清单](docs/metrics/README.md)
+- [Phase 2 开发计划](plan-phase2.md)
+- [Phase 1 报告归档](doc/phase1-README.md)
+- [树排版接口与 Adapter 对应](doc/tree-printing.md)
 
-也可运行已构建入口 `node dist/main.js`。在支持重定向的 shell 中，`node dist/main.js < examples/flowchart.txt` 可直接回放脚本。PowerShell 可使用：
-
-```powershell
-$OutputEncoding = [System.Text.UTF8Encoding]::new($false)
-Get-Content -Encoding UTF8 examples/flowchart.txt | npm.cmd run cli
-```
-
-- [作业提交文档：架构、过程、自查、质量保证](doc/README.md)
-- [可替换树打印与 Adapter/Adaptee 对应](doc/tree-printing.md)
-- [经审查的设计计划](plan.md)
-- [实际开发与测试记录](doc/development-log.md)
-- [浏览器预览](doc/validation/flowchart-browser.png)
-
-本阶段仅支持规定的 SVG 子集，不支持任意 SVG/CSS/transform。生产仅注册 rect / circle / ellipse / line / text / g；box 与动态插件加载留给后续阶段。
+保留 final；本阶段最终交付标签为 p2。两条 box 接入证明分支为 phase2/box-code、phase2/box-config。仅支持作业规定的 SVG 子集，不是完整浏览器 SVG/CSS/transform 引擎。

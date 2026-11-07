@@ -3,7 +3,7 @@
 skinparam defaultFontName Microsoft YaHei
 skinparam backgroundColor white
 skinparam componentStyle rectangle
-title Phase 2 拟定架构（箭头表示源码依赖）
+title Phase 2 实现架构（箭头表示源码依赖）
 package "CLI" {
   component "host / composition\nA 代码组合根 或 B 配置加载器\n共用 PluginInstaller" as Host
   component "host / cli + io\nREPL / 树排版 / SVG 编解码" as IO

@@ -5,7 +5,7 @@ tree 命令通过 ShapeQueryService 构建脱离可变领域对象的 TreeView�
 ## 当前流程
 
 ```text
-TreeCommand → EditorSession → ShapeQueryService → TreeView
+TreeCommand → EditorSession → ShapeQueryService → TreeView → TreeDecorationService
 CliApplication → TreePrinter.format(TreeView) → 文本行
                     ↑
               TreeFormatter（当前默认）
@@ -15,13 +15,13 @@ CliApplication → TreePrinter.format(TreeView) → 文本行
 
 ## 如何替换
 
-在 main.ts 的装配处传入符合 TreePrinter 的对象：
+在 packages/host/src/main.ts 的装配处传入符合 TreePrinter 的对象：
 
 ```ts
 const cli = new CliApplication(dispatcher, invoker, new TreeFormatter());
 ```
 
-未来新增 ASCII、JSON 或其他形式的文本打印器，只需实现接口并修改装配；不用修改 TreeCommand、Session、Shape 或 CliApplication。当前没有新增命令、按名称的打印器分发表或动态插件扫描。
+未来新增 ASCII、JSON 或其他形式的文本打印器，只需实现接口并修改装配；不用修改 TreeCommand、Session、Shape 或 CliApplication。整树打印器仍由组合根注入，不设按名称的打印器分发表。Phase 2 新增的动态插件加载用于四个规定扩展点；其中 TreeDecorator 在 TreeView 中追加 suffix，与替换整树排版的 TreePrinter 相互独立。
 
 ## 与 Adapter / Adaptee 的对应
 

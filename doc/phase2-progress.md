@@ -14,14 +14,14 @@
 
 ## 交付状态
 
-目前正在实现。未打 p2；未声称 VS Code 界面截图或 Phase 2 全验收已完成。
+实现、自动检查与用户界面验证已完成。最新状态见本文末尾收尾记录；前文保留各开发节点当时的状态。
 
 ## VS Code 扩展实现与验证
 
 - 实现前运行真实 Extension Host（VS Code 1.135.0），SVG 语言为 xml，文档符号为空；保存 vscode-baseline.json。
 - 新增 SvgFileDecorator、SvgOutlineParser、SvgSymbolProvider；正文不修改，目录不加标记，原生符号树包含源位置。
 - 解析单测覆盖嵌套、无 id、CRLF、Unicode、属性内 >、CDATA、不完整 XML 和恢复，2/2 通过。
-- Extension Host 首次测试发现：空符号时 VS Code 命令会返回 undefined，而非固定 []。修正测试对宿主 API 的假设，未放宽解析器行为；真实集成 12 项检查通过，证据见 vscode-integration.json。
+- Extension Host 首次测试发现：空符号时 VS Code 命令会返回 undefined，而非固定 []。修正测试对宿主 API 的假设，未放宽解析器行为；真实集成 11 个命名检查通过，证据见 vscode-integration.json。
 - UI 工具仍不可用，界面截图明确待补，不把接口测试称为视觉验收。
 - 用户确认继续分步提交并推送同一 GitHub 仓库。
 
@@ -55,3 +55,15 @@
 - box 的独立测试只使用公开 Shape 和创建端口替身；集成覆盖模板、嵌套、缩放移动、单次撤销重做、ID 冲突、损坏导入、降级和必需子部件保护。
 - deb4853 单独接入 box-type-label；随后独立接入 modified-star，不修改内核或 TreeFormatter。
 - 星号按保存内容比较，实例私有字段保存基线；新节点和祖先标星，保存/读入/初始化重置，undo 回保存点消失。两个标签只通过公开树视图协作。
+
+## 最终验证、用户实测与文档收尾
+
+- 用户协助启动扩展开发宿主：F5 被键盘映射为音量，改用 Fn+F5 或“运行 → 启动调试”；SVG 默认图片预览需切换文本编辑器；大纲在资源管理器左下角展开。
+- 用户提供真实界面截图，确认 []、嵌套层级、无 id 的 text、点击 rect#start 定位第 3 行，并明确确认 start → test → start 的实时更新成功。截图已保存为 doc/validation/vscode-outline.png；AI 已读取本地图片核对，未伪造界面证据。
+- 不完整 XML 的清空/恢复由真实 Extension Host 自动检查，人工记录不冒称用户测试过此分支。
+- npm ci 成功；完整 check 为 43 项 CLI 测试与 2 项解析测试通过，另有真实 Extension Host 的 11 个命名检查。输出存入 doc/validation/phase2-check.txt。
+- 四组编译程序会话（基础、flowchart、box、stats/dir）在 A/B 下 stdout 与 SVG 均逐字节一致。纯命令输入和独立预期已归档；dir 的日志不进入查询目录。
+- Git 差异脚本检查实际存在的内核/加载器/既有插件路径、共同父提交、允许改动集合及两边相同的新增插件 tree；不是靠不存在路径的空 diff 作证。
+- 宿主补齐五个已静态导入插件的依赖元数据；修正旧回放脚本的 src/main.ts 入口，明确本阶段编译路径。没有夹带新业务特例。
+- 报告补齐四个扩展点的真实调用位置和错误契约、五条 ADR、前后 PlantUML/PNG、模式区别、复用分析及 AI 建议纠错。原 Phase 1 报告单独归档。
+- 收尾仍按验证材料、报告、Git 历史指标分步提交并推送；最终 p2 标在交付提交，final 保持不变。指标从代码提交生成，再对 p2 重算核验源码哈希和数值。
