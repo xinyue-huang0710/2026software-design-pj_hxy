@@ -1,0 +1,22 @@
+{
+  "name": "@svgframe/plugin-command-dir",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "development": "./src/index.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "dependencies": {
+    "@svgframe/core": "0.2.0"
+  },
+  "contributes": {
+    "commands": [
+      "dir"
+    ]
+  }
+}

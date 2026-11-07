@@ -41,3 +41,10 @@
 - 使用只读查询端口，按 DFS 首次出现类型排序，不枚举具体容器名；独立测试含未知复合类型，空文档、计数和无副作用检查通过。
 - 两种装配均注册同一插件。34 项 CLI 测试、2 项解析测试、类型检查及构建通过。
 - docs/metrics/framework 由脚本从 final 与 a2250dd 的 Git 对象生成。
+
+## dir 独立插件与 Adapter
+
+- 新增 command-dir 包。DirCommand 只依赖 DirectoryReader；NodeDirectoryAdapter 将 fs.Dirent 转成公开目录条目，不跟随符号链接。
+- 假目录覆盖混合项、隐藏项、稳定排序、空目录、读取失败；真实临时目录验证未 init 可用、成功/失败不改内容和 undo/redo、随后 redo 仍可用。
+- 代码装配与配置装配在同一固定目录输出逐字节一致；禁用时两个命令从 help 消失并报 unknown command。
+- 37 项 CLI 测试、2 项解析测试与类型检查/构建通过。此次未修改内核、加载器或既有插件。
