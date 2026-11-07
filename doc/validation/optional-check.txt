@@ -1,0 +1,86 @@
+
+> svg-cli-editor@0.1.0 check
+> npm run typecheck && npm run build && npm test && npm run extension:check
+
+
+> svg-cli-editor@0.1.0 typecheck
+> tsc --noEmit
+
+
+> svg-cli-editor@0.1.0 build
+> tsc -p tsconfig.build.json && node tools/distribute-build.mjs
+
+
+> svg-cli-editor@0.1.0 test
+> tsx --conditions=development --test tests/**/*.test.ts
+
+✔ edit snapshot undo/redo is exact and failed edits preserve redo (6.5345ms)
+✔ each structural and attribute edit restores complete nested order on undo/redo (15.2778ms)
+✔ partial group overflow is discarded, document barriers and IO failures preserve state (3.5104ms)
+✔ class filenames and package dependencies enforce public plugin boundaries (152.142ms)
+✔ assignment §6 and §6.1 A replay produces expected errors, geometry and SVG (59.4548ms)
+✔ all document-dependent commands reject before init and preserve empty history (8.2863ms)
+✔ tokenizer preserves quoted text, Windows paths, colors and quoted in (2.5639ms)
+✔ CLI commands, read-only formatting and dispatch construction (32.1403ms)
+✔ real stdin pipeline handles sequential commands through EOF (594.1332ms)
+✔ optional diamond transcript is byte-identical in A/B and disabled configuration preserves history (919.3325ms)
+✔ all document barriers use the assignment error for both undo and redo (50.5954ms)
+✔ full basic, flowchart, box and command transcripts match in both compiled assemblies (1511.3043ms)
+✔ CLI uses an injected adapter to print full and selected trees without changing state (17.1928ms)
+✔ insert indexes descendants and rejects duplicate IDs without mutation (2.3316ms)
+✔ cross-parent group uses LCA and document order; ungroup restores nested slot (2.0104ms)
+✔ cycle and ancestor/descendant selection fail atomically (0.4343ms)
+✔ moving a circle changes its center and preserves radius (2.0331ms)
+✔ leaves obey translation and origin scaling contracts (3.0022ms)
+✔ nested groups transform descendants once and clone deeply (0.7576ms)
+✔ invalid dimensions, attributes and overflow leave a leaf unchanged (0.6599ms)
+✔ group follows current draw order after front/back (2.9568ms)
+✔ compiled default-only CLI transcripts and SVG files are byte-identical to immutable final (683.8877ms)
+✔ attribute extension is one undo unit; fallback, conflict, partial throw and composite invariants are atomic (15.1588ms)
+✔ decorators compose on root and selected subtree; failed notification cannot undo a committed edit (10.2902ms)
+✔ code registration validates manifests and rolls back all categories without losing prior plugins (9.7805ms)
+✔ config four failures, internal missing dependency, duplicate rollback, disabled and subsequent success (74.8112ms)
+✔ bad configuration is rejected completely before any optional activation; builtins remain (33.8799ms)
+✔ reader passes completed children to the parent provider, with preorder ID assignment (5.7534ms)
+✔ factory rejects duplicate registration, forged keys and incorrect constructor results (2.3325ms)
+✔ seventh test-only type works across unchanged commands queries SVG and snapshots (27.777ms)
+✔ provider output maps all six types without adding implicit styles (6.4072ms)
+✔ six-type nested round trip preserves text, style absence and order (17.6821ms)
+✔ automatic IDs reserve later explicit IDs, import rejects lossy or malformed SVG (10.7969ms)
+✔ real file writes replace atomically; failed replacement cleans temporary file (120.0362ms)
+✔ read/save barriers, read path lifetime, failure atomicity and delayed warnings (7.375ms)
+✔ box roundtrip, nesting, geometry, protected children, derived id collisions and atomic read failures (46.713ms)
+✔ box type label independently reads only the public type key, not BoxShape or other decorators (1.0241ms)
+✔ box package independently creates template, serializes, validates and delegates attributes using only a factory substitute (4.1336ms)
+✔ both labels coexist with actual history/save/read; failed operations never update dirty baseline (13.7007ms)
+✔ diamond composes with unchanged history, grouping, stats, tree labels and SVG IO (27.5001ms)
+✔ without diamond plugin create and polygon read fail clearly and preserve the existing document (2.4131ms)
+✔ diamond geometry has atomic finite bounds, independent clones and origin scaling (3.8573ms)
+✔ diamond provider independently roundtrips exact geometry and rejects lossy or malformed polygons (1.6922ms)
+✔ dir standalone substitute handles sorting, hidden names, empty, special entries and failure (1.1329ms)
+✔ dir real adapter runs without document, never changes history, document or process cwd on success/failure (12.208ms)
+✔ two assemblies expose both commands/help and produce byte-identical dir output in fixed cwd (318.0185ms)
+✔ modified-star standalone follows edit/save/edit/undo/redo, ancestors, new/deleted nodes and per-instance isolation (1.5405ms)
+✔ stats standalone counts leaves in first-appearance DFS order and all container kinds excluding root (1.8762ms)
+ℹ tests 48
+ℹ suites 0
+ℹ pass 48
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1900.2563
+
+> svg-cli-editor@0.1.0 extension:check
+> tsc -p extensions/svg-tools/tsconfig.json && tsx --test extensions/svg-tools/test/parser.test.ts
+
+✔ nested, unnamed, CRLF, Unicode and quoted > have exact source selections (5.1369ms)
+✔ incomplete XML clears and later valid edits restore without stale nodes (1.9608ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 423.6797

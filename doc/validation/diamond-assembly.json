@@ -1,0 +1,14 @@
+{
+  "input": "examples/diamond.txt",
+  "assemblies": [
+    "code",
+    "config"
+  ],
+  "sameCwd": true,
+  "stdoutBytes": 2389,
+  "svgBytes": 977,
+  "stdoutSha256": "6ec2b4996a1a1d8a2ef9647a0581c8253916c47f2f952c149007ea8379112cc9",
+  "svgSha256": "327cba313224016f221193b4abd2281cdefe7491caba1d52d2ae3c6b8dcfdf96",
+  "identical": true,
+  "disabledPluginPreservesDocumentAndHistory": true
+}

@@ -1,0 +1,25 @@
+# Optional diamond: standard SVG polygon, nested with box and text.
+init 800 500
+create g flow
+create box start 320 40 160 60 "Start" in flow
+create g decision in flow
+create diamond condition 400 230 200 120 #fff2cc in decision
+set condition stroke #8a6d00
+set condition stroke-width 2
+create text question 370 235 "Ready?" in decision
+create line down1 400 100 400 170 black in flow
+create line down2 400 290 400 370 black in flow
+create box process 320 370 160 60 "Process" in flow
+move condition 10 0
+undo
+scale condition 1.1
+undo
+set condition fill #ffe599
+undo
+redo
+show condition
+tree
+stats
+save examples/diamond.svg
+read examples/diamond.svg
+tree

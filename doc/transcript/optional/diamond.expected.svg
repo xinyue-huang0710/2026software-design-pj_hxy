@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <g id="flow">
+    <g id="start" data-kind="box">
+      <rect id="start-rect" x="320" y="40" width="160" height="60" fill="#4a90d9"/>
+      <text id="start-label" x="340" y="75">Start</text>
+    </g>
+    <g id="decision">
+      <polygon id="condition" data-kind="diamond" data-cx="400" data-cy="230" data-width="200" data-height="120" points="400,170 500,230 400,290 300,230" fill="#ffe599" stroke="#8a6d00" stroke-width="2"/>
+      <text id="question" x="370" y="235">Ready?</text>
+    </g>
+    <line id="down1" x1="400" y1="100" x2="400" y2="170" stroke="black"/>
+    <line id="down2" x1="400" y1="290" x2="400" y2="370" stroke="black"/>
+    <g id="process" data-kind="box">
+      <rect id="process-rect" x="320" y="370" width="160" height="60" fill="#4a90d9"/>
+      <text id="process-label" x="340" y="405">Process</text>
+    </g>
+  </g>
+</svg>

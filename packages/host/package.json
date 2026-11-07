@@ -11,6 +11,7 @@
     "@svgframe/plugin-command-dir": "0.2.0",
     "@svgframe/plugin-shape-box": "0.2.0",
     "@svgframe/plugin-tree-box-label": "0.2.0",
-    "@svgframe/plugin-tree-modified": "0.2.0"
+    "@svgframe/plugin-tree-modified": "0.2.0",
+    "@svgframe/plugin-shape-diamond": "0.2.0"
   }
 }

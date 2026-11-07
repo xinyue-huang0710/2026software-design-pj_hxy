@@ -1,0 +1,51 @@
+svg-editor 0.1 — type 'help' for commands
+canvas 800x500 created
+g#flow created
+box#start created (g#start + rect#start-rect + text#start-label) in g#flow
+g#decision created in g#flow
+diamond#condition created in g#decision
+diamond#condition updated: stroke="#8a6d00"
+diamond#condition updated: stroke-width="2"
+text#question created in g#decision
+line#down1 created in g#flow
+line#down2 created in g#flow
+box#process created (g#process + rect#process-rect + text#process-label) in g#flow
+diamond#condition moved by (10,0)
+undone: diamond#condition moved by (10,0)
+diamond#condition scaled by 1.1
+undone: diamond#condition scaled by 1.1
+diamond#condition updated: fill="#ffe599"
+undone: diamond#condition updated: fill="#ffe599"
+redone: diamond#condition updated: fill="#ffe599"
+diamond#condition  parent=g#decision
+  cx=400 cy=230 width=200 height=120
+  fill=#ffe599 stroke=#8a6d00 stroke-width=2
+svg (800x500) *
+└── g#flow *
+    ├── g#start (box) *
+    │   ├── rect#start-rect  x=320 y=40 w=160 h=60 fill=#4a90d9 *
+    │   └── text#start-label  (340,75) "Start" *
+    ├── g#decision *
+    │   ├── diamond#condition  cx=400 cy=230 w=200 h=120 fill=#ffe599 stroke=#8a6d00 stroke-width=2 *
+    │   └── text#question  (370,235) "Ready?" *
+    ├── line#down1  (400,100) -> (400,170) stroke=black *
+    ├── line#down2  (400,290) -> (400,370) stroke=black *
+    └── g#process (box) *
+        ├── rect#process-rect  x=320 y=370 w=160 h=60 fill=#4a90d9 *
+        └── text#process-label  (340,405) "Process" *
+rect: 2  text: 3  diamond: 1  line: 2  (total 8, containers 4)
+saved to examples/diamond.svg (12 elements)
+read examples/diamond.svg (12 elements)
+svg (800x500)
+└── g#flow
+    ├── g#start (box)
+    │   ├── rect#start-rect  x=320 y=40 w=160 h=60 fill=#4a90d9
+    │   └── text#start-label  (340,75) "Start"
+    ├── g#decision
+    │   ├── diamond#condition  cx=400 cy=230 w=200 h=120 fill=#ffe599 stroke=#8a6d00 stroke-width=2
+    │   └── text#question  (370,235) "Ready?"
+    ├── line#down1  (400,100) -> (400,170) stroke=black
+    ├── line#down2  (400,290) -> (400,370) stroke=black
+    └── g#process (box)
+        ├── rect#process-rect  x=320 y=370 w=160 h=60 fill=#4a90d9
+        └── text#process-label  (340,405) "Process"
