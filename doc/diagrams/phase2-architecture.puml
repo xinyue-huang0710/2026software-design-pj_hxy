@@ -1,0 +1,43 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam backgroundColor white
+skinparam componentStyle rectangle
+title Phase 2 拟定架构（箭头表示源码依赖）
+package "CLI" {
+  component "host / composition\nA 代码组合根 或 B 配置加载器\n共用 PluginInstaller" as Host
+  component "host / cli + io\nREPL / 树排版 / SVG 编解码" as IO
+  package "core" {
+    component "公开协议\nShapeProvider / Command\nTreeDecorator / AttributeHandler\n编辑、查询及 IO 端口" as API
+    component "内核实现\n文档 / 事务 / 历史\n注册表 / 查询" as Core
+    component "公开领域抽象\nShape / ContainerShape" as Domain
+  }
+  component "默认插件\n六类 ShapeProvider\n19 条内置命令" as Builtin
+  component "可选插件\nstats / dir / box\nmodified-star / box-type-label" as Optional
+}
+package "VS Code 扩展（独立构建）" {
+  component "SVG 文件标记\n原生 Outline Provider" as VSPlugin
+  component "VS Code API" as VSAPI
+}
+Host --> IO
+Host --> Core
+Host --> Builtin : 默认装配
+Host --> Optional : A 显式引用\nB 仅运行时解析
+IO --> API
+Core --> API
+Core --> Domain
+API --> Domain
+Builtin --> API
+Builtin --> Domain
+Optional --> API
+Optional --> Domain
+VSPlugin --> VSAPI
+note bottom of Optional
+  插件不导入内核内部实现或其他插件实现。
+  dir 的 NodeDirectoryAdapter 封装 Node fs。
+end note
+note bottom of Core
+  无具体插件导入、图形名称分支；
+  领域对象不负责展示格式。
+end note
+@enduml
