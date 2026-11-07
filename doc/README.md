@@ -223,6 +223,8 @@ node tools/metrics/generate.mjs final p2 tmp/metrics-p2
 
 [phase2-progress.md](phase2-progress.md) 保留真实交互、检查和纠正；Phase 1 过程见 [development-log.md](development-log.md)。没有补造对话或把生成代码当成已验证的结果。
 
+另见 [人工与 AI 的架构讨论摘要](ai-architecture-discussion.md)：按用户问题、方案修订和实现证据整理。该摘要是在 p2 建立后追加的文档补充；p2 中原有过程记录保持不变。
+
 代表性过程：
 
 - 用户授权按作业实施，询问 AI 交互记录；复核 Phase 1 §1.2，Phase 2 明确延续要求。用户确认继续分步提交并推送同仓库。
