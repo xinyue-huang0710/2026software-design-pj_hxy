@@ -1,10 +1,10 @@
 # PJ1 Phase 2：插件实践与插件式重构报告
 
-仓库：[2026software-design-pj_hxy](https://github.com/xinyue-huang0710/2026software-design-pj_hxy)。沿用 TypeScript、面向对象、一类一文件和分步 Git 提交。Phase 1 的 final 保留；本阶段收尾标签为 p2，只有交付文件与验证齐备后创建，不移动既有标签。
+仓库：[2026software-design-pj_hxy](https://github.com/xinyue-huang0710/2026software-design-pj_hxy)。沿用 TypeScript、面向对象、一类一文件和分步 Git 提交。Phase 1 的 final 保留；本阶段统一交付标签为 p2，包含必做、选做及补充文档。p2 曾提前创建，后按用户要求更正一次，详见 [标签更正记录](tag-correction.md)。
 
 依据：[Phase 2 要求](../pj1-phase2/phase_cli_2.md)、[Phase 1 要求](../phase_cli_1.md)。原报告归档为 [phase1-README.md](phase1-README.md)，本报告描述当前实现。Phase 2 截止日期及 eLearning 上传规则未在要求中给出。
 
-选做补充：当前 main 已增加 [diamond 判断框插件](optional-diamond.md)，包含独立测试、双装配示例与内核零改动证据。p2 为此前必做交付版本，选做代码通过后续普通提交交付；最新完整检查为 48 项 CLI 测试与 2 项解析测试通过。提交时请同时提供主线或选做提交链接。
+完整交付还包含 [diamond 判断框选做插件](optional-diamond.md)、独立测试、双装配示例与内核零改动证据。必做和选做统一通过 p2 获取；最新完整检查为 48 项 CLI 测试与 2 项解析测试通过。
 
 ## 1. 安装、运行与验收入口
 
@@ -18,7 +18,7 @@ npm run cli -- --config plugins.config.json
 npm run cli -- --builtin-only
 ~~~
 
-三种 CLI 启动依次为 A 代码装配、B 配置装配、仅 Phase 1 默认能力。当前主线的 A/B 默认包含 stats、dir、box、diamond 及两个树标签（p2 不含后来新增的 diamond）。先 build 可保证相对路径插件具有编译入口；源码开发使用 development 条件，编译程序使用各包 dist。Windows PowerShell 若拦截 npm.ps1，改用 npm.cmd。CLI 输入 help 查看命令，Ctrl+C 退出。
+三种 CLI 启动依次为 A 代码装配、B 配置装配、仅 Phase 1 默认能力。A/B 默认包含 stats、dir、box、diamond 及两个树标签。先 build 可保证相对路径插件具有编译入口；源码开发使用 development 条件，编译程序使用各包 dist。Windows PowerShell 若拦截 npm.ps1，改用 npm.cmd。CLI 输入 help 查看命令，Ctrl+C 退出。
 
 ~~~text
 dir
@@ -226,7 +226,7 @@ node tools/metrics/generate.mjs final p2 tmp/metrics-p2
 
 [phase2-progress.md](phase2-progress.md) 保留真实交互、检查和纠正；Phase 1 过程见 [development-log.md](development-log.md)。没有补造对话或把生成代码当成已验证的结果。
 
-另见 [Phase 2 人机协作与架构设计复盘](ai-architecture-discussion.md)：只包含第二阶段，区分实际人机交互与按方案、ADR、代码证据补充的设计复盘。该摘要是在 p2 建立后追加的文档补充；p2 中原有过程记录保持不变。
+另见 [Phase 2 人机协作与架构设计复盘](ai-architecture-discussion.md)：只包含第二阶段，区分实际人机交互与按方案、ADR、代码证据补充的设计复盘。该摘要在初次创建 p2 后补充，现已纳入更正后的统一交付；原有过程记录仍保留。
 
 代表性过程：
 
@@ -237,6 +237,6 @@ node tools/metrics/generate.mjs final p2 tmp/metrics-p2
 - UI 自动工具故障后向用户说明限制；用户在开发宿主验证，过程中解决 F5 音量键、SVG 默认图片预览、大纲折叠的问题，最终确认定位与实时更新正常。
 - Windows 本机 Node 的目录 cpSync 出现原生崩溃，构建/基线工具改为逐文件复制；未把环境故障算作业务测试通过。
 
-一致性自查：四类扩展接口在内核侧、领域不负责展示、加载器无插件名称映射、两个标签相互独立、内置输出兼容、box 接入不改内核、属性失败不污染历史，都有源码与测试对应。实际组合根文件为 codePlugins.ts；未使用经典 Visitor；p2 必做版本未含选做形状，当前主线已另行完成 diamond 插件。同步激活、快照事务及 SVG 子集限制属于已声明边界。
+一致性自查：四类扩展接口在内核侧、领域不负责展示、加载器无插件名称映射、两个标签相互独立、内置输出兼容、box 接入不改内核、属性失败不污染历史，都有源码与测试对应。实际组合根文件为 codePlugins.ts；未使用经典 Visitor；diamond 选做插件也通过现有扩展点完成。同步激活、快照事务及 SVG 子集限制属于已声明边界。
 
-p2 必做版本验收：npm run check 的 43 项 CLI 测试与 2 项大纲解析测试通过；真实 Extension Host 的 11 个命名检查通过；用户人工界面验证通过，截图已归档。A/B 四组回放和接入提交差异核验通过。Git 历史指标由脚本生成并作为独立提交交付；报告生成提交与最终 p2 的生产源码应具有相同哈希，复核命令见第 7 节。p2 标记包含全部材料的最终提交，final 保持不变。
+完整版本验收：npm run check 的 48 项 CLI 测试与 2 项大纲解析测试通过；真实 Extension Host 的 11 个命名检查通过；用户人工界面验证通过，截图已归档。A/B 四组必做回放、diamond 回放和接入提交差异核验通过。Git 历史指标由脚本生成并作为独立提交交付；报告生成提交与最终 p2 的生产源码应具有相同哈希，复核命令见第 7 节。p2 标记包含全部材料的最终提交，final 保持不变。

@@ -1,6 +1,6 @@
 # Git 历史指标（自动生成）
 
-生成命令：node tools/metrics/generate.mjs p2 fd98ffd4902b8c0626b69a5d75f7a29d6c2cb65d docs/metrics/optional
+生成命令：node tools/metrics/generate.mjs e2fa573fa72f882e398178bf5c199531fd9810ed fd98ffd4902b8c0626b69a5d75f7a29d6c2cb65d docs/metrics/optional
 
 基线代码提交：e2fa573fa72f882e398178bf5c199531fd9810ed
 

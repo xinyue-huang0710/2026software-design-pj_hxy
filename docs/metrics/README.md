@@ -1,22 +1,22 @@
 # Git 历史指标（自动生成）
 
-生成命令：node tools/metrics/generate.mjs final 4a1b7802919ec049dcfac69681abf49adc63a9ab docs/metrics
+生成命令：node tools/metrics/generate.mjs final e0efdd74f8a15c5b86104c61fb5cd833c4e1a178 docs/metrics
 
 基线代码提交：f8f366c8260ae9a2d8105f33ba1486570e5a1933
 
-目标代码提交：4a1b7802919ec049dcfac69681abf49adc63a9ab
+目标代码提交：e0efdd74f8a15c5b86104c61fb5cd833c4e1a178
 
-目标生产源码 SHA-256：b56a923c48b7af901af247cda01098af59623122db358c557d2d71f0bf5dd74b
+目标生产源码 SHA-256：973b552bd9c32b711b1773dc320190c6548f3df3e4698652ebb16a6f58ac226e
 
-报告提交本身不计入生产源码；最终以 final / p2 重跑，数值及源码哈希应一致。
+报告提交本身不计入生产源码；对同一基线和最终交付引用重跑时，数值及源码哈希应一致。
 
 Nonempty physical TypeScript lines including comments. CC summed per function: 1 + if/conditional/loops/catch/case/&&/||/??; nested functions counted separately. Production CLI only in kernel/host/plugin; VS Code listed separately. Phase 1 future-plugin implementations classified consistently by responsibility, not claimed to be preexisting plugins. Generated from git objects, not working tree.
 
 | 分类 | 原文件数 | 新文件数 | 原行数 | 新行数 | 行数增量 | 原 CC | 新 CC | CC 增量 |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
 | kernel | 18 | 33 | 506 | 785 | 279 | 200 | 309 | 109 |
-| host | 12 | 15 | 357 | 394 | 37 | 155 | 194 | 39 |
-| plugin | 32 | 58 | 347 | 639 | 292 | 133 | 268 | 135 |
+| host | 12 | 15 | 357 | 396 | 39 | 155 | 194 | 39 |
+| plugin | 32 | 62 | 347 | 729 | 382 | 133 | 309 | 176 |
 | vscode | 0 | 4 | 0 | 69 | 69 | 0 | 26 | 26 |
 
 ## 目标文件清单与职责
@@ -67,7 +67,7 @@ Nonempty physical TypeScript lines including comments. CC summed per function: 1
 | packages/host/src/cli/Tokenizer.ts | host | 33 | 18 | 终端交互和展示：Tokenizer |
 | packages/host/src/cli/TreeFormatter.ts | host | 21 | 11 | 终端交互和展示：TreeFormatter |
 | packages/host/src/cli/printing/TreePrinter.ts | host | 5 | 0 | 终端交互和展示：TreePrinter |
-| packages/host/src/composition/codePlugins.ts | host | 18 | 1 | 装配入口或公共导出 |
+| packages/host/src/composition/codePlugins.ts | host | 20 | 1 | 装配入口或公共导出 |
 | packages/host/src/io/storage/FileDocumentStore.ts | host | 21 | 5 | 文件与 SVG 编解码：FileDocumentStore |
 | packages/host/src/io/svg/SvgReader.ts | host | 78 | 40 | 文件与 SVG 编解码：ElementNode, SvgReader |
 | packages/host/src/io/svg/SvgWriter.ts | host | 28 | 12 | 文件与 SVG 编解码：SvgWriter |
@@ -127,6 +127,10 @@ Nonempty physical TypeScript lines including comments. CC summed per function: 1
 | plugins/shape-box/src/BoxProvider.ts | plugin | 37 | 20 | 图形创建和输入输出映射：BoxProvider |
 | plugins/shape-box/src/BoxShape.ts | plugin | 18 | 15 | 图形创建和输入输出映射：BoxShape |
 | plugins/shape-box/src/index.ts | plugin | 1 | 0 | 图形创建和输入输出映射 |
+| plugins/shape-diamond/src/DiamondPlugin.ts | plugin | 5 | 1 | 图形创建和输入输出映射：DiamondPlugin |
+| plugins/shape-diamond/src/DiamondProvider.ts | plugin | 43 | 29 | 图形创建和输入输出映射：DiamondProvider |
+| plugins/shape-diamond/src/DiamondShape.ts | plugin | 41 | 11 | 图形创建和输入输出映射：Bounds, DiamondShape |
+| plugins/shape-diamond/src/index.ts | plugin | 1 | 0 | 图形创建和输入输出映射 |
 | plugins/tree-box-label/src/BoxTypeDecorator.ts | plugin | 5 | 3 | 树标签扩展：BoxTypeDecorator |
 | plugins/tree-box-label/src/BoxTypePlugin.ts | plugin | 5 | 1 | 树标签扩展：BoxTypePlugin |
 | plugins/tree-box-label/src/index.ts | plugin | 1 | 0 | 树标签扩展 |

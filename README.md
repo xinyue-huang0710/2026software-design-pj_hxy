@@ -2,7 +2,7 @@
 
 TypeScript SVG 编辑器：保留 Phase 1 的六种图形、19 条命令、分组、撤销重做和 SVG 读写；Phase 2 增加插件内核、stats/dir、box、树标签及 VS Code SVG 标记/大纲扩展。
 
-选做已实现 **diamond 判断框插件**（p2 之后的 main），见 [选做说明与流程图](doc/optional-diamond.md)。原 p2 保持必做验收版本不变。
+完整交付包含全部必做和 **diamond 判断框选做插件**，统一通过 p2 获取。见 [选做说明与流程图](doc/optional-diamond.md)。p2 曾因提前收尾而更正一次，原指向与原因见 [标签更正记录](doc/tag-correction.md)。
 
 ## 运行
 

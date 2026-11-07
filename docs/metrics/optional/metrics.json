@@ -1,7 +1,7 @@
 {
   "method": "Nonempty physical TypeScript lines including comments. CC summed per function: 1 + if/conditional/loops/catch/case/&&/||/??; nested functions counted separately. Production CLI only in kernel/host/plugin; VS Code listed separately. Phase 1 future-plugin implementations classified consistently by responsibility, not claimed to be preexisting plugins. Generated from git objects, not working tree.",
   "base": {
-    "ref": "p2",
+    "ref": "e2fa573fa72f882e398178bf5c199531fd9810ed",
     "commit": "e2fa573fa72f882e398178bf5c199531fd9810ed",
     "runtimeSourceHash": "b56a923c48b7af901af247cda01098af59623122db358c557d2d71f0bf5dd74b",
     "totals": {

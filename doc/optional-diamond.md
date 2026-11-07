@@ -2,7 +2,7 @@
 
 作业末尾允许再注册 diamond/arrow/swimlane 等一种形状接入同一内核。本项目选择 diamond，实际实现独立插件，而非只增加示意图。作业说明选做会在评语中反馈、不改变评分权重，本文不承诺额外分数。
 
-已有 p2 保存必做交付版本，按要求不移动。选做在 p2 之后的 main 提交；提交作业时应同时提供 [最新主线](https://github.com/xinyue-huang0710/2026software-design-pj_hxy/tree/main) 和本说明，避免只下载 p2 而遗漏新增插件。
+[统一交付标签 p2](https://github.com/xinyue-huang0710/2026software-design-pj_hxy/tree/p2) 包含必做、diamond 选做及补充文档。该标签曾提前创建，后更正到完整交付，原指向和原因见 [标签更正记录](tag-correction.md)。
 
 固定选做代码版本：[fd98ffd](https://github.com/xinyue-huang0710/2026software-design-pj_hxy/tree/fd98ffd4902b8c0626b69a5d75f7a29d6c2cb65d)。该版本已包含选做源码、集成测试、示例和验收日志；本文与自动指标随后以纯文档提交补齐。完整检查：48 项 CLI 测试、2 项解析测试通过。
 
@@ -91,6 +91,6 @@ node --import tsx --conditions=development --test tests/plugins/diamond-unit.tes
 4. 未装插件时创建/读入失败不污染原文档与历史。
 5. 编译后 A/B 完整示例的 stdout 与 SVG 逐字节一致，单独禁用配置仍保留其他插件和撤销能力。
 
-[双装配摘要](validation/diamond-assembly.json) 记录字节数和 SHA-256；[预期终端输出](transcript/optional/diamond.expected.txt) 和 [预期 SVG](transcript/optional/diamond.expected.svg) 单独保存。常规回放只校验，--update 才重生成。完整检查日志另存为 [optional-check.txt](validation/optional-check.txt)，不覆盖 p2 必做验收证据。
+[双装配摘要](validation/diamond-assembly.json) 记录字节数和 SHA-256；[预期终端输出](transcript/optional/diamond.expected.txt) 和 [预期 SVG](transcript/optional/diamond.expected.svg) 单独保存。常规回放只校验，--update 才重生成。完整检查日志另存为 [optional-check.txt](validation/optional-check.txt)，保留此前的必做验收证据。
 
-选做指标单独保存于 [docs/metrics/optional](../docs/metrics/optional/README.md)，比较 p2 与选做代码提交，数字仍由 Git 历史脚本生成。原 docs/metrics 中 final → p2 的必做报告保持原样。
+选做指标单独保存于 [docs/metrics/optional](../docs/metrics/optional/README.md)，以原必做提交 e2fa573fa72f882e398178bf5c199531fd9810ed 为固定基线，与选做代码提交 fd98ffd4902b8c0626b69a5d75f7a29d6c2cb65d 比较，避免标签更正改变基线。根目录 [docs/metrics](../docs/metrics/README.md) 报告 final 到完整交付代码的指标，已包含 diamond。两份报告均由 Git 历史脚本生成。

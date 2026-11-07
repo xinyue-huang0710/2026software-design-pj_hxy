@@ -530,9 +530,9 @@
     ]
   },
   "target": {
-    "ref": "4a1b7802919ec049dcfac69681abf49adc63a9ab",
-    "commit": "4a1b7802919ec049dcfac69681abf49adc63a9ab",
-    "runtimeSourceHash": "b56a923c48b7af901af247cda01098af59623122db358c557d2d71f0bf5dd74b",
+    "ref": "e0efdd74f8a15c5b86104c61fb5cd833c4e1a178",
+    "commit": "e0efdd74f8a15c5b86104c61fb5cd833c4e1a178",
+    "runtimeSourceHash": "973b552bd9c32b711b1773dc320190c6548f3df3e4698652ebb16a6f58ac226e",
     "totals": {
       "kernel": {
         "files": 33,
@@ -542,15 +542,15 @@
       },
       "host": {
         "files": 15,
-        "loc": 394,
+        "loc": 396,
         "functions": 57,
         "cc": 194
       },
       "plugin": {
-        "files": 58,
-        "loc": 639,
-        "functions": 188,
-        "cc": 268
+        "files": 62,
+        "loc": 729,
+        "functions": 211,
+        "cc": 309
       },
       "vscode": {
         "files": 4,
@@ -915,7 +915,7 @@
       {
         "file": "packages/host/src/composition/codePlugins.ts",
         "category": "host",
-        "loc": 18,
+        "loc": 20,
         "functions": 1,
         "cc": 1,
         "responsibility": "装配入口或公共导出"
@@ -1386,6 +1386,38 @@
       },
       {
         "file": "plugins/shape-box/src/index.ts",
+        "category": "plugin",
+        "loc": 1,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "图形创建和输入输出映射"
+      },
+      {
+        "file": "plugins/shape-diamond/src/DiamondPlugin.ts",
+        "category": "plugin",
+        "loc": 5,
+        "functions": 1,
+        "cc": 1,
+        "responsibility": "图形创建和输入输出映射：DiamondPlugin"
+      },
+      {
+        "file": "plugins/shape-diamond/src/DiamondProvider.ts",
+        "category": "plugin",
+        "loc": 43,
+        "functions": 13,
+        "cc": 29,
+        "responsibility": "图形创建和输入输出映射：DiamondProvider"
+      },
+      {
+        "file": "plugins/shape-diamond/src/DiamondShape.ts",
+        "category": "plugin",
+        "loc": 41,
+        "functions": 9,
+        "cc": 11,
+        "responsibility": "图形创建和输入输出映射：Bounds, DiamondShape"
+      },
+      {
+        "file": "plugins/shape-diamond/src/index.ts",
         "category": "plugin",
         "loc": 1,
         "functions": 0,
