@@ -1,14 +1,14 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { EditorRuntime } from '../../src/EditorRuntime.js';
-import { CommandDispatcher } from '../../src/cli/CommandDispatcher.js';
-import { CliApplication } from '../../src/cli/CliApplication.js';
+import { EditorRuntime } from '../../packages/host/src/EditorRuntime.js';
+import { CommandDispatcher } from '../../packages/host/src/cli/CommandDispatcher.js';
+import { CliApplication } from '../../packages/host/src/cli/CliApplication.js';
 import { OutlineLibrary } from '../support/OutlineLibrary.js';
 import { OutlineTreeAdapter } from '../support/OutlineTreeAdapter.js';
 
 test('CLI uses an injected adapter to print full and selected trees without changing state',async()=>{
   const r=new EditorRuntime();
-  const cli=new CliApplication(new CommandDispatcher(r.session,r.history),r.invoker,
+  const cli=new CliApplication(new CommandDispatcher(r.registry.commands,r.context),r.invoker,
     new OutlineTreeAdapter(new OutlineLibrary()));
   for(const line of ['init 40 30','create g group','create rect r 1 2 3 4 in group','create g empty in group'])
     await cli.executeLine(line);

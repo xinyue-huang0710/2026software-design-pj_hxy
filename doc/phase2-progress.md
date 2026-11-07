@@ -24,3 +24,13 @@
 - Extension Host 首次测试发现：空符号时 VS Code 命令会返回 undefined，而非固定 []。修正测试对宿主 API 的假设，未放宽解析器行为；真实集成 12 项检查通过，证据见 vscode-integration.json。
 - UI 工具仍不可用，界面截图明确待补，不把接口测试称为视觉验收。
 - 用户确认继续分步提交并推送同一 GitHub 仓库。
+
+## CLI 框架可扩展
+
+- 完成 packages/core、packages/host 与两个内置插件包；原文件路径映射保存在 doc/architecture/source-migration.json。
+- 四个接口在 core 公开 API；插件只依赖 @svgframe/core，不导入内部 Session 或宿主。内核不再直接创建 GroupShape，组装者注入分组工厂。
+- A/B 共用 PluginInstaller 和原子注册路径。配置四失败、嵌套依赖缺失、重复注册、全部回滚、坏配置与继续加载均有测试。
+- 属性处理器在候选文档事务内执行；双命中拒绝、部分修改抛错整体回滚，单次 undo/redo 恢复全部修改。测试用复合类型证明必需子部件保护。
+- 真实回归发现初稿“降级保存保留 data-kind”改变 Phase 1 已有行为；撤销该建议，保留去掉标记的降级语义，旧测试断言未放宽。
+- 33/33 CLI 测试与 2/2 大纲解析测试通过，类型检查和构建通过。编译后 CLI 的两个基础会话、输出 SVG 与 immutable final 基线逐字节相同。
+- 指标脚本随框架提交；下一笔记录从本提交的 Git 对象生成的首份指标，不手填数字。

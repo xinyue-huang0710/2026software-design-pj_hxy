@@ -3,12 +3,12 @@ import assert from 'node:assert/strict';
 import { mkdtemp,readFile,readdir,mkdir,rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { EditorRuntime } from '../../src/EditorRuntime.js';
-import { FileDocumentStore } from '../../src/infrastructure/storage/FileDocumentStore.js';
-import { ReadCommand } from '../../src/application/commands/ReadCommand.js';
-import { SaveCommand } from '../../src/application/commands/SaveCommand.js';
-import { CreateCommand } from '../../src/application/commands/CreateCommand.js';
-import { InitCommand } from '../../src/application/commands/InitCommand.js';
+import { EditorRuntime } from '../../packages/host/src/EditorRuntime.js';
+import { FileDocumentStore } from '../../packages/host/src/io/storage/FileDocumentStore.js';
+import { ReadCommand } from '../../plugins/builtin-commands/src/commands/ReadCommand.js';
+import { SaveCommand } from '../../plugins/builtin-commands/src/commands/SaveCommand.js';
+import { CreateCommand } from '../../plugins/builtin-commands/src/commands/CreateCommand.js';
+import { InitCommand } from '../../plugins/builtin-commands/src/commands/InitCommand.js';
 test('six-type nested round trip preserves text, style absence and order',()=>{
   const r=new EditorRuntime();
   const xml='<svg width="400" height="300"><g id="g" fill="red"><rect id="r" x="1" y="2" width="3" height="4"/><circle id="c" cx="1" cy="2" r="3"/><ellipse id="e" cx="1" cy="2" rx="3" ry="4"/><line id="l" x1="1" y1="2" x2="3" y2="4" stroke="black"/><text id="t" x="1" y="2"> &amp; &lt;中文&gt; &quot; &#13;&#10; </text><g id="empty"/></g></svg>';

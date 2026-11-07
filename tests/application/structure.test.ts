@@ -1,29 +1,29 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { EditorSession } from '../../src/application/EditorSession.js';
-import { ShapeFactory } from '../../src/application/providers/ShapeFactory.js';
-import { RectProvider } from '../../src/infrastructure/providers/RectProvider.js';
-import { GroupProvider } from '../../src/infrastructure/providers/GroupProvider.js';
-import { HistoryManager } from '../../src/application/history/HistoryManager.js';
-import { CommandInvoker } from '../../src/application/CommandInvoker.js';
-import { CreateCommand } from '../../src/application/commands/CreateCommand.js';
-import { GroupCommand } from '../../src/application/commands/GroupCommand.js';
-import { UngroupCommand } from '../../src/application/commands/UngroupCommand.js';
-import { AddToCommand } from '../../src/application/commands/AddToCommand.js';
-import { FrontCommand } from '../../src/application/commands/FrontCommand.js';
-import { BackCommand } from '../../src/application/commands/BackCommand.js';
-import { DeleteCommand } from '../../src/application/commands/DeleteCommand.js';
-import { MoveCommand } from '../../src/application/commands/MoveCommand.js';
-import { ScaleCommand } from '../../src/application/commands/ScaleCommand.js';
-import { SetCommand } from '../../src/application/commands/SetCommand.js';
-import { InitCommand } from '../../src/application/commands/InitCommand.js';
-import { CanvasCommand } from '../../src/application/commands/CanvasCommand.js';
-import { SaveCommand } from '../../src/application/commands/SaveCommand.js';
-import { ReadCommand } from '../../src/application/commands/ReadCommand.js';
+import { EditorSession } from '../../packages/core/src/application/EditorSession.js';
+import { ShapeFactory } from '../../packages/core/src/application/providers/ShapeFactory.js';
+import { RectProvider } from '../../plugins/builtin-shapes/src/providers/RectProvider.js';
+import { GroupProvider } from '../../plugins/builtin-shapes/src/providers/GroupProvider.js';
+import { HistoryManager } from '../../packages/core/src/application/history/HistoryManager.js';
+import { CommandInvoker } from '../../packages/core/src/application/CommandInvoker.js';
+import { CreateCommand } from '../../plugins/builtin-commands/src/commands/CreateCommand.js';
+import { GroupCommand } from '../../plugins/builtin-commands/src/commands/GroupCommand.js';
+import { UngroupCommand } from '../../plugins/builtin-commands/src/commands/UngroupCommand.js';
+import { AddToCommand } from '../../plugins/builtin-commands/src/commands/AddToCommand.js';
+import { FrontCommand } from '../../plugins/builtin-commands/src/commands/FrontCommand.js';
+import { BackCommand } from '../../plugins/builtin-commands/src/commands/BackCommand.js';
+import { DeleteCommand } from '../../plugins/builtin-commands/src/commands/DeleteCommand.js';
+import { MoveCommand } from '../../plugins/builtin-commands/src/commands/MoveCommand.js';
+import { ScaleCommand } from '../../plugins/builtin-commands/src/commands/ScaleCommand.js';
+import { SetCommand } from '../../plugins/builtin-commands/src/commands/SetCommand.js';
+import { InitCommand } from '../../plugins/builtin-commands/src/commands/InitCommand.js';
+import { CanvasCommand } from '../../plugins/builtin-commands/src/commands/CanvasCommand.js';
+import { SaveCommand } from '../../plugins/builtin-commands/src/commands/SaveCommand.js';
+import { ReadCommand } from '../../plugins/builtin-commands/src/commands/ReadCommand.js';
 test('each structural and attribute edit restores complete nested order on undo/redo',async()=>{
   const factory=new ShapeFactory();factory.register(new RectProvider());factory.register(new GroupProvider());
   const session=new EditorSession(factory,{read:async()=>'',write:async()=>{}},
-    {read:()=>{throw new Error('unused');}},{write:()=>''});
+    {read:()=>{throw new Error('unused');}},{write:()=>''},id=>factory.create('g',id,[]).asContainer()!);
   const history=new HistoryManager(),invoker=new CommandInvoker(session,history);
   await invoker.executeCommand(new InitCommand(session));
   for(const [type,id,args,parent] of [
@@ -48,7 +48,7 @@ test('each structural and attribute edit restores complete nested order on undo/
 test('partial group overflow is discarded, document barriers and IO failures preserve state',async()=>{
   const factory=new ShapeFactory();factory.register(new RectProvider());factory.register(new GroupProvider());
   const session=new EditorSession(factory,{read:async()=>{throw new Error('read failure');},write:async()=>{throw new Error('write failure');}},
-    {read:()=>{throw new Error('unused');}},{write:()=>''});
+    {read:()=>{throw new Error('unused');}},{write:()=>''},id=>factory.create('g',id,[]).asContainer()!);
   const history=new HistoryManager(),invoker=new CommandInvoker(session,history);
   await invoker.executeCommand(new InitCommand(session));
   assert.throws(()=>history.undo(),/undo not allowed after io command/);

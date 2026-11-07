@@ -1,11 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { CircleShape } from '../../src/domain/shapes/CircleShape.js';
-import { RectShape } from '../../src/domain/shapes/RectShape.js';
-import { EllipseShape } from '../../src/domain/shapes/EllipseShape.js';
-import { LineShape } from '../../src/domain/shapes/LineShape.js';
-import { TextShape } from '../../src/domain/shapes/TextShape.js';
-import { GroupShape } from '../../src/domain/shapes/GroupShape.js';
+import { CircleShape } from '../../plugins/builtin-shapes/src/shapes/CircleShape.js';
+import { RectShape } from '../../plugins/builtin-shapes/src/shapes/RectShape.js';
+import { EllipseShape } from '../../plugins/builtin-shapes/src/shapes/EllipseShape.js';
+import { LineShape } from '../../plugins/builtin-shapes/src/shapes/LineShape.js';
+import { TextShape } from '../../plugins/builtin-shapes/src/shapes/TextShape.js';
+import { GroupShape } from '../../plugins/builtin-shapes/src/shapes/GroupShape.js';
 
 test('moving a circle changes its center and preserves radius', () => {
   const c=new CircleShape('c1',100,100,20); c.move(30,-5);

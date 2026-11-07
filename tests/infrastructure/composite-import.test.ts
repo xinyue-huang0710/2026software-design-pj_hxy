@@ -1,10 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { ShapeFactory } from '../../src/application/providers/ShapeFactory.js';
-import { GroupProvider } from '../../src/infrastructure/providers/GroupProvider.js';
-import { RectProvider } from '../../src/infrastructure/providers/RectProvider.js';
-import { SvgReader } from '../../src/infrastructure/svg/SvgReader.js';
-import type { Shape } from '../../src/domain/Shape.js';
+import { ShapeFactory } from '../../packages/core/src/application/providers/ShapeFactory.js';
+import { GroupProvider } from '../../plugins/builtin-shapes/src/providers/GroupProvider.js';
+import { RectProvider } from '../../plugins/builtin-shapes/src/providers/RectProvider.js';
+import { SvgReader } from '../../packages/host/src/io/svg/SvgReader.js';
+import type { Shape } from '../../packages/core/src/domain/Shape.js';
 
 test('reader passes completed children to the parent provider, with preorder ID assignment',()=>{
   const factory=new ShapeFactory(),groups=new GroupProvider(),seen:string[][]=[];

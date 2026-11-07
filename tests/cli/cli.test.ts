@@ -1,11 +1,11 @@
-import { TreeFormatter } from '../../src/cli/TreeFormatter.js';
+import { TreeFormatter } from '../../packages/host/src/cli/TreeFormatter.js';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { EditorRuntime } from '../../src/EditorRuntime.js';
-import { CommandDispatcher } from '../../src/cli/CommandDispatcher.js';
-import { CliApplication } from '../../src/cli/CliApplication.js';
-import { Tokenizer } from '../../src/cli/Tokenizer.js';
+import { EditorRuntime } from '../../packages/host/src/EditorRuntime.js';
+import { CommandDispatcher } from '../../packages/host/src/cli/CommandDispatcher.js';
+import { CliApplication } from '../../packages/host/src/cli/CliApplication.js';
+import { Tokenizer } from '../../packages/host/src/cli/Tokenizer.js';
 test('tokenizer preserves quoted text, Windows paths, colors and quoted in',()=>{
   const t=new Tokenizer();
   assert.deepEqual(t.tokenize(' # comment'),[]);
@@ -18,7 +18,7 @@ test('tokenizer preserves quoted text, Windows paths, colors and quoted in',()=>
   assert.throws(()=>t.tokenize('"a"b'),/expected space/);
 });
 test('CLI commands, read-only formatting and dispatch construction',async()=>{
-  const r=new EditorRuntime(),dispatcher=new CommandDispatcher(r.session,r.history),cli=new CliApplication(dispatcher,r.invoker,new TreeFormatter());
+  const r=new EditorRuntime(),dispatcher=new CommandDispatcher(r.registry.commands,r.context),cli=new CliApplication(dispatcher,r.invoker,new TreeFormatter());
   assert.match((await cli.executeLine('tree'))[0]!,/^error: no document/);
   assert.match((await cli.executeLine('help'))[0]!,/^init/);
   const command=dispatcher.dispatch(new Tokenizer().tokenize('init'));
@@ -40,7 +40,7 @@ test('CLI commands, read-only formatting and dispatch construction',async()=>{
   }
 });
 test('real stdin pipeline handles sequential commands through EOF',()=>{
-  const result=spawnSync(process.execPath,['--import','tsx','src/main.ts'],{
+  const result=spawnSync(process.execPath,['--import','tsx','packages/host/src/main.ts'],{
     input:'# script\ninit 100 200\ncreate circle c 1 2 3 red\nmove c 4 5\nundo\nshow c\nredo\nshow c\n',
     encoding:'utf8',cwd:process.cwd()
   });

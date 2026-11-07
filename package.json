@@ -7,14 +7,15 @@
     "node": ">=22"
   },
   "scripts": {
-    "cli": "tsx src/main.ts",
-    "test": "tsx --test tests/**/*.test.ts",
+    "cli": "tsx --conditions=development packages/host/src/main.ts",
+    "test": "tsx --conditions=development --test tests/**/*.test.ts",
     "typecheck": "tsc --noEmit",
-    "build": "tsc -p tsconfig.build.json",
-    "check": "npm run typecheck && npm test && npm run build",
+    "build": "tsc -p tsconfig.build.json && node tools/distribute-build.mjs",
+    "check": "npm run typecheck && npm run build && npm test && npm run extension:check",
     "extension:build": "node tools/build-extension.mjs",
     "extension:check": "tsc -p extensions/svg-tools/tsconfig.json && tsx --test extensions/svg-tools/test/parser.test.ts",
-    "extension:test": "npm run extension:build && node tools/test-extension.mjs"
+    "extension:test": "npm run extension:build && node tools/test-extension.mjs",
+    "cli:built": "node packages/host/dist/main.js"
   },
   "dependencies": {
     "saxes": "6.0.0"
@@ -26,5 +27,9 @@
     "esbuild": "0.25.12",
     "tsx": "4.20.6",
     "typescript": "5.9.3"
-  }
+  },
+  "workspaces": [
+    "packages/*",
+    "plugins/*"
+  ]
 }

@@ -1,12 +1,12 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { EditorSession } from '../../src/application/EditorSession.js';
-import { ShapeFactory } from '../../src/application/providers/ShapeFactory.js';
-import { CircleProvider } from '../../src/infrastructure/providers/CircleProvider.js';
-import { HistoryManager } from '../../src/application/history/HistoryManager.js';
-import { CommandInvoker } from '../../src/application/CommandInvoker.js';
-import { CreateCommand } from '../../src/application/commands/CreateCommand.js';
-import { MoveCommand } from '../../src/application/commands/MoveCommand.js';
+import { EditorSession } from '../../packages/core/src/application/EditorSession.js';
+import { ShapeFactory } from '../../packages/core/src/application/providers/ShapeFactory.js';
+import { CircleProvider } from '../../plugins/builtin-shapes/src/providers/CircleProvider.js';
+import { HistoryManager } from '../../packages/core/src/application/history/HistoryManager.js';
+import { CommandInvoker } from '../../packages/core/src/application/CommandInvoker.js';
+import { CreateCommand } from '../../plugins/builtin-commands/src/commands/CreateCommand.js';
+import { MoveCommand } from '../../plugins/builtin-commands/src/commands/MoveCommand.js';
 test('edit snapshot undo/redo is exact and failed edits preserve redo',async()=>{
   const factory=new ShapeFactory();factory.register(new CircleProvider());
   const session=new EditorSession(factory,{read:async()=>'',write:async()=>{}},

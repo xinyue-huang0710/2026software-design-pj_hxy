@@ -1,5 +1,5 @@
-import type { TreePrinter } from '../../src/cli/printing/TreePrinter.js';
-import type { TreeView,TreeNode } from '../../src/application/queries/ShapeQueryService.js';
+import type { TreePrinter } from '../../packages/host/src/cli/printing/TreePrinter.js';
+import type { TreeView,TreeNode } from '../../packages/core/src/application/queries/ShapeQueryService.js';
 import { OutlineLibrary } from './OutlineLibrary.js';
 import type { OutlineNode } from './OutlineLibrary.js';
 

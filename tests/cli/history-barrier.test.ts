@@ -1,9 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { EditorRuntime } from '../../src/EditorRuntime.js';
-import { CommandDispatcher } from '../../src/cli/CommandDispatcher.js';
-import { CliApplication } from '../../src/cli/CliApplication.js';
-import { TreeFormatter } from '../../src/cli/TreeFormatter.js';
+import { EditorRuntime } from '../../packages/host/src/EditorRuntime.js';
+import { CommandDispatcher } from '../../packages/host/src/cli/CommandDispatcher.js';
+import { CliApplication } from '../../packages/host/src/cli/CliApplication.js';
+import { TreeFormatter } from '../../packages/host/src/cli/TreeFormatter.js';
 
 test('all document barriers use the assignment error for both undo and redo',async()=>{
   for(const barrier of ['init','read input.svg','save output.svg','canvas 400 300']){
@@ -11,7 +11,7 @@ test('all document barriers use the assignment error for both undo and redo',asy
       read:async()=>'<svg width="20" height="30"/>',
       write:async()=>{}
     });
-    const cli=new CliApplication(new CommandDispatcher(runtime.session,runtime.history),runtime.invoker,new TreeFormatter());
+    const cli=new CliApplication(new CommandDispatcher(runtime.registry.commands,runtime.context),runtime.invoker,new TreeFormatter());
     await cli.executeLine('init');
     await cli.executeLine('create g before');
     await cli.executeLine('undo');

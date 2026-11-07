@@ -1,0 +1,14 @@
+import {EditorRuntime} from './EditorRuntime.js';
+import {CommandDispatcher} from './cli/CommandDispatcher.js';
+import {CliApplication} from './cli/CliApplication.js';
+import {TreeFormatter} from './cli/TreeFormatter.js';
+import {installCodePlugins} from './composition/codePlugins.js';
+const runtime=new EditorRuntime(),args=process.argv.slice(2);
+let diagnostics:readonly string[];
+if(args.length===0)diagnostics=installCodePlugins(runtime.installer);
+else if(args.length===1&&args[0]==='--builtin-only')diagnostics=[];
+else if(args.length===2&&args[0]==='--config')diagnostics=await runtime.loader.loadConfig(args[1]!);
+else diagnostics=['error: invalid startup arguments'];
+for(const line of diagnostics)process.stdout.write(line+'\n');
+const cli=new CliApplication(new CommandDispatcher(runtime.registry.commands,runtime.context),runtime.invoker,new TreeFormatter());
+await cli.run(process.stdin,process.stdout,Boolean(process.stdin.isTTY&&process.stdout.isTTY));

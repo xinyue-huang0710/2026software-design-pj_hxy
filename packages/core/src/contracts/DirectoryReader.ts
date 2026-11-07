@@ -1,0 +1,5 @@
+export interface DirectoryEntry {readonly name:string;readonly kind:'directory'|'file'|'link'|'other';}
+export interface DirectoryReader {
+  currentDirectory():string;
+  read(path:string):Promise<readonly DirectoryEntry[]>;
+}

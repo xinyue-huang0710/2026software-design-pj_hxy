@@ -1,7 +1,7 @@
 import { MarkerShape } from './MarkerShape.js';
-import type { Shape } from '../../src/domain/Shape.js';
-import { NumericProvider } from '../../src/infrastructure/providers/NumericProvider.js';
-import type { SvgElementData } from '../../src/application/providers/ShapeProvider.js';
+import type { Shape } from '../../packages/core/src/domain/Shape.js';
+import { NumericProvider } from '../../plugins/builtin-shapes/src/providers/NumericProvider.js';
+import type { SvgElementData } from '../../packages/core/src/application/providers/ShapeProvider.js';
 export class MarkerProvider extends NumericProvider<MarkerShape> {
   readonly typeKey='marker';
   readonly accepts=(shape:Shape):shape is MarkerShape=>shape instanceof MarkerShape;

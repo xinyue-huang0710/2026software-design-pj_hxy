@@ -1,16 +1,16 @@
-import { TreeFormatter } from '../../src/cli/TreeFormatter.js';
+import { TreeFormatter } from '../../packages/host/src/cli/TreeFormatter.js';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { EditorRuntime } from '../../src/EditorRuntime.js';
-import { ShapeFactory } from '../../src/application/providers/ShapeFactory.js';
-import type { ShapeProvider } from '../../src/application/providers/ShapeProvider.js';
-import { RectProvider } from '../../src/infrastructure/providers/RectProvider.js';
-import { CircleProvider } from '../../src/infrastructure/providers/CircleProvider.js';
-import { CircleShape } from '../../src/domain/shapes/CircleShape.js';
+import { EditorRuntime } from '../../packages/host/src/EditorRuntime.js';
+import { ShapeFactory } from '../../packages/core/src/application/providers/ShapeFactory.js';
+import type { ShapeProvider } from '../../packages/core/src/application/providers/ShapeProvider.js';
+import { RectProvider } from '../../plugins/builtin-shapes/src/providers/RectProvider.js';
+import { CircleProvider } from '../../plugins/builtin-shapes/src/providers/CircleProvider.js';
+import { CircleShape } from '../../plugins/builtin-shapes/src/shapes/CircleShape.js';
 import { MarkerProvider } from '../support/MarkerProvider.js';
 import { ForgedCircleShape } from '../support/ForgedCircleShape.js';
-import { CommandDispatcher } from '../../src/cli/CommandDispatcher.js';
-import { CliApplication } from '../../src/cli/CliApplication.js';
+import { CommandDispatcher } from '../../packages/host/src/cli/CommandDispatcher.js';
+import { CliApplication } from '../../packages/host/src/cli/CliApplication.js';
 // @ts-expect-error RectProvider cannot be paired with CircleShape.
 const wrong:ShapeProvider<CircleShape>=new RectProvider();
 void wrong;
@@ -28,7 +28,7 @@ test('factory rejects duplicate registration, forged keys and incorrect construc
 });
 test('seventh test-only type works across unchanged commands queries SVG and snapshots',async()=>{
   const r=new EditorRuntime();r.factory.register(new MarkerProvider());
-  const cli=new CliApplication(new CommandDispatcher(r.session,r.history),r.invoker,new TreeFormatter());
+  const cli=new CliApplication(new CommandDispatcher(r.registry.commands,r.context),r.invoker,new TreeFormatter());
   for(const line of ['init','create marker m 1 2 3 blue','move m 4 5','scale m 2'])
     assert.doesNotMatch((await cli.executeLine(line)).join('\n'),/error:/);
   assert.match((await cli.executeLine('tree')).join('\n'),/marker#m  x=10 y=14 size=6 fill=blue/);

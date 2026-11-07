@@ -9,10 +9,18 @@
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
     "rootDir": ".",
-    "outDir": "dist"
+    "outDir": "dist",
+    "customConditions": [
+      "development"
+    ]
   },
   "include": [
-    "src/**/*.ts",
+    "packages/**/*.ts",
+    "plugins/**/*.ts",
     "tests/**/*.ts"
+  ],
+  "exclude": [
+    "**/dist/**",
+    "**/node_modules/**"
   ]
 }

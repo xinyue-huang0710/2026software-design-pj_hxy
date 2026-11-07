@@ -1,4 +1,4 @@
-import { NumericShape } from '../../src/domain/NumericShape.js';
+import { NumericShape } from '../../packages/core/src/domain/NumericShape.js';
 export class MarkerShape extends NumericShape {
   constructor(id:string,x:number,y:number,size:number){super(id,'marker',{x,y,size},['size']);}
   get x():number{return this.value('x');}

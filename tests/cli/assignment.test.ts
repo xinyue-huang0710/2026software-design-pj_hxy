@@ -1,17 +1,17 @@
-import { TreeFormatter } from '../../src/cli/TreeFormatter.js';
+import { TreeFormatter } from '../../packages/host/src/cli/TreeFormatter.js';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { EditorRuntime } from '../../src/EditorRuntime.js';
-import { CommandDispatcher } from '../../src/cli/CommandDispatcher.js';
-import { CliApplication } from '../../src/cli/CliApplication.js';
+import { EditorRuntime } from '../../packages/host/src/EditorRuntime.js';
+import { CommandDispatcher } from '../../packages/host/src/cli/CommandDispatcher.js';
+import { CliApplication } from '../../packages/host/src/cli/CliApplication.js';
 test('assignment §6 and §6.1 A replay produces expected errors, geometry and SVG',async()=>{
   for(const name of ['session','flowchart']){
     const saved=new Map<string,string>(),r=new EditorRuntime({
       read:async()=>readFileSync('examples/other.svg','utf8'),
       write:async(path,content)=>{saved.set(path,content);}
     });
-    const cli=new CliApplication(new CommandDispatcher(r.session,r.history),r.invoker,new TreeFormatter()),output:string[]=[];
+    const cli=new CliApplication(new CommandDispatcher(r.registry.commands,r.context),r.invoker,new TreeFormatter()),output:string[]=[];
     for(const line of readFileSync(`examples/${name}.txt`,'utf8').split(/\r?\n/))output.push(...await cli.executeLine(line));
     const errors=output.filter(s=>s.startsWith('error:'));
     if(name==='session'){
@@ -34,7 +34,7 @@ test('assignment §6 and §6.1 A replay produces expected errors, geometry and S
   }
 });
 test('all document-dependent commands reject before init and preserve empty history',async()=>{
-  const r=new EditorRuntime(),cli=new CliApplication(new CommandDispatcher(r.session,r.history),r.invoker,new TreeFormatter());
+  const r=new EditorRuntime(),cli=new CliApplication(new CommandDispatcher(r.registry.commands,r.context),r.invoker,new TreeFormatter());
   for(const line of ['save a.svg','canvas','create g g','delete g','move g 1 2','scale g 2','set g fill red',
     'group new g','ungroup g','addto g a','front g','back g','tree','show g','undo','redo']){
     assert.deepEqual(await cli.executeLine(line),["error: no document. use 'init' or 'read' first"],line);
