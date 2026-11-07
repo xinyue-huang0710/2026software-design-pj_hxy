@@ -41,5 +41,5 @@
     }
   ],
   "passed": true,
-  "uiScreenshots": "pending: computer-use unavailable"
+  "uiScreenshots": "See doc/validation/vscode-manual.md for separate user-verified UI evidence"
 }

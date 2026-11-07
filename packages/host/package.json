@@ -6,6 +6,11 @@
   "dependencies": {
     "@svgframe/core": "0.2.0",
     "@svgframe/builtin-shapes": "0.2.0",
-    "@svgframe/builtin-commands": "0.2.0"
+    "@svgframe/builtin-commands": "0.2.0",
+    "@svgframe/plugin-command-stats": "0.2.0",
+    "@svgframe/plugin-command-dir": "0.2.0",
+    "@svgframe/plugin-shape-box": "0.2.0",
+    "@svgframe/plugin-tree-box-label": "0.2.0",
+    "@svgframe/plugin-tree-modified": "0.2.0"
   }
 }

@@ -9,7 +9,7 @@ interface Entry {
   serialize(shape:Shape):SvgElementData;
   feedback(shape:Shape,action:ShapeAction):EditFeedback|undefined;
 }
-/** D2: the sole shape-name registry. Dynamic plugin loading is deferred. */
+/** Shape registry; module discovery and dynamic loading belong to the host. */
 export class ShapeFactory {
   #entries=new Map<string,Entry>();
   has(key:string):boolean {return this.#entries.has(key);}

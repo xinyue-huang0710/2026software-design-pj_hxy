@@ -1,0 +1,124 @@
+[
+  {
+    "mode": "A",
+    "commit": "e00d2ff95cc31c7b7e6add7b2844198d46eb9144",
+    "parent": "1118af2687cb8fde5cb3ffcdc532e2af032e3971",
+    "changes": [
+      {
+        "status": "M",
+        "path": "package-lock.json"
+      },
+      {
+        "status": "M",
+        "path": "packages/host/src/composition/codePlugins.ts"
+      },
+      {
+        "status": "A",
+        "path": "plugins/shape-box/package.json"
+      },
+      {
+        "status": "A",
+        "path": "plugins/shape-box/src/BoxFillHandler.ts"
+      },
+      {
+        "status": "A",
+        "path": "plugins/shape-box/src/BoxLabelHandler.ts"
+      },
+      {
+        "status": "A",
+        "path": "plugins/shape-box/src/BoxPlugin.ts"
+      },
+      {
+        "status": "A",
+        "path": "plugins/shape-box/src/BoxProvider.ts"
+      },
+      {
+        "status": "A",
+        "path": "plugins/shape-box/src/BoxShape.ts"
+      },
+      {
+        "status": "A",
+        "path": "plugins/shape-box/src/index.ts"
+      },
+      {
+        "status": "A",
+        "path": "tests/plugins/box-integration.test.ts"
+      },
+      {
+        "status": "A",
+        "path": "tests/plugins/box-unit.test.ts"
+      }
+    ],
+    "existingKernelLoaderAndPluginsChanged": false,
+    "verifiedDirectories": [
+      "packages/core",
+      "packages/host/src/loading",
+      "plugins/builtin-shapes",
+      "plugins/builtin-commands",
+      "plugins/command-stats",
+      "plugins/command-dir"
+    ],
+    "newPluginTree": "05eaaa8ce7cd4cbfb8357b3483a55b2d47477292"
+  },
+  {
+    "mode": "B",
+    "commit": "dbcfd3ac72ccb5517aeae2e9f5eb4b4bacf1b25d",
+    "parent": "1118af2687cb8fde5cb3ffcdc532e2af032e3971",
+    "changes": [
+      {
+        "status": "M",
+        "path": "package-lock.json"
+      },
+      {
+        "status": "M",
+        "path": "plugins.config.json"
+      },
+      {
+        "status": "A",
+        "path": "plugins/shape-box/package.json"
+      },
+      {
+        "status": "A",
+        "path": "plugins/shape-box/src/BoxFillHandler.ts"
+      },
+      {
+        "status": "A",
+        "path": "plugins/shape-box/src/BoxLabelHandler.ts"
+      },
+      {
+        "status": "A",
+        "path": "plugins/shape-box/src/BoxPlugin.ts"
+      },
+      {
+        "status": "A",
+        "path": "plugins/shape-box/src/BoxProvider.ts"
+      },
+      {
+        "status": "A",
+        "path": "plugins/shape-box/src/BoxShape.ts"
+      },
+      {
+        "status": "A",
+        "path": "plugins/shape-box/src/index.ts"
+      },
+      {
+        "status": "A",
+        "path": "tests/plugins/box-integration.test.ts"
+      },
+      {
+        "status": "A",
+        "path": "tests/plugins/box-unit.test.ts"
+      }
+    ],
+    "existingKernelLoaderAndPluginsChanged": false,
+    "verifiedDirectories": [
+      "packages/core",
+      "packages/host/src/loading",
+      "plugins/builtin-shapes",
+      "plugins/builtin-commands",
+      "plugins/command-stats",
+      "plugins/command-dir"
+    ],
+    "newPluginTree": "05eaaa8ce7cd4cbfb8357b3483a55b2d47477292"
+  }
+]

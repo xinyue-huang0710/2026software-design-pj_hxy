@@ -1,0 +1,45 @@
+{
+  "scope": "compiled CLI, same cwd and plugin order; logs outside cwd; fixtures unchanged at directory-listing level",
+  "results": [
+    {
+      "name": "session",
+      "assemblies": [
+        "code",
+        "config"
+      ],
+      "stdoutBytes": 1164,
+      "svgBytes": 413,
+      "identical": true
+    },
+    {
+      "name": "flowchart",
+      "assemblies": [
+        "code",
+        "config"
+      ],
+      "stdoutBytes": 895,
+      "svgBytes": 584,
+      "identical": true
+    },
+    {
+      "name": "box",
+      "assemblies": [
+        "code",
+        "config"
+      ],
+      "stdoutBytes": 1319,
+      "svgBytes": 601,
+      "identical": true
+    },
+    {
+      "name": "commands",
+      "assemblies": [
+        "code",
+        "config"
+      ],
+      "stdoutBytes": 1182,
+      "svgBytes": 249,
+      "identical": true
+    }
+  ]
+}

@@ -32,7 +32,7 @@ export async function run():Promise<void>{
     assert.equal(await api.badge.provideFileDecoration(vscode.Uri.file(join(root,'extensions/svg-tools/examples',name)),cancel.token),undefined);
   cancel.cancel();assert.equal(await api.badge.provideFileDecoration(uri,cancel.token),undefined);cancel.dispose();
   assert.equal(readFileSync(file,'utf8'),original);
-  const result={vscode:vscode.version,checks:['registered native symbols','nested containers','unnamed element','source range line 3','live edit','incomplete XML clears','valid edit recovers','SVG badge','no badge on non-SVG/directory/missing','cancelled request','file unchanged'],symbols:before,passed:true,uiScreenshots:'pending: computer-use unavailable'};
+  const result={vscode:vscode.version,checks:['registered native symbols','nested containers','unnamed element','source range line 3','live edit','incomplete XML clears','valid edit recovers','SVG badge','no badge on non-SVG/directory/missing','cancelled request','file unchanged'],symbols:before,passed:true,uiScreenshots:'See doc/validation/vscode-manual.md for separate user-verified UI evidence'};
   mkdirSync(join(root,'doc/validation'),{recursive:true});
   writeFileSync(join(root,'doc/validation/vscode-integration.json'),JSON.stringify(result,null,2)+'\n');
   console.log('SVG_INTEGRATION_PASS',JSON.stringify(result.checks));

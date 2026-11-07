@@ -1,4 +1,5 @@
 import {test} from 'node:test';
+import {MarkerProvider} from '../support/MarkerProvider.js';
 import assert from 'node:assert/strict';
 import {mkdtempSync,mkdirSync,writeFileSync} from 'node:fs';
 import {join,resolve} from 'node:path';
@@ -19,11 +20,13 @@ test('code registration validates manifests and rolls back all categories withou
   assert.deepEqual(r.installer.install(Good,manifest),[]);
   const before=r.history.state;
   class Partial implements Plugin {activate(c:PluginContext){
+    c.registerShape(new MarkerProvider());
     c.registerDecorator({name:'unpublished',decorate:()=>'*'});
     c.registerAttribute({name:'unpublished',handles:()=>false,apply:()=>{}});
     c.registerCommand(new Ping());
   }}
   assert.deepEqual(r.installer.install(Partial,{name:'partial'}),['error: duplicate registration: commands/ping']);
+  assert.equal(r.registry.shapes.has('marker'),false);
   assert.equal(r.registry.decorators.has('unpublished'),false);assert.equal(r.registry.attributes.has('unpublished'),false);
   assert.deepEqual(await cli.executeLine('ping'),['pong']);assert.deepEqual(r.history.state,before);
   class Throws implements Plugin{activate(c:PluginContext){c.registerDecorator({name:'x',decorate:()=>'*'});throw Error('boom');}}

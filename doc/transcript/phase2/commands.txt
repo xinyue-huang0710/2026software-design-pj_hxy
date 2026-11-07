@@ -1,0 +1,15 @@
+dir
+help
+init 800 600
+stats
+create g g
+create circle c 10 10 5 in g
+create rect r 0 0 10 20
+stats
+move r 3 4
+undo
+dir
+redo
+stats
+save examples/commands.svg
+tree
