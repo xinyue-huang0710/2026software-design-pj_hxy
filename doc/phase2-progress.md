@@ -15,3 +15,12 @@
 ## 交付状态
 
 目前正在实现。未打 p2；未声称 VS Code 界面截图或 Phase 2 全验收已完成。
+
+## VS Code 扩展实现与验证
+
+- 实现前运行真实 Extension Host（VS Code 1.135.0），SVG 语言为 xml，文档符号为空；保存 vscode-baseline.json。
+- 新增 SvgFileDecorator、SvgOutlineParser、SvgSymbolProvider；正文不修改，目录不加标记，原生符号树包含源位置。
+- 解析单测覆盖嵌套、无 id、CRLF、Unicode、属性内 >、CDATA、不完整 XML 和恢复，2/2 通过。
+- Extension Host 首次测试发现：空符号时 VS Code 命令会返回 undefined，而非固定 []。修正测试对宿主 API 的假设，未放宽解析器行为；真实集成 12 项检查通过，证据见 vscode-integration.json。
+- UI 工具仍不可用，界面截图明确待补，不把接口测试称为视觉验收。
+- 用户确认继续分步提交并推送同一 GitHub 仓库。

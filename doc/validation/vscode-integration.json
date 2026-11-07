@@ -1,0 +1,45 @@
+{
+  "vscode": "1.135.0",
+  "checks": [
+    "registered native symbols",
+    "nested containers",
+    "unnamed element",
+    "source range line 3",
+    "live edit",
+    "incomplete XML clears",
+    "valid edit recovers",
+    "SVG badge",
+    "no badge on non-SVG/directory/missing",
+    "cancelled request",
+    "file unchanged"
+  ],
+  "symbols": [
+    {
+      "name": "svg",
+      "kind": "Namespace",
+      "location": {
+        "uri": {
+          "$mid": 1,
+          "fsPath": "e:\\软件设计\\pj\\extensions\\svg-tools\\examples\\example.svg",
+          "_sep": 1,
+          "external": "file:///e%3A/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/pj/extensions/svg-tools/examples/example.svg",
+          "path": "/e:/软件设计/pj/extensions/svg-tools/examples/example.svg",
+          "scheme": "file"
+        },
+        "range": [
+          {
+            "line": 0,
+            "character": 0
+          },
+          {
+            "line": 5,
+            "character": 6
+          }
+        ]
+      },
+      "containerName": ""
+    }
+  ],
+  "passed": true,
+  "uiScreenshots": "pending: computer-use unavailable"
+}

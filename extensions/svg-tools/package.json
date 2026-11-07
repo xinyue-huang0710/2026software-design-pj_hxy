@@ -1,0 +1,24 @@
+{
+  "name": "svg-tools",
+  "displayName": "PJ1 SVG Tools",
+  "description": "SVG file badges and native Outline for PJ1 Phase 2",
+  "version": "0.1.0",
+  "publisher": "pj1-hxy",
+  "private": true,
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.cjs",
+  "type": "commonjs",
+  "scripts": {
+    "build": "node ../../tools/build-extension.mjs",
+    "test": "node ../../tools/test-extension.mjs"
+  },
+  "license": "UNLICENSED"
+}

@@ -11,13 +11,19 @@
     "test": "tsx --test tests/**/*.test.ts",
     "typecheck": "tsc --noEmit",
     "build": "tsc -p tsconfig.build.json",
-    "check": "npm run typecheck && npm test && npm run build"
+    "check": "npm run typecheck && npm test && npm run build",
+    "extension:build": "node tools/build-extension.mjs",
+    "extension:check": "tsc -p extensions/svg-tools/tsconfig.json && tsx --test extensions/svg-tools/test/parser.test.ts",
+    "extension:test": "npm run extension:build && node tools/test-extension.mjs"
   },
   "dependencies": {
     "saxes": "6.0.0"
   },
   "devDependencies": {
     "@types/node": "24.10.0",
+    "@types/vscode": "1.95.0",
+    "@vscode/test-electron": "2.5.2",
+    "esbuild": "0.25.12",
     "tsx": "4.20.6",
     "typescript": "5.9.3"
   }

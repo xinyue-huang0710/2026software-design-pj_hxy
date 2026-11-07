@@ -6,3 +6,7 @@
 /tmp/
 *.log
 /.vscode/settings.json
+
+/.vscode-test/
+/extensions/svg-tools/dist/
+*.vsix
