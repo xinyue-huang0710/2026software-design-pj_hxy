@@ -1,87 +1,107 @@
-# 人工与 AI 的架构讨论摘要
+# Phase 2：人机协作与架构设计复盘
 
-本文依据本项目已有对话、plan.md 的修订记录与开发日志整理，作为过程记录的补充。引号内为用户原话摘录；AI 分析和最终取舍是归纳，不是逐字聊天转录。前期架构讨论发生在 Phase 1，Phase 2 延续并验证这些设计；不将前期讨论改写成第二阶段新发生的对话。
+本文只记录第二阶段。第 1 节归纳实际发生的人机交互；第 2 节根据 Phase 2 方案、ADR、源码和验证结果补充设计复盘，不是开发前问答的逐字转录，也不把 AI 的实现检查归为用户提出的意见。第一阶段关于 Visitor、多态等的讨论不重复列入。
 
-作业依据：Phase 1 §1.2 要求记录有代表性的讨论、发现的问题及确认和纠正过程；Phase 2“学习目标与任务安排”明确沿用 AI 协作要求。原有提交报告已包含过程记录，本文件在 p2 建立后补充整理，未修改既有标签。
+作业要求：Phase 2 延续 AI 协作要求，明确要求记录对 AI 建议的检查与修正。本文件在 p2 建立后补充整理，原 p2 中的 [开发过程记录](phase2-progress.md) 保留，既有标签未移动。
 
-## 1. Command 模式不能只有类名对应
+## 1. 第二阶段实际发生的交互
 
-**用户提出：**“你plan的架构设计有没有分层模块呀……你的plan设计有符合这个架构吗，角色是咋对应的”。
-
-**审查的问题：** 初稿虽有目录和命令对象，但构造、调用与业务执行的职责没有清楚对应课程 PPT；原 Dispatcher 同时承担构造和调用，容易混淆 Client 与 Invoker。
-
-**方案修订：** 单独设置 CommandInvoker；命令调度负责解析和构造，调用者负责执行与历史协调，具体命令将业务请求转交稳定的 EditorSession。命令记录 id，执行时定位当前文档，避免 undo/read 替换文档后继续引用失效的旧节点。
-
-**当前落地：** Phase 2 用 CommandRegistration/CommandRegistry 扩展命令构造规则，CommandInvoker 仍通过 Command 接口调用，插件通过 EditorActions 访问接收者。增加 stats/dir 不要求在内核添加命令名称分支。
-
-**依据：** [plan.md §11.1](../plan.md#111-本次架构修订记录)、[CommandInvoker](../packages/core/src/application/CommandInvoker.ts)、[CommandRegistration](../packages/core/src/contracts/CommandRegistration.ts)。
-
-## 2. Visitor 的类型扩展成本是否值得
-
-**用户提出：**“这个visitor设计我怎么感觉有点怪怪的，怎么这么复杂”；随后追问新增图形是否要改很多地方，并要求认真考虑后续扩展，避免 Phase 2 大修架构。
-
-**讨论的重点：** 经典 Visitor 把操作集中到访问者，但接口通常枚举具体元素类型。新增操作比较方便；新增一种图形则可能需要调整 Visitor 接口及多个访问者。不能只因为课程讲了某种模式，就忽略本项目更可能变化的是图形类型。
-
-**方案修订：** 方案曾补充过完整 Visitor 结构，后经审查改为外部 ShapeProvider 加注册工厂。每种图形的创建、读回、展示映射和 SVG 映射集中在对应 Provider；几何行为仍在图形类中。旧 Visitor 图保留为历史方案，不作为当前实现结构。
-
-**取舍：** 优先降低新增图形类型的改动范围。新增完全不同的输出需求仍可能要求补充 Provider 协议，不能宣称所有变化都零成本。
-
-**Phase 2 验证：** box 在框架准备完成后通过新增插件接入，A/B 接入提交不修改内核或既有插件。这是对前期变化点判断的实际检验，而非仅凭类图声称符合 OCP。
-
-**依据：** [plan.md §4.5](../plan.md)、[双装配差异证据](validation/plugin-diff-proof.json)。
-
-## 3. tree/show 不能让领域对象关心格式
-
-**用户提出：**“那tree和show呢”；随后明确：“不希望领域层关心展示格式”。
-
-**讨论的重点：** 如果为简化 Visitor，直接在 Shape 中增加负责树线、缩进、CLI 文案或 XML 拼接的方法，虽然调用方便，却把展示规则带进了领域层。
-
-**方案修订：** Shape 保留几何、样式和结构不变量；Provider.inspect 提供类型相关的只读展示数据；ShapeQueryService 构造 TreeView/DetailView；宿主的 TreeFormatter/ShowFormatter 完成输出。SVG 的类型映射也在外部 Provider，而非领域类自行输出 XML。
-
-**Phase 2 延续：** 树标签插件读取公开快照，返回行尾标签。星号状态封装在装饰器实例中，Shape 不知道是否要打印星号或“(box)”。
-
-**依据：** [ShapeProvider](../packages/core/src/application/providers/ShapeProvider.ts)、[ShapeQueryService](../packages/core/src/application/queries/ShapeQueryService.ts)、[树标签 ADR](adr/003-tree-dirty.md)。
-
-## 4. 多态应统一契约，而不是强行统一算法
-
-**用户提出：**“多态？？？请评估多态是否合适，不同shape的方法操作应该差挺多的”。
-
-**讨论的重点：** 矩形、圆、线段、文本的参数与几何计算确实不同。若为了统一而把所有属性塞进一个基类，或在一个 move 方法里枚举形状，会削弱封装。
-
-**方案修订：** 统一的是操作含义：move 表示平移、scale 表示按约定缩放；各 Shape 子类实现自己的算法。创建参数差异由各自 Provider 处理，容器递归委派给子节点。不把 text、radius、label 等专属能力都声明为每种 Shape 必须支持的方法。
-
-**边界修正：** Provider 和 Shape 需类型配对，不能仅靠字符串键或 TypeScript 泛型断言运行时安全。工厂注册入口保留类型守卫与返回 id 检查，错误配对明确失败。
-
-**Phase 2 延续：** box 的 label/fill 特殊语义通过 AttributeHandler 接入；处理器修改封装对象，事务保证一次 set 是一次撤销单元。
-
-**依据：** [plan.md §4.5.2](../plan.md)、[ShapeFactory](../packages/core/src/application/providers/ShapeFactory.ts)、[属性事务 ADR](adr/001-attribute-transactions.md)。
-
-## 5. Provider、Adapter 与可替换树打印不能混为一谈
-
-**用户提出：**“适配器？你说使用adapter模式吗，definition是何意味”；后来补充老师希望树形打印能插件式替换，并提到 adaptee。
-
-**讨论的重点：** 一个类承担转换职责，并不意味着它一定是 GoF Adapter。Provider 的类型映射职责，也不同于包装已有树打印库的不兼容接口。
-
-**方案修订：** 类型配套能力统一命名为 ShapeProvider；树排版使用 TreePrinter 接口注入。接入现成树打印库时，TreePrinter 是 Target，包装转换类是 Adapter，现成库才是 Adaptee。测试中使用 OutlineTreeAdapter/OutlineLibrary 验证替换能力。
-
-**Phase 2 区分：** TreePrinter 替换整棵树的排版；TreeDecorator 在每行追加标签，两者不能互相替代。dir 则按本阶段明确要求采用 DirectoryReader → NodeDirectoryAdapter → Node 文件系统接口的适配器结构。
-
-**依据：** [树打印说明](tree-printing.md)、[目录 Adapter ADR](adr/005-directory-adapter.md)。
-
-## 6. Phase 2 对 AI 建议的实际检查和纠正
-
-以下来自开发日志，属于 AI 实施中的检查与修正，不虚构为用户亲自发现的问题。
-
-| AI 建议或初始假设 | 如何发现问题 | 修正结果 |
+| 交互节点 | 人工输入 | AI 的处理及结果 |
 |---|---|---|
-| 未安装 box 时，降级保存仍保留 data-kind，便于未来恢复 | 与 Phase 1 既有回归行为冲突 | 撤回建议，保留普通 g 降级保存时移除标记的行为；未放宽旧测试 |
-| 扩展宿主查询不到符号时总会返回 [] | 真正 Extension Host 测试出现 undefined | 测试按宿主 API 实际返回值归一化；不完整 XML 的清空/恢复要求保持 |
-| 直接复用 CLI 的图形模型生成大纲 | 对照大纲要求，发现 CLI 会限制类型、补 id，且不保留源位置 | 复用 saxes 库与遍历思路，单独建立只读语法节点及位置映射 |
+| 需求识别 | 用户提供 pj1-phase2 目录，要求研究如何实现，并询问“这回有要求使用什么设计模式呀？” | 区分 VS Code 扩展实践和 CLI 插件式重构；明确 dir 必须使用 Adapter，四个扩展点与双装配要实际落地，模式分析要说明对应关系及差异 |
+| 实施范围 | 用户要求“按要求实现，写好readme内容，规划好git提交内容，需要跟我讨论的，问我”，并询问 AI 交互记录 | 以 plan-phase2.md 为实施依据；完成源码之外，还准备 ADR、对比图、Git 差异证据、指标和过程文档 |
+| 开发历史 | 用户明确“沿用，分步提交并推送” | 按框架、命令插件、box 接入、树标签、验证及报告推进；box 用共同基线上的两个真实分支证明两种接入方式 |
+| 界面验证分工 | UI 自动操作工具不可用，用户同意协助确认界面 | AI 先完成解析测试及真实 Extension Host 检查；人工验证独立记录，不用自动结果代替界面截图 |
+| 验证过程 | 用户反馈 F5 变成音量键、找不到大纲，随后确认 test 更新及恢复 start 均正常 | 补充 Fn+F5/菜单启动、SVG 切换文本编辑器、大纲展开步骤；保存真实截图和点击第 3 行的验证结果 |
 
-**人工验证补充：** 用户实际启动扩展开发宿主，提供截图，并确认点击 rect#start 定位第 3 行、修改为 test 后更新、恢复 start 正常。异常 XML 路径由自动测试覆盖，未声称为用户人工验证。
+用户在第二阶段主要确认需求、开发方式和界面效果；以下具体契约取舍由 AI 按要求设计并验证，不虚构成用户逐条提出的问题。
 
-**依据：** [Phase 2 开发日志](phase2-progress.md)、[人工验证记录](validation/vscode-manual.md)、[真实宿主验证结果](validation/vscode-integration.json)。
+## 2. Phase 2 架构问题与方案取舍
 
-## 7. 对人机协作的总结
+### 2.1 四个扩展点为什么要分开
 
-人工审查主要约束了变化方向、层次边界和复杂度：不能为套模式而增加维护成本，不能让领域对象承担展示格式，也不能仅说“可扩展”而没有接入证据。AI 将这些意见落实到方案、实现和测试，并通过回归纠正与旧行为冲突的建议。保留被否决的方案和失败后的修正，比只列最终采用了哪些模式更能解释设计过程。
+**复盘问题：** 已有 ShapeProvider，能否把 box、属性设置、树标签都放进同一个图形插件接口？
+
+**方案比较：** 将所有行为塞进 Provider 可以减少接口数量，但会使“新增一种图形”“新增一种命令”“改变属性语义”“增加显示标签”互相绑定。比如星号应作用于所有节点，不应要求修改每种图形的 Provider。
+
+**采用方案：** 按作业分成 ShapeProvider、Command、AttributeHandler、TreeDecorator。接口在 core，插件只依赖公开协议；host 负责装配与模块加载。内置图形和命令也通过注册机制进入。box 包同时注册形状和两个属性处理器，但类型标签另属独立包。
+
+**检查依据：** [扩展点清单](README.md#4-扩展点清单实际接口调用和契约)、[依赖边界测试](../tests/architecture/dependencies.test.ts)。
+
+### 2.2 属性处理器怎样参与一次完整的 undo
+
+**复盘问题：** set box 的 label/fill 会修改内部子部件，若中途失败，如何避免只改了一半？多个处理器命中同一属性时，谁生效？
+
+**方案比较：** 可以让每个处理器自带撤销代码，也可以让内核统一管理事务。前者容易遗漏对子部件的补偿；按注册顺序选择处理器则可能静默覆盖冲突。
+
+**采用方案：** handles 只读取冻结的目标描述；apply 在候选文档上通过公开对象方法修改。无命中走原属性规则，一个命中执行，多个命中明确拒绝。成功后整体提交一次历史快照；抛错丢弃候选副本，不改变正式文档和 undo/redo，也不继续尝试默认规则。
+
+**取舍：** 快照有 O(n) 复制开销，本阶段用它换取简单、统一的原子性。
+
+**检查依据：** [属性事务 ADR](adr/001-attribute-transactions.md)、[多部件修改与失败回滚测试](../tests/framework/extensions.test.ts)。
+
+### 2.3 box 的内部结构由谁保护
+
+**复盘问题：** box 里有 rect 和 text，但普通 delete/group 命令也能找到这些 id。是否要在内核判断“这是 box 的必要部件”？
+
+**方案比较：** 在 delete/group 中增加 box 特例能处理眼前案例，却会使以后每增加复合图形都修改内核。只依赖创建时检查，也挡不住创建后的破坏性编辑。
+
+**采用方案：** BoxShape 自己定义必要部件规则：直接子节点 <id>-rect 和 <id>-label 必须存在且类型正确。内核只调用通用 validateStructure 钩子，在候选事务提交前校验。移走、删除或重组必要部件会失败；删除整个 box 合法。复合对象禁止 ungroup。
+
+**实际纠正：** AI 曾建议未安装插件时保留 data-kind 供未来恢复；回归发现会改变 Phase 1 的既有降级保存行为，于是撤回建议。未安装插件时按普通 g 读入，保存去掉类型标记；已安装但结构损坏则拒绝整个读入。
+
+**检查依据：** [box ADR](adr/002-box-invariants.md)、[box 集成测试](../tests/plugins/box-integration.test.ts)。
+
+### 2.4 星号代表“发生过编辑”还是“内容未保存”
+
+**复盘问题：** 编辑后 undo 回到保存点，星号还要保留吗？改了子图形，父容器要不要标星？
+
+**方案比较：** 记录“编辑过的 id”实现简单，但撤销回保存点仍可能留下星号。按保存内容比较更符合未保存变化的含义，但需要保存基线和计算指纹。
+
+**采用方案：** 比较当前内容与上次成功保存的基线。新节点立即标星，子树变化向祖先传播；undo 回到保存点清星，redo 后重新出现。保存、读入、初始化成功时重置基线。基线和缓存属于 ModifiedStarDecorator 实例，不用模块全局变量。
+
+**组合规则：** BoxTypeDecorator 只返回类型标签，与星号插件互不引用。注册顺序决定后缀顺序，默认输出“(box) *”。没有标签时保持旧 tree 输出字节不变。TreePrinter 管排版，TreeDecorator 管标签，二者分别扩展。
+
+**检查依据：** [dirty ADR](adr/003-tree-dirty.md)、[独立状态机测试](../tests/plugins/modified-star.test.ts)、[标签协作测试](../tests/plugins/decorators-integration.test.ts)。
+
+### 2.5 双装配如何共用校验并避免半注册
+
+**复盘问题：** A 直接实例化插件，B 从配置动态加载，是否各写一套安装逻辑？插件注册两项后抛错，前两项怎么办？
+
+**方案比较：** A 直接改注册表、B 单独校验最容易实现，但行为可能不同。逐项立即发布会留下失败插件的一部分能力；仅靠事后删除也容易遗漏。
+
+**采用方案：** A/B 都经过 PluginInstaller → ExtensionRegistry。激活期间只暂存四类注册；校验重名、方法契约和 contributes 后一起发布。当前插件失败则丢弃全部暂存项，保留已成功插件并继续后续加载。激活规定为同步，禁止返回后继续注册。
+
+**配置规则：** 先校验整份结构；enabled:false 在解析前跳过；相对路径基于配置目录。区分顶层模块不存在和模块内部依赖/求值失败，不能全部报 plugin not found。
+
+**实际证据：** 两个 box 接入提交来自同一基线：A 只改一个既有组合根文件，B 不改既有运行源码。四组会话在同样目录与插件顺序下比较 stdout 和 SVG，而不是只看能否启动。
+
+**检查依据：** [加载 ADR](adr/004-plugin-loading.md)、[注册失败测试](../tests/framework/registration.test.ts)、[双装配与差异证据](README.md#5-两种装配配置和零修改证据)。
+
+### 2.6 dir 的 Adapter 为什么放在插件侧
+
+**复盘问题：** dir 能否直接在命令里调用文件系统？查询目录会不会意外改变文档或撤销历史？
+
+**方案比较：** 命令直接调用 fs 简短，但不符合本阶段适配器要求，也难以稳定模拟空目录、权限失败和不同目录内容。
+
+**采用方案：** DirCommand 依赖公开 DirectoryReader；NodeDirectoryAdapter 把 Node readdir/Dirent 映射为统一条目。文件系统是 Adaptee，DirectoryReader 是 Target。实际适配器放在 dir 插件包，内核不依赖 Node fs。
+
+**行为边界：** 查询进程 cwd，不是 SVG 保存目录；不递归、不跟随链接。目录、文件、链接、其他按固定组序和名称排序。成功或失败均不写文档、不建立编辑历史屏障。测试替身与真实临时目录都验证。
+
+**检查依据：** [目录 Adapter ADR](adr/005-directory-adapter.md)、[dir 测试](../tests/plugins/dir.test.ts)。
+
+### 2.7 VS Code 大纲应复用哪些旧代码
+
+**复盘问题：** 已有 SVG 解析器和图形树，能否直接拿来生成原生 Outline？
+
+**方案比较：** 直接复用领域模型减少代码，但 CLI 解析器会限制图形类型、校验几何和补 id，没有源位置。大纲需要按原始文本显示层级，不能为了展示改变用户文档含义。
+
+**采用方案：** 复用 saxes 库与栈遍历思路，单独解析只读语法节点及 UTF-16 位置，再转换成 DocumentSymbol。VS Code 负责显示与调用，插件提供层级和选区；不完整 XML 暂时清空，恢复后重新提供结果。
+
+**实际纠正：** 宿主测试发现空符号查询可能返回 undefined，修正测试对 API 返回值的假设；错误输入的行为要求没有放宽。用户另行验证点击定位和实时更新，人工证据与接口证据分开保存。
+
+**检查依据：** [扩展说明](../extensions/svg-tools/README.md)、[人工验证](validation/vscode-manual.md)、[宿主自动验证](validation/vscode-integration.json)。
+
+## 3. 这一阶段的复盘结论
+
+本阶段的关键是把变化点落实成可核验的契约：新增插件不改内核，属性修改失败不污染文档和历史，两条加载路径遵守同一规则，标签状态与业务对象分离。AI 给出的方案也需要接受旧行为回归、错误路径测试和用户实际界面操作的检查；不能仅凭使用了某个模式名就认为架构完成。

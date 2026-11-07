@@ -223,7 +223,7 @@ node tools/metrics/generate.mjs final p2 tmp/metrics-p2
 
 [phase2-progress.md](phase2-progress.md) 保留真实交互、检查和纠正；Phase 1 过程见 [development-log.md](development-log.md)。没有补造对话或把生成代码当成已验证的结果。
 
-另见 [人工与 AI 的架构讨论摘要](ai-architecture-discussion.md)：按用户问题、方案修订和实现证据整理。该摘要是在 p2 建立后追加的文档补充；p2 中原有过程记录保持不变。
+另见 [Phase 2 人机协作与架构设计复盘](ai-architecture-discussion.md)：只包含第二阶段，区分实际人机交互与按方案、ADR、代码证据补充的设计复盘。该摘要是在 p2 建立后追加的文档补充；p2 中原有过程记录保持不变。
 
 代表性过程：
 
