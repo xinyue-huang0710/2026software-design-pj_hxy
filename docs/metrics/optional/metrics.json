@@ -1,0 +1,1861 @@
+{
+  "method": "Nonempty physical TypeScript lines including comments. CC summed per function: 1 + if/conditional/loops/catch/case/&&/||/??; nested functions counted separately. Production CLI only in kernel/host/plugin; VS Code listed separately. Phase 1 future-plugin implementations classified consistently by responsibility, not claimed to be preexisting plugins. Generated from git objects, not working tree.",
+  "base": {
+    "ref": "p2",
+    "commit": "e2fa573fa72f882e398178bf5c199531fd9810ed",
+    "runtimeSourceHash": "b56a923c48b7af901af247cda01098af59623122db358c557d2d71f0bf5dd74b",
+    "totals": {
+      "kernel": {
+        "files": 33,
+        "loc": 785,
+        "functions": 173,
+        "cc": 309
+      },
+      "host": {
+        "files": 15,
+        "loc": 394,
+        "functions": 57,
+        "cc": 194
+      },
+      "plugin": {
+        "files": 58,
+        "loc": 639,
+        "functions": 188,
+        "cc": 268
+      },
+      "vscode": {
+        "files": 4,
+        "loc": 69,
+        "functions": 13,
+        "cc": 26
+      }
+    },
+    "files": [
+      {
+        "file": "extensions/svg-tools/src/SvgFileDecorator.ts",
+        "category": "vscode",
+        "loc": 15,
+        "functions": 3,
+        "cc": 9,
+        "responsibility": "装配入口或公共导出：SvgFileDecorator"
+      },
+      {
+        "file": "extensions/svg-tools/src/SvgOutlineParser.ts",
+        "category": "vscode",
+        "loc": 25,
+        "functions": 4,
+        "cc": 8,
+        "responsibility": "装配入口或公共导出：OutlineElement, BuildingElement, SvgOutlineParser"
+      },
+      {
+        "file": "extensions/svg-tools/src/SvgSymbolProvider.ts",
+        "category": "vscode",
+        "loc": 17,
+        "functions": 2,
+        "cc": 5,
+        "responsibility": "装配入口或公共导出：SvgSymbolProvider"
+      },
+      {
+        "file": "extensions/svg-tools/src/extension.ts",
+        "category": "vscode",
+        "loc": 12,
+        "functions": 4,
+        "cc": 4,
+        "responsibility": "装配入口或公共导出"
+      },
+      {
+        "file": "packages/core/src/application/AttributeService.ts",
+        "category": "kernel",
+        "loc": 16,
+        "functions": 5,
+        "cc": 7,
+        "responsibility": "应用事务、历史和查询：AttributeService"
+      },
+      {
+        "file": "packages/core/src/application/CommandInvoker.ts",
+        "category": "kernel",
+        "loc": 19,
+        "functions": 2,
+        "cc": 6,
+        "responsibility": "应用事务、历史和查询：CommandInvoker"
+      },
+      {
+        "file": "packages/core/src/application/CommandRegistry.ts",
+        "category": "kernel",
+        "loc": 18,
+        "functions": 5,
+        "cc": 8,
+        "responsibility": "应用事务、历史和查询：CommandRegistry"
+      },
+      {
+        "file": "packages/core/src/application/EditorSession.ts",
+        "category": "kernel",
+        "loc": 112,
+        "functions": 33,
+        "cc": 50,
+        "responsibility": "应用事务、历史和查询：EditorSession"
+      },
+      {
+        "file": "packages/core/src/application/ExtensionRegistry.ts",
+        "category": "kernel",
+        "loc": 58,
+        "functions": 21,
+        "cc": 46,
+        "responsibility": "应用事务、历史和查询：ExtensionRegistry"
+      },
+      {
+        "file": "packages/core/src/application/TreeDecorationService.ts",
+        "category": "kernel",
+        "loc": 27,
+        "functions": 6,
+        "cc": 17,
+        "responsibility": "应用事务、历史和查询：TreeDecorationService"
+      },
+      {
+        "file": "packages/core/src/application/commands/Command.ts",
+        "category": "kernel",
+        "loc": 10,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "命令语法与请求转发：CommandResult, Command"
+      },
+      {
+        "file": "packages/core/src/application/commands/EditCommand.ts",
+        "category": "kernel",
+        "loc": 28,
+        "functions": 6,
+        "cc": 12,
+        "responsibility": "命令语法与请求转发：EditCommand"
+      },
+      {
+        "file": "packages/core/src/application/history/HistoryEntry.ts",
+        "category": "kernel",
+        "loc": 4,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "应用事务、历史和查询：HistoryEntry"
+      },
+      {
+        "file": "packages/core/src/application/history/HistoryManager.ts",
+        "category": "kernel",
+        "loc": 25,
+        "functions": 6,
+        "cc": 9,
+        "responsibility": "应用事务、历史和查询：HistoryManager"
+      },
+      {
+        "file": "packages/core/src/application/ports/DocumentCodec.ts",
+        "category": "kernel",
+        "loc": 4,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "应用事务、历史和查询：ImportResult, DocumentReader, DocumentWriter"
+      },
+      {
+        "file": "packages/core/src/application/ports/DocumentStore.ts",
+        "category": "kernel",
+        "loc": 4,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "应用事务、历史和查询：DocumentStore"
+      },
+      {
+        "file": "packages/core/src/application/providers/ShapeFactory.ts",
+        "category": "kernel",
+        "loc": 52,
+        "functions": 17,
+        "cc": 24,
+        "responsibility": "图形创建和输入输出映射：Entry, ShapeFactory"
+      },
+      {
+        "file": "packages/core/src/application/providers/ShapeProvider.ts",
+        "category": "kernel",
+        "loc": 24,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "图形创建和输入输出映射：SvgElementData, ShapeView, ShapeProvider"
+      },
+      {
+        "file": "packages/core/src/application/queries/ShapeQueryService.ts",
+        "category": "kernel",
+        "loc": 19,
+        "functions": 4,
+        "cc": 6,
+        "responsibility": "应用事务、历史和查询：TreeNode, TreeView, DetailView, ShapeQueryService"
+      },
+      {
+        "file": "packages/core/src/contracts/AttributeHandler.ts",
+        "category": "kernel",
+        "loc": 10,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "公开扩展契约：AttributeTarget, AttributeEditContext, AttributeHandler"
+      },
+      {
+        "file": "packages/core/src/contracts/CommandRegistration.ts",
+        "category": "kernel",
+        "loc": 9,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "公开扩展契约：Token, CommandContext, CommandRegistration"
+      },
+      {
+        "file": "packages/core/src/contracts/DirectoryReader.ts",
+        "category": "kernel",
+        "loc": 5,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "公开扩展契约：DirectoryEntry, DirectoryReader"
+      },
+      {
+        "file": "packages/core/src/contracts/DocumentSnapshot.ts",
+        "category": "kernel",
+        "loc": 8,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "公开扩展契约：NodeSnapshot, DocumentSnapshot, DocumentEvent, QueryPort"
+      },
+      {
+        "file": "packages/core/src/contracts/EditorActions.ts",
+        "category": "kernel",
+        "loc": 19,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "公开扩展契约：EditorActions, HistoryPort"
+      },
+      {
+        "file": "packages/core/src/contracts/Plugin.ts",
+        "category": "kernel",
+        "loc": 23,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "公开扩展契约：ShapeCreation, PluginContext, Plugin, PluginManifest, PluginConstructor"
+      },
+      {
+        "file": "packages/core/src/contracts/ShapeAction.ts",
+        "category": "kernel",
+        "loc": 2,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "公开扩展契约：ShapeAction, EditFeedback"
+      },
+      {
+        "file": "packages/core/src/contracts/TreeDecorator.ts",
+        "category": "kernel",
+        "loc": 7,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "公开扩展契约：TreeLine, TreeDecorator"
+      },
+      {
+        "file": "packages/core/src/domain/ContainerShape.ts",
+        "category": "kernel",
+        "loc": 33,
+        "functions": 10,
+        "cc": 20,
+        "responsibility": "领域模型与不变量：ContainerShape"
+      },
+      {
+        "file": "packages/core/src/domain/DocumentRoot.ts",
+        "category": "kernel",
+        "loc": 8,
+        "functions": 2,
+        "cc": 3,
+        "responsibility": "领域模型与不变量：DocumentRoot"
+      },
+      {
+        "file": "packages/core/src/domain/Numbers.ts",
+        "category": "kernel",
+        "loc": 21,
+        "functions": 4,
+        "cc": 9,
+        "responsibility": "领域模型与不变量：Numbers"
+      },
+      {
+        "file": "packages/core/src/domain/NumericShape.ts",
+        "category": "kernel",
+        "loc": 37,
+        "functions": 8,
+        "cc": 13,
+        "responsibility": "领域模型与不变量：NumericShape"
+      },
+      {
+        "file": "packages/core/src/domain/Shape.ts",
+        "category": "kernel",
+        "loc": 22,
+        "functions": 8,
+        "cc": 10,
+        "responsibility": "领域模型与不变量：Shape"
+      },
+      {
+        "file": "packages/core/src/domain/ShapeStyle.ts",
+        "category": "kernel",
+        "loc": 12,
+        "functions": 4,
+        "cc": 7,
+        "responsibility": "领域模型与不变量：ShapeStyle"
+      },
+      {
+        "file": "packages/core/src/domain/SvgDocument.ts",
+        "category": "kernel",
+        "loc": 116,
+        "functions": 31,
+        "cc": 61,
+        "responsibility": "领域模型与不变量：SvgDocument"
+      },
+      {
+        "file": "packages/core/src/domain/errors/EditorError.ts",
+        "category": "kernel",
+        "loc": 3,
+        "functions": 1,
+        "cc": 1,
+        "responsibility": "领域模型与不变量：EditorError"
+      },
+      {
+        "file": "packages/core/src/index.ts",
+        "category": "kernel",
+        "loc": 22,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "装配入口或公共导出"
+      },
+      {
+        "file": "packages/core/src/internal.ts",
+        "category": "kernel",
+        "loc": 8,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "装配入口或公共导出"
+      },
+      {
+        "file": "packages/host/src/EditorRuntime.ts",
+        "category": "host",
+        "loc": 28,
+        "functions": 5,
+        "cc": 6,
+        "responsibility": "装配入口或公共导出：EditorRuntime"
+      },
+      {
+        "file": "packages/host/src/cli/CliApplication.ts",
+        "category": "host",
+        "loc": 34,
+        "functions": 3,
+        "cc": 12,
+        "responsibility": "终端交互和展示：CliApplication"
+      },
+      {
+        "file": "packages/host/src/cli/CommandDispatcher.ts",
+        "category": "host",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "终端交互和展示：CommandDispatcher"
+      },
+      {
+        "file": "packages/host/src/cli/ShowFormatter.ts",
+        "category": "host",
+        "loc": 10,
+        "functions": 4,
+        "cc": 8,
+        "responsibility": "终端交互和展示：ShowFormatter"
+      },
+      {
+        "file": "packages/host/src/cli/Tokenizer.ts",
+        "category": "host",
+        "loc": 33,
+        "functions": 1,
+        "cc": 18,
+        "responsibility": "终端交互和展示：Tokenizer"
+      },
+      {
+        "file": "packages/host/src/cli/TreeFormatter.ts",
+        "category": "host",
+        "loc": 21,
+        "functions": 5,
+        "cc": 11,
+        "responsibility": "终端交互和展示：TreeFormatter"
+      },
+      {
+        "file": "packages/host/src/cli/printing/TreePrinter.ts",
+        "category": "host",
+        "loc": 5,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "终端交互和展示：TreePrinter"
+      },
+      {
+        "file": "packages/host/src/composition/codePlugins.ts",
+        "category": "host",
+        "loc": 18,
+        "functions": 1,
+        "cc": 1,
+        "responsibility": "装配入口或公共导出"
+      },
+      {
+        "file": "packages/host/src/io/storage/FileDocumentStore.ts",
+        "category": "host",
+        "loc": 21,
+        "functions": 3,
+        "cc": 5,
+        "responsibility": "文件与 SVG 编解码：FileDocumentStore"
+      },
+      {
+        "file": "packages/host/src/io/svg/SvgReader.ts",
+        "category": "host",
+        "loc": 78,
+        "functions": 12,
+        "cc": 40,
+        "responsibility": "文件与 SVG 编解码：ElementNode, SvgReader"
+      },
+      {
+        "file": "packages/host/src/io/svg/SvgWriter.ts",
+        "category": "host",
+        "loc": 28,
+        "functions": 6,
+        "cc": 12,
+        "responsibility": "文件与 SVG 编解码：SvgWriter"
+      },
+      {
+        "file": "packages/host/src/io/svg/XmlEscaper.ts",
+        "category": "host",
+        "loc": 18,
+        "functions": 3,
+        "cc": 14,
+        "responsibility": "文件与 SVG 编解码：XmlEscaper"
+      },
+      {
+        "file": "packages/host/src/loading/PluginInstaller.ts",
+        "category": "host",
+        "loc": 13,
+        "functions": 2,
+        "cc": 6,
+        "responsibility": "模块解析、注册安装与失败处理：PluginInstaller"
+      },
+      {
+        "file": "packages/host/src/loading/PluginLoader.ts",
+        "category": "host",
+        "loc": 67,
+        "functions": 10,
+        "cc": 59,
+        "responsibility": "模块解析、注册安装与失败处理：ConfigEntry, PluginLoader"
+      },
+      {
+        "file": "packages/host/src/main.ts",
+        "category": "host",
+        "loc": 14,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "装配入口或公共导出"
+      },
+      {
+        "file": "plugins/builtin-commands/src/BuiltinCommandRegistration.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "装配入口或公共导出：BuiltinCommandRegistration"
+      },
+      {
+        "file": "plugins/builtin-commands/src/BuiltinCommandsPlugin.ts",
+        "category": "plugin",
+        "loc": 62,
+        "functions": 25,
+        "cc": 33,
+        "responsibility": "装配入口或公共导出：BuiltinCommandsPlugin"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/AddToCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：AddToCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/BackCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：BackCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/CanvasCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：CanvasCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/CreateCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：CreateCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/DeleteCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：DeleteCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/FrontCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：FrontCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/GroupCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：GroupCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/HelpCommand.ts",
+        "category": "plugin",
+        "loc": 17,
+        "functions": 3,
+        "cc": 3,
+        "responsibility": "命令语法与请求转发：HelpCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/InitCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：InitCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/MoveCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：MoveCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/ReadCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：ReadCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/RedoCommand.ts",
+        "category": "plugin",
+        "loc": 7,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：RedoCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/SaveCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：SaveCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/ScaleCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：ScaleCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/SetCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：SetCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/ShowCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：ShowCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/TreeCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：TreeCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/UndoCommand.ts",
+        "category": "plugin",
+        "loc": 7,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：UndoCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/UngroupCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：UngroupCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/index.ts",
+        "category": "plugin",
+        "loc": 1,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "装配入口或公共导出"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/BuiltinShapesPlugin.ts",
+        "category": "plugin",
+        "loc": 14,
+        "functions": 1,
+        "cc": 1,
+        "responsibility": "装配入口或公共导出：BuiltinShapesPlugin"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/index.ts",
+        "category": "plugin",
+        "loc": 1,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "装配入口或公共导出"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/providers/CircleProvider.ts",
+        "category": "plugin",
+        "loc": 11,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "图形创建和输入输出映射：CircleProvider"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/providers/EllipseProvider.ts",
+        "category": "plugin",
+        "loc": 11,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "图形创建和输入输出映射：EllipseProvider"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/providers/GroupProvider.ts",
+        "category": "plugin",
+        "loc": 29,
+        "functions": 5,
+        "cc": 13,
+        "responsibility": "图形创建和输入输出映射：GroupProvider"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/providers/LineProvider.ts",
+        "category": "plugin",
+        "loc": 13,
+        "functions": 3,
+        "cc": 3,
+        "responsibility": "图形创建和输入输出映射：LineProvider"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/providers/NumericProvider.ts",
+        "category": "plugin",
+        "loc": 52,
+        "functions": 11,
+        "cc": 30,
+        "responsibility": "图形创建和输入输出映射：NumericProvider"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/providers/RectProvider.ts",
+        "category": "plugin",
+        "loc": 12,
+        "functions": 3,
+        "cc": 3,
+        "responsibility": "图形创建和输入输出映射：RectProvider"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/providers/TextProvider.ts",
+        "category": "plugin",
+        "loc": 14,
+        "functions": 4,
+        "cc": 5,
+        "responsibility": "图形创建和输入输出映射：TextProvider"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/shapes/CircleShape.ts",
+        "category": "plugin",
+        "loc": 12,
+        "functions": 6,
+        "cc": 6,
+        "responsibility": "领域模型与不变量：CircleShape"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/shapes/EllipseShape.ts",
+        "category": "plugin",
+        "loc": 13,
+        "functions": 7,
+        "cc": 7,
+        "responsibility": "领域模型与不变量：EllipseShape"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/shapes/GroupShape.ts",
+        "category": "plugin",
+        "loc": 10,
+        "functions": 2,
+        "cc": 3,
+        "responsibility": "领域模型与不变量：GroupShape"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/shapes/LineShape.ts",
+        "category": "plugin",
+        "loc": 13,
+        "functions": 7,
+        "cc": 7,
+        "responsibility": "领域模型与不变量：LineShape"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/shapes/RectShape.ts",
+        "category": "plugin",
+        "loc": 13,
+        "functions": 7,
+        "cc": 7,
+        "responsibility": "领域模型与不变量：RectShape"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/shapes/TextShape.ts",
+        "category": "plugin",
+        "loc": 18,
+        "functions": 7,
+        "cc": 8,
+        "responsibility": "领域模型与不变量：TextShape"
+      },
+      {
+        "file": "plugins/command-dir/src/DirCommand.ts",
+        "category": "plugin",
+        "loc": 14,
+        "functions": 5,
+        "cc": 11,
+        "responsibility": "命令语法与请求转发：DirCommand"
+      },
+      {
+        "file": "plugins/command-dir/src/DirPlugin.ts",
+        "category": "plugin",
+        "loc": 7,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：DirPlugin"
+      },
+      {
+        "file": "plugins/command-dir/src/DirRegistration.ts",
+        "category": "plugin",
+        "loc": 10,
+        "functions": 2,
+        "cc": 3,
+        "responsibility": "命令语法与请求转发：DirRegistration"
+      },
+      {
+        "file": "plugins/command-dir/src/NodeDirectoryAdapter.ts",
+        "category": "plugin",
+        "loc": 11,
+        "functions": 5,
+        "cc": 8,
+        "responsibility": "命令语法与请求转发：NodeDirectoryAdapter"
+      },
+      {
+        "file": "plugins/command-dir/src/index.ts",
+        "category": "plugin",
+        "loc": 1,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "命令语法与请求转发"
+      },
+      {
+        "file": "plugins/command-stats/src/StatsCommand.ts",
+        "category": "plugin",
+        "loc": 13,
+        "functions": 4,
+        "cc": 6,
+        "responsibility": "命令语法与请求转发：StatsCommand"
+      },
+      {
+        "file": "plugins/command-stats/src/StatsPlugin.ts",
+        "category": "plugin",
+        "loc": 5,
+        "functions": 1,
+        "cc": 1,
+        "responsibility": "命令语法与请求转发：StatsPlugin"
+      },
+      {
+        "file": "plugins/command-stats/src/StatsRegistration.ts",
+        "category": "plugin",
+        "loc": 9,
+        "functions": 1,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：StatsRegistration"
+      },
+      {
+        "file": "plugins/command-stats/src/index.ts",
+        "category": "plugin",
+        "loc": 1,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "命令语法与请求转发"
+      },
+      {
+        "file": "plugins/shape-box/src/BoxFillHandler.ts",
+        "category": "plugin",
+        "loc": 14,
+        "functions": 3,
+        "cc": 6,
+        "responsibility": "图形创建和输入输出映射：BoxFillHandler"
+      },
+      {
+        "file": "plugins/shape-box/src/BoxLabelHandler.ts",
+        "category": "plugin",
+        "loc": 14,
+        "functions": 3,
+        "cc": 6,
+        "responsibility": "图形创建和输入输出映射：BoxLabelHandler"
+      },
+      {
+        "file": "plugins/shape-box/src/BoxPlugin.ts",
+        "category": "plugin",
+        "loc": 10,
+        "functions": 1,
+        "cc": 1,
+        "responsibility": "图形创建和输入输出映射：BoxPlugin"
+      },
+      {
+        "file": "plugins/shape-box/src/BoxProvider.ts",
+        "category": "plugin",
+        "loc": 37,
+        "functions": 8,
+        "cc": 20,
+        "responsibility": "图形创建和输入输出映射：BoxProvider"
+      },
+      {
+        "file": "plugins/shape-box/src/BoxShape.ts",
+        "category": "plugin",
+        "loc": 18,
+        "functions": 11,
+        "cc": 15,
+        "responsibility": "图形创建和输入输出映射：BoxShape"
+      },
+      {
+        "file": "plugins/shape-box/src/index.ts",
+        "category": "plugin",
+        "loc": 1,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "图形创建和输入输出映射"
+      },
+      {
+        "file": "plugins/tree-box-label/src/BoxTypeDecorator.ts",
+        "category": "plugin",
+        "loc": 5,
+        "functions": 1,
+        "cc": 3,
+        "responsibility": "树标签扩展：BoxTypeDecorator"
+      },
+      {
+        "file": "plugins/tree-box-label/src/BoxTypePlugin.ts",
+        "category": "plugin",
+        "loc": 5,
+        "functions": 1,
+        "cc": 1,
+        "responsibility": "树标签扩展：BoxTypePlugin"
+      },
+      {
+        "file": "plugins/tree-box-label/src/index.ts",
+        "category": "plugin",
+        "loc": 1,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "树标签扩展"
+      },
+      {
+        "file": "plugins/tree-modified/src/ModifiedStarDecorator.ts",
+        "category": "plugin",
+        "loc": 25,
+        "functions": 6,
+        "cc": 11,
+        "responsibility": "树标签扩展：Fingerprints, ModifiedStarDecorator"
+      },
+      {
+        "file": "plugins/tree-modified/src/ModifiedStarPlugin.ts",
+        "category": "plugin",
+        "loc": 5,
+        "functions": 1,
+        "cc": 1,
+        "responsibility": "树标签扩展：ModifiedStarPlugin"
+      },
+      {
+        "file": "plugins/tree-modified/src/index.ts",
+        "category": "plugin",
+        "loc": 1,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "树标签扩展"
+      }
+    ]
+  },
+  "target": {
+    "ref": "fd98ffd4902b8c0626b69a5d75f7a29d6c2cb65d",
+    "commit": "fd98ffd4902b8c0626b69a5d75f7a29d6c2cb65d",
+    "runtimeSourceHash": "973b552bd9c32b711b1773dc320190c6548f3df3e4698652ebb16a6f58ac226e",
+    "totals": {
+      "kernel": {
+        "files": 33,
+        "loc": 785,
+        "functions": 173,
+        "cc": 309
+      },
+      "host": {
+        "files": 15,
+        "loc": 396,
+        "functions": 57,
+        "cc": 194
+      },
+      "plugin": {
+        "files": 62,
+        "loc": 729,
+        "functions": 211,
+        "cc": 309
+      },
+      "vscode": {
+        "files": 4,
+        "loc": 69,
+        "functions": 13,
+        "cc": 26
+      }
+    },
+    "files": [
+      {
+        "file": "extensions/svg-tools/src/SvgFileDecorator.ts",
+        "category": "vscode",
+        "loc": 15,
+        "functions": 3,
+        "cc": 9,
+        "responsibility": "装配入口或公共导出：SvgFileDecorator"
+      },
+      {
+        "file": "extensions/svg-tools/src/SvgOutlineParser.ts",
+        "category": "vscode",
+        "loc": 25,
+        "functions": 4,
+        "cc": 8,
+        "responsibility": "装配入口或公共导出：OutlineElement, BuildingElement, SvgOutlineParser"
+      },
+      {
+        "file": "extensions/svg-tools/src/SvgSymbolProvider.ts",
+        "category": "vscode",
+        "loc": 17,
+        "functions": 2,
+        "cc": 5,
+        "responsibility": "装配入口或公共导出：SvgSymbolProvider"
+      },
+      {
+        "file": "extensions/svg-tools/src/extension.ts",
+        "category": "vscode",
+        "loc": 12,
+        "functions": 4,
+        "cc": 4,
+        "responsibility": "装配入口或公共导出"
+      },
+      {
+        "file": "packages/core/src/application/AttributeService.ts",
+        "category": "kernel",
+        "loc": 16,
+        "functions": 5,
+        "cc": 7,
+        "responsibility": "应用事务、历史和查询：AttributeService"
+      },
+      {
+        "file": "packages/core/src/application/CommandInvoker.ts",
+        "category": "kernel",
+        "loc": 19,
+        "functions": 2,
+        "cc": 6,
+        "responsibility": "应用事务、历史和查询：CommandInvoker"
+      },
+      {
+        "file": "packages/core/src/application/CommandRegistry.ts",
+        "category": "kernel",
+        "loc": 18,
+        "functions": 5,
+        "cc": 8,
+        "responsibility": "应用事务、历史和查询：CommandRegistry"
+      },
+      {
+        "file": "packages/core/src/application/EditorSession.ts",
+        "category": "kernel",
+        "loc": 112,
+        "functions": 33,
+        "cc": 50,
+        "responsibility": "应用事务、历史和查询：EditorSession"
+      },
+      {
+        "file": "packages/core/src/application/ExtensionRegistry.ts",
+        "category": "kernel",
+        "loc": 58,
+        "functions": 21,
+        "cc": 46,
+        "responsibility": "应用事务、历史和查询：ExtensionRegistry"
+      },
+      {
+        "file": "packages/core/src/application/TreeDecorationService.ts",
+        "category": "kernel",
+        "loc": 27,
+        "functions": 6,
+        "cc": 17,
+        "responsibility": "应用事务、历史和查询：TreeDecorationService"
+      },
+      {
+        "file": "packages/core/src/application/commands/Command.ts",
+        "category": "kernel",
+        "loc": 10,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "命令语法与请求转发：CommandResult, Command"
+      },
+      {
+        "file": "packages/core/src/application/commands/EditCommand.ts",
+        "category": "kernel",
+        "loc": 28,
+        "functions": 6,
+        "cc": 12,
+        "responsibility": "命令语法与请求转发：EditCommand"
+      },
+      {
+        "file": "packages/core/src/application/history/HistoryEntry.ts",
+        "category": "kernel",
+        "loc": 4,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "应用事务、历史和查询：HistoryEntry"
+      },
+      {
+        "file": "packages/core/src/application/history/HistoryManager.ts",
+        "category": "kernel",
+        "loc": 25,
+        "functions": 6,
+        "cc": 9,
+        "responsibility": "应用事务、历史和查询：HistoryManager"
+      },
+      {
+        "file": "packages/core/src/application/ports/DocumentCodec.ts",
+        "category": "kernel",
+        "loc": 4,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "应用事务、历史和查询：ImportResult, DocumentReader, DocumentWriter"
+      },
+      {
+        "file": "packages/core/src/application/ports/DocumentStore.ts",
+        "category": "kernel",
+        "loc": 4,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "应用事务、历史和查询：DocumentStore"
+      },
+      {
+        "file": "packages/core/src/application/providers/ShapeFactory.ts",
+        "category": "kernel",
+        "loc": 52,
+        "functions": 17,
+        "cc": 24,
+        "responsibility": "图形创建和输入输出映射：Entry, ShapeFactory"
+      },
+      {
+        "file": "packages/core/src/application/providers/ShapeProvider.ts",
+        "category": "kernel",
+        "loc": 24,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "图形创建和输入输出映射：SvgElementData, ShapeView, ShapeProvider"
+      },
+      {
+        "file": "packages/core/src/application/queries/ShapeQueryService.ts",
+        "category": "kernel",
+        "loc": 19,
+        "functions": 4,
+        "cc": 6,
+        "responsibility": "应用事务、历史和查询：TreeNode, TreeView, DetailView, ShapeQueryService"
+      },
+      {
+        "file": "packages/core/src/contracts/AttributeHandler.ts",
+        "category": "kernel",
+        "loc": 10,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "公开扩展契约：AttributeTarget, AttributeEditContext, AttributeHandler"
+      },
+      {
+        "file": "packages/core/src/contracts/CommandRegistration.ts",
+        "category": "kernel",
+        "loc": 9,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "公开扩展契约：Token, CommandContext, CommandRegistration"
+      },
+      {
+        "file": "packages/core/src/contracts/DirectoryReader.ts",
+        "category": "kernel",
+        "loc": 5,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "公开扩展契约：DirectoryEntry, DirectoryReader"
+      },
+      {
+        "file": "packages/core/src/contracts/DocumentSnapshot.ts",
+        "category": "kernel",
+        "loc": 8,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "公开扩展契约：NodeSnapshot, DocumentSnapshot, DocumentEvent, QueryPort"
+      },
+      {
+        "file": "packages/core/src/contracts/EditorActions.ts",
+        "category": "kernel",
+        "loc": 19,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "公开扩展契约：EditorActions, HistoryPort"
+      },
+      {
+        "file": "packages/core/src/contracts/Plugin.ts",
+        "category": "kernel",
+        "loc": 23,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "公开扩展契约：ShapeCreation, PluginContext, Plugin, PluginManifest, PluginConstructor"
+      },
+      {
+        "file": "packages/core/src/contracts/ShapeAction.ts",
+        "category": "kernel",
+        "loc": 2,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "公开扩展契约：ShapeAction, EditFeedback"
+      },
+      {
+        "file": "packages/core/src/contracts/TreeDecorator.ts",
+        "category": "kernel",
+        "loc": 7,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "公开扩展契约：TreeLine, TreeDecorator"
+      },
+      {
+        "file": "packages/core/src/domain/ContainerShape.ts",
+        "category": "kernel",
+        "loc": 33,
+        "functions": 10,
+        "cc": 20,
+        "responsibility": "领域模型与不变量：ContainerShape"
+      },
+      {
+        "file": "packages/core/src/domain/DocumentRoot.ts",
+        "category": "kernel",
+        "loc": 8,
+        "functions": 2,
+        "cc": 3,
+        "responsibility": "领域模型与不变量：DocumentRoot"
+      },
+      {
+        "file": "packages/core/src/domain/Numbers.ts",
+        "category": "kernel",
+        "loc": 21,
+        "functions": 4,
+        "cc": 9,
+        "responsibility": "领域模型与不变量：Numbers"
+      },
+      {
+        "file": "packages/core/src/domain/NumericShape.ts",
+        "category": "kernel",
+        "loc": 37,
+        "functions": 8,
+        "cc": 13,
+        "responsibility": "领域模型与不变量：NumericShape"
+      },
+      {
+        "file": "packages/core/src/domain/Shape.ts",
+        "category": "kernel",
+        "loc": 22,
+        "functions": 8,
+        "cc": 10,
+        "responsibility": "领域模型与不变量：Shape"
+      },
+      {
+        "file": "packages/core/src/domain/ShapeStyle.ts",
+        "category": "kernel",
+        "loc": 12,
+        "functions": 4,
+        "cc": 7,
+        "responsibility": "领域模型与不变量：ShapeStyle"
+      },
+      {
+        "file": "packages/core/src/domain/SvgDocument.ts",
+        "category": "kernel",
+        "loc": 116,
+        "functions": 31,
+        "cc": 61,
+        "responsibility": "领域模型与不变量：SvgDocument"
+      },
+      {
+        "file": "packages/core/src/domain/errors/EditorError.ts",
+        "category": "kernel",
+        "loc": 3,
+        "functions": 1,
+        "cc": 1,
+        "responsibility": "领域模型与不变量：EditorError"
+      },
+      {
+        "file": "packages/core/src/index.ts",
+        "category": "kernel",
+        "loc": 22,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "装配入口或公共导出"
+      },
+      {
+        "file": "packages/core/src/internal.ts",
+        "category": "kernel",
+        "loc": 8,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "装配入口或公共导出"
+      },
+      {
+        "file": "packages/host/src/EditorRuntime.ts",
+        "category": "host",
+        "loc": 28,
+        "functions": 5,
+        "cc": 6,
+        "responsibility": "装配入口或公共导出：EditorRuntime"
+      },
+      {
+        "file": "packages/host/src/cli/CliApplication.ts",
+        "category": "host",
+        "loc": 34,
+        "functions": 3,
+        "cc": 12,
+        "responsibility": "终端交互和展示：CliApplication"
+      },
+      {
+        "file": "packages/host/src/cli/CommandDispatcher.ts",
+        "category": "host",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "终端交互和展示：CommandDispatcher"
+      },
+      {
+        "file": "packages/host/src/cli/ShowFormatter.ts",
+        "category": "host",
+        "loc": 10,
+        "functions": 4,
+        "cc": 8,
+        "responsibility": "终端交互和展示：ShowFormatter"
+      },
+      {
+        "file": "packages/host/src/cli/Tokenizer.ts",
+        "category": "host",
+        "loc": 33,
+        "functions": 1,
+        "cc": 18,
+        "responsibility": "终端交互和展示：Tokenizer"
+      },
+      {
+        "file": "packages/host/src/cli/TreeFormatter.ts",
+        "category": "host",
+        "loc": 21,
+        "functions": 5,
+        "cc": 11,
+        "responsibility": "终端交互和展示：TreeFormatter"
+      },
+      {
+        "file": "packages/host/src/cli/printing/TreePrinter.ts",
+        "category": "host",
+        "loc": 5,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "终端交互和展示：TreePrinter"
+      },
+      {
+        "file": "packages/host/src/composition/codePlugins.ts",
+        "category": "host",
+        "loc": 20,
+        "functions": 1,
+        "cc": 1,
+        "responsibility": "装配入口或公共导出"
+      },
+      {
+        "file": "packages/host/src/io/storage/FileDocumentStore.ts",
+        "category": "host",
+        "loc": 21,
+        "functions": 3,
+        "cc": 5,
+        "responsibility": "文件与 SVG 编解码：FileDocumentStore"
+      },
+      {
+        "file": "packages/host/src/io/svg/SvgReader.ts",
+        "category": "host",
+        "loc": 78,
+        "functions": 12,
+        "cc": 40,
+        "responsibility": "文件与 SVG 编解码：ElementNode, SvgReader"
+      },
+      {
+        "file": "packages/host/src/io/svg/SvgWriter.ts",
+        "category": "host",
+        "loc": 28,
+        "functions": 6,
+        "cc": 12,
+        "responsibility": "文件与 SVG 编解码：SvgWriter"
+      },
+      {
+        "file": "packages/host/src/io/svg/XmlEscaper.ts",
+        "category": "host",
+        "loc": 18,
+        "functions": 3,
+        "cc": 14,
+        "responsibility": "文件与 SVG 编解码：XmlEscaper"
+      },
+      {
+        "file": "packages/host/src/loading/PluginInstaller.ts",
+        "category": "host",
+        "loc": 13,
+        "functions": 2,
+        "cc": 6,
+        "responsibility": "模块解析、注册安装与失败处理：PluginInstaller"
+      },
+      {
+        "file": "packages/host/src/loading/PluginLoader.ts",
+        "category": "host",
+        "loc": 67,
+        "functions": 10,
+        "cc": 59,
+        "responsibility": "模块解析、注册安装与失败处理：ConfigEntry, PluginLoader"
+      },
+      {
+        "file": "packages/host/src/main.ts",
+        "category": "host",
+        "loc": 14,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "装配入口或公共导出"
+      },
+      {
+        "file": "plugins/builtin-commands/src/BuiltinCommandRegistration.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "装配入口或公共导出：BuiltinCommandRegistration"
+      },
+      {
+        "file": "plugins/builtin-commands/src/BuiltinCommandsPlugin.ts",
+        "category": "plugin",
+        "loc": 62,
+        "functions": 25,
+        "cc": 33,
+        "responsibility": "装配入口或公共导出：BuiltinCommandsPlugin"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/AddToCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：AddToCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/BackCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：BackCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/CanvasCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：CanvasCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/CreateCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：CreateCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/DeleteCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：DeleteCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/FrontCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：FrontCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/GroupCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：GroupCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/HelpCommand.ts",
+        "category": "plugin",
+        "loc": 17,
+        "functions": 3,
+        "cc": 3,
+        "responsibility": "命令语法与请求转发：HelpCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/InitCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：InitCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/MoveCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：MoveCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/ReadCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：ReadCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/RedoCommand.ts",
+        "category": "plugin",
+        "loc": 7,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：RedoCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/SaveCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：SaveCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/ScaleCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：ScaleCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/SetCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：SetCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/ShowCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：ShowCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/TreeCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：TreeCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/UndoCommand.ts",
+        "category": "plugin",
+        "loc": 7,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：UndoCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/commands/UngroupCommand.ts",
+        "category": "plugin",
+        "loc": 6,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：UngroupCommand"
+      },
+      {
+        "file": "plugins/builtin-commands/src/index.ts",
+        "category": "plugin",
+        "loc": 1,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "装配入口或公共导出"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/BuiltinShapesPlugin.ts",
+        "category": "plugin",
+        "loc": 14,
+        "functions": 1,
+        "cc": 1,
+        "responsibility": "装配入口或公共导出：BuiltinShapesPlugin"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/index.ts",
+        "category": "plugin",
+        "loc": 1,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "装配入口或公共导出"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/providers/CircleProvider.ts",
+        "category": "plugin",
+        "loc": 11,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "图形创建和输入输出映射：CircleProvider"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/providers/EllipseProvider.ts",
+        "category": "plugin",
+        "loc": 11,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "图形创建和输入输出映射：EllipseProvider"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/providers/GroupProvider.ts",
+        "category": "plugin",
+        "loc": 29,
+        "functions": 5,
+        "cc": 13,
+        "responsibility": "图形创建和输入输出映射：GroupProvider"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/providers/LineProvider.ts",
+        "category": "plugin",
+        "loc": 13,
+        "functions": 3,
+        "cc": 3,
+        "responsibility": "图形创建和输入输出映射：LineProvider"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/providers/NumericProvider.ts",
+        "category": "plugin",
+        "loc": 52,
+        "functions": 11,
+        "cc": 30,
+        "responsibility": "图形创建和输入输出映射：NumericProvider"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/providers/RectProvider.ts",
+        "category": "plugin",
+        "loc": 12,
+        "functions": 3,
+        "cc": 3,
+        "responsibility": "图形创建和输入输出映射：RectProvider"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/providers/TextProvider.ts",
+        "category": "plugin",
+        "loc": 14,
+        "functions": 4,
+        "cc": 5,
+        "responsibility": "图形创建和输入输出映射：TextProvider"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/shapes/CircleShape.ts",
+        "category": "plugin",
+        "loc": 12,
+        "functions": 6,
+        "cc": 6,
+        "responsibility": "领域模型与不变量：CircleShape"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/shapes/EllipseShape.ts",
+        "category": "plugin",
+        "loc": 13,
+        "functions": 7,
+        "cc": 7,
+        "responsibility": "领域模型与不变量：EllipseShape"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/shapes/GroupShape.ts",
+        "category": "plugin",
+        "loc": 10,
+        "functions": 2,
+        "cc": 3,
+        "responsibility": "领域模型与不变量：GroupShape"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/shapes/LineShape.ts",
+        "category": "plugin",
+        "loc": 13,
+        "functions": 7,
+        "cc": 7,
+        "responsibility": "领域模型与不变量：LineShape"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/shapes/RectShape.ts",
+        "category": "plugin",
+        "loc": 13,
+        "functions": 7,
+        "cc": 7,
+        "responsibility": "领域模型与不变量：RectShape"
+      },
+      {
+        "file": "plugins/builtin-shapes/src/shapes/TextShape.ts",
+        "category": "plugin",
+        "loc": 18,
+        "functions": 7,
+        "cc": 8,
+        "responsibility": "领域模型与不变量：TextShape"
+      },
+      {
+        "file": "plugins/command-dir/src/DirCommand.ts",
+        "category": "plugin",
+        "loc": 14,
+        "functions": 5,
+        "cc": 11,
+        "responsibility": "命令语法与请求转发：DirCommand"
+      },
+      {
+        "file": "plugins/command-dir/src/DirPlugin.ts",
+        "category": "plugin",
+        "loc": 7,
+        "functions": 2,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：DirPlugin"
+      },
+      {
+        "file": "plugins/command-dir/src/DirRegistration.ts",
+        "category": "plugin",
+        "loc": 10,
+        "functions": 2,
+        "cc": 3,
+        "responsibility": "命令语法与请求转发：DirRegistration"
+      },
+      {
+        "file": "plugins/command-dir/src/NodeDirectoryAdapter.ts",
+        "category": "plugin",
+        "loc": 11,
+        "functions": 5,
+        "cc": 8,
+        "responsibility": "命令语法与请求转发：NodeDirectoryAdapter"
+      },
+      {
+        "file": "plugins/command-dir/src/index.ts",
+        "category": "plugin",
+        "loc": 1,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "命令语法与请求转发"
+      },
+      {
+        "file": "plugins/command-stats/src/StatsCommand.ts",
+        "category": "plugin",
+        "loc": 13,
+        "functions": 4,
+        "cc": 6,
+        "responsibility": "命令语法与请求转发：StatsCommand"
+      },
+      {
+        "file": "plugins/command-stats/src/StatsPlugin.ts",
+        "category": "plugin",
+        "loc": 5,
+        "functions": 1,
+        "cc": 1,
+        "responsibility": "命令语法与请求转发：StatsPlugin"
+      },
+      {
+        "file": "plugins/command-stats/src/StatsRegistration.ts",
+        "category": "plugin",
+        "loc": 9,
+        "functions": 1,
+        "cc": 2,
+        "responsibility": "命令语法与请求转发：StatsRegistration"
+      },
+      {
+        "file": "plugins/command-stats/src/index.ts",
+        "category": "plugin",
+        "loc": 1,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "命令语法与请求转发"
+      },
+      {
+        "file": "plugins/shape-box/src/BoxFillHandler.ts",
+        "category": "plugin",
+        "loc": 14,
+        "functions": 3,
+        "cc": 6,
+        "responsibility": "图形创建和输入输出映射：BoxFillHandler"
+      },
+      {
+        "file": "plugins/shape-box/src/BoxLabelHandler.ts",
+        "category": "plugin",
+        "loc": 14,
+        "functions": 3,
+        "cc": 6,
+        "responsibility": "图形创建和输入输出映射：BoxLabelHandler"
+      },
+      {
+        "file": "plugins/shape-box/src/BoxPlugin.ts",
+        "category": "plugin",
+        "loc": 10,
+        "functions": 1,
+        "cc": 1,
+        "responsibility": "图形创建和输入输出映射：BoxPlugin"
+      },
+      {
+        "file": "plugins/shape-box/src/BoxProvider.ts",
+        "category": "plugin",
+        "loc": 37,
+        "functions": 8,
+        "cc": 20,
+        "responsibility": "图形创建和输入输出映射：BoxProvider"
+      },
+      {
+        "file": "plugins/shape-box/src/BoxShape.ts",
+        "category": "plugin",
+        "loc": 18,
+        "functions": 11,
+        "cc": 15,
+        "responsibility": "图形创建和输入输出映射：BoxShape"
+      },
+      {
+        "file": "plugins/shape-box/src/index.ts",
+        "category": "plugin",
+        "loc": 1,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "图形创建和输入输出映射"
+      },
+      {
+        "file": "plugins/shape-diamond/src/DiamondPlugin.ts",
+        "category": "plugin",
+        "loc": 5,
+        "functions": 1,
+        "cc": 1,
+        "responsibility": "图形创建和输入输出映射：DiamondPlugin"
+      },
+      {
+        "file": "plugins/shape-diamond/src/DiamondProvider.ts",
+        "category": "plugin",
+        "loc": 43,
+        "functions": 13,
+        "cc": 29,
+        "responsibility": "图形创建和输入输出映射：DiamondProvider"
+      },
+      {
+        "file": "plugins/shape-diamond/src/DiamondShape.ts",
+        "category": "plugin",
+        "loc": 41,
+        "functions": 9,
+        "cc": 11,
+        "responsibility": "图形创建和输入输出映射：Bounds, DiamondShape"
+      },
+      {
+        "file": "plugins/shape-diamond/src/index.ts",
+        "category": "plugin",
+        "loc": 1,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "图形创建和输入输出映射"
+      },
+      {
+        "file": "plugins/tree-box-label/src/BoxTypeDecorator.ts",
+        "category": "plugin",
+        "loc": 5,
+        "functions": 1,
+        "cc": 3,
+        "responsibility": "树标签扩展：BoxTypeDecorator"
+      },
+      {
+        "file": "plugins/tree-box-label/src/BoxTypePlugin.ts",
+        "category": "plugin",
+        "loc": 5,
+        "functions": 1,
+        "cc": 1,
+        "responsibility": "树标签扩展：BoxTypePlugin"
+      },
+      {
+        "file": "plugins/tree-box-label/src/index.ts",
+        "category": "plugin",
+        "loc": 1,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "树标签扩展"
+      },
+      {
+        "file": "plugins/tree-modified/src/ModifiedStarDecorator.ts",
+        "category": "plugin",
+        "loc": 25,
+        "functions": 6,
+        "cc": 11,
+        "responsibility": "树标签扩展：Fingerprints, ModifiedStarDecorator"
+      },
+      {
+        "file": "plugins/tree-modified/src/ModifiedStarPlugin.ts",
+        "category": "plugin",
+        "loc": 5,
+        "functions": 1,
+        "cc": 1,
+        "responsibility": "树标签扩展：ModifiedStarPlugin"
+      },
+      {
+        "file": "plugins/tree-modified/src/index.ts",
+        "category": "plugin",
+        "loc": 1,
+        "functions": 0,
+        "cc": 0,
+        "responsibility": "树标签扩展"
+      }
+    ]
+  }
+}

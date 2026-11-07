@@ -13,7 +13,7 @@ package "CLI" {
     component "公开领域抽象\nShape / ContainerShape" as Domain
   }
   component "默认插件\n六类 ShapeProvider\n19 条内置命令" as Builtin
-  component "可选插件\nstats / dir / box\nmodified-star / box-type-label" as Optional
+  component "可选插件\nstats / dir / box / diamond（选做）\nmodified-star / box-type-label" as Optional
 }
 package "VS Code 扩展（独立构建）" {
   component "SVG 文件标记\n原生 Outline Provider" as VSPlugin

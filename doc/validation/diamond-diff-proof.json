@@ -1,0 +1,106 @@
+{
+  "base": "a51d6f93c94de154ab786e0f3624543e5aeee0e0",
+  "target": "fd98ffd4902b8c0626b69a5d75f7a29d6c2cb65d",
+  "unchangedDirectories": [
+    "packages/core",
+    "packages/host/src/loading",
+    "packages/host/src/cli",
+    "packages/host/src/io",
+    "plugins/builtin-commands",
+    "plugins/builtin-shapes",
+    "plugins/command-dir",
+    "plugins/command-stats",
+    "plugins/shape-box",
+    "plugins/tree-box-label",
+    "plugins/tree-modified"
+  ],
+  "existingKernelLoaderRendererAndPluginsChanged": false,
+  "changedExistingRuntime": [
+    {
+      "status": "M",
+      "path": "packages/host/src/composition/codePlugins.ts"
+    }
+  ],
+  "changes": [
+    {
+      "status": "A",
+      "path": "doc/transcript/optional/diamond.expected.svg"
+    },
+    {
+      "status": "A",
+      "path": "doc/transcript/optional/diamond.expected.txt"
+    },
+    {
+      "status": "A",
+      "path": "doc/validation/diamond-assembly.json"
+    },
+    {
+      "status": "A",
+      "path": "doc/validation/optional-check.txt"
+    },
+    {
+      "status": "A",
+      "path": "examples/diamond.svg"
+    },
+    {
+      "status": "A",
+      "path": "examples/diamond.txt"
+    },
+    {
+      "status": "M",
+      "path": "package-lock.json"
+    },
+    {
+      "status": "M",
+      "path": "packages/host/package.json"
+    },
+    {
+      "status": "M",
+      "path": "packages/host/src/composition/codePlugins.ts"
+    },
+    {
+      "status": "M",
+      "path": "plugins.config.json"
+    },
+    {
+      "status": "A",
+      "path": "plugins/shape-diamond/package.json"
+    },
+    {
+      "status": "A",
+      "path": "plugins/shape-diamond/src/DiamondPlugin.ts"
+    },
+    {
+      "status": "A",
+      "path": "plugins/shape-diamond/src/DiamondProvider.ts"
+    },
+    {
+      "status": "A",
+      "path": "plugins/shape-diamond/src/DiamondShape.ts"
+    },
+    {
+      "status": "A",
+      "path": "plugins/shape-diamond/src/index.ts"
+    },
+    {
+      "status": "A",
+      "path": "tests/cli/diamond.test.ts"
+    },
+    {
+      "status": "A",
+      "path": "tests/plugins/diamond-integration.test.ts"
+    },
+    {
+      "status": "A",
+      "path": "tests/plugins/diamond-unit.test.ts"
+    },
+    {
+      "status": "A",
+      "path": "tools/replay-diamond.mjs"
+    },
+    {
+      "status": "A",
+      "path": "tools/verify-diamond-diff.mjs"
+    }
+  ]
+}

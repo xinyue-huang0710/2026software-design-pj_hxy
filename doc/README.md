@@ -4,6 +4,8 @@
 
 依据：[Phase 2 要求](../pj1-phase2/phase_cli_2.md)、[Phase 1 要求](../phase_cli_1.md)。原报告归档为 [phase1-README.md](phase1-README.md)，本报告描述当前实现。Phase 2 截止日期及 eLearning 上传规则未在要求中给出。
 
+选做补充：当前 main 已增加 [diamond 判断框插件](optional-diamond.md)，包含独立测试、双装配示例与内核零改动证据。p2 为此前必做交付版本，选做代码通过后续普通提交交付；最新完整检查为 48 项 CLI 测试与 2 项解析测试通过。提交时请同时提供主线或选做提交链接。
+
 ## 1. 安装、运行与验收入口
 
 需要 Node.js >=22，实际验证环境为 Node.js 24.14.0、Windows、VS Code 1.135.0。在仓库根执行：
@@ -16,7 +18,7 @@ npm run cli -- --config plugins.config.json
 npm run cli -- --builtin-only
 ~~~
 
-三种 CLI 启动依次为 A 代码装配、B 配置装配、仅 Phase 1 默认能力。A/B 默认包含 stats、dir、box 及两个树标签。先 build 可保证相对路径插件具有编译入口；源码开发使用 development 条件，编译程序使用各包 dist。Windows PowerShell 若拦截 npm.ps1，改用 npm.cmd。CLI 输入 help 查看命令，Ctrl+C 退出。
+三种 CLI 启动依次为 A 代码装配、B 配置装配、仅 Phase 1 默认能力。当前主线的 A/B 默认包含 stats、dir、box、diamond 及两个树标签（p2 不含后来新增的 diamond）。先 build 可保证相对路径插件具有编译入口；源码开发使用 development 条件，编译程序使用各包 dist。Windows PowerShell 若拦截 npm.ps1，改用 npm.cmd。CLI 输入 help 查看命令，Ctrl+C 退出。
 
 ~~~text
 dir
@@ -90,6 +92,7 @@ PNG/SVG 均提交，Markdown 查看不需要 plantuml.jar；重新生成方法�
 | plugins/builtin-commands | 19 条内置命令、各命令的参数规则与 help |
 | plugins/command-stats、command-dir | 两个独立命令插件；dir 包拥有 Node 文件系统适配器 |
 | plugins/shape-box | box 类、Provider、两个属性处理器 |
+| plugins/shape-diamond | 选做菱形类、Provider、插件注册 |
 | plugins/tree-box-label、tree-modified | 两个互不导入的树标签插件 |
 | extensions/svg-tools | 独立构建的 VS Code 插件，不进入 CLI 内核依赖 |
 
@@ -105,7 +108,7 @@ PNG/SVG 均提交，Markdown 查看不需要 plantuml.jar；重新生成方法�
 
 | 扩展点与职责 | 实际调用位置 | 已有类实现 |
 |---|---|---|
-| [ShapeProvider](../packages/core/src/application/providers/ShapeProvider.ts)：创建、读回、展示视图、序列化、可选命令反馈 | [ShapeFactory](../packages/core/src/application/providers/ShapeFactory.ts) 的 create/fromSvg/inspect/toSvgElement/feedback；由 EditorSession、ShapeQueryService、SVG 编解码使用 | RectProvider、CircleProvider、EllipseProvider、LineProvider、TextProvider、GroupProvider、BoxProvider |
+| [ShapeProvider](../packages/core/src/application/providers/ShapeProvider.ts)：创建、读回、展示视图、序列化、可选命令反馈 | [ShapeFactory](../packages/core/src/application/providers/ShapeFactory.ts) 的 create/fromSvg/inspect/toSvgElement/feedback；由 EditorSession、ShapeQueryService、SVG 编解码使用 | RectProvider、CircleProvider、EllipseProvider、LineProvider、TextProvider、GroupProvider、BoxProvider、DiamondProvider（选做） |
 | [Command](../packages/core/src/application/commands/Command.ts) 与 [CommandRegistration](../packages/core/src/contracts/CommandRegistration.ts)：执行接口；名称/语法/help/构造 | [CommandRegistry.create](../packages/core/src/application/CommandRegistry.ts) 按名称选工厂；[CommandInvoker](../packages/core/src/application/CommandInvoker.ts) 调用 execute | 19 个内置命令类；StatsCommand、DirCommand，各自有注册类 |
 | [TreeDecorator](../packages/core/src/contracts/TreeDecorator.ts)：只读每行快照并返回尾部标签，可监听文档事件 | [TreeDecorationService.decorate/notify](../packages/core/src/application/TreeDecorationService.ts)；EditorSession.tree/flushEvents 接入树查询与事件 | BoxTypeDecorator、ModifiedStarDecorator |
 | [AttributeHandler](../packages/core/src/contracts/AttributeHandler.ts)：决定属性语义及候选文档修改 | [AttributeService.set](../packages/core/src/application/AttributeService.ts)，由 EditorSession.set 调用 | BoxFillHandler、BoxLabelHandler |
@@ -234,6 +237,6 @@ node tools/metrics/generate.mjs final p2 tmp/metrics-p2
 - UI 自动工具故障后向用户说明限制；用户在开发宿主验证，过程中解决 F5 音量键、SVG 默认图片预览、大纲折叠的问题，最终确认定位与实时更新正常。
 - Windows 本机 Node 的目录 cpSync 出现原生崩溃，构建/基线工具改为逐文件复制；未把环境故障算作业务测试通过。
 
-一致性自查：四类扩展接口在内核侧、领域不负责展示、加载器无插件名称映射、两个标签相互独立、内置输出兼容、box 接入不改内核、属性失败不污染历史，都有源码与测试对应。实际组合根文件为 codePlugins.ts；未使用经典 Visitor，也未实现选做的新形状。同步激活、快照事务及 SVG 子集限制属于已声明边界。
+一致性自查：四类扩展接口在内核侧、领域不负责展示、加载器无插件名称映射、两个标签相互独立、内置输出兼容、box 接入不改内核、属性失败不污染历史，都有源码与测试对应。实际组合根文件为 codePlugins.ts；未使用经典 Visitor；p2 必做版本未含选做形状，当前主线已另行完成 diamond 插件。同步激活、快照事务及 SVG 子集限制属于已声明边界。
 
-本次验收：npm run check 的 43 项 CLI 测试与 2 项大纲解析测试通过；真实 Extension Host 的 11 个命名检查通过；用户人工界面验证通过，截图已归档。A/B 四组回放和接入提交差异核验通过。Git 历史指标由脚本生成并作为独立提交交付；报告生成提交与最终 p2 的生产源码应具有相同哈希，复核命令见第 7 节。p2 标记包含全部材料的最终提交，final 保持不变。
+p2 必做版本验收：npm run check 的 43 项 CLI 测试与 2 项大纲解析测试通过；真实 Extension Host 的 11 个命名检查通过；用户人工界面验证通过，截图已归档。A/B 四组回放和接入提交差异核验通过。Git 历史指标由脚本生成并作为独立提交交付；报告生成提交与最终 p2 的生产源码应具有相同哈希，复核命令见第 7 节。p2 标记包含全部材料的最终提交，final 保持不变。
