@@ -11,6 +11,9 @@
     },
     {
       "module": "@svgframe/plugin-tree-box-label"
+    },
+    {
+      "module": "@svgframe/plugin-tree-modified"
     }
   ]
 }

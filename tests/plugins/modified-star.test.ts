@@ -1,0 +1,22 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import type {DocumentSnapshot,NodeSnapshot} from '@svgframe/core';
+import {ModifiedStarDecorator} from '../../plugins/tree-modified/src/ModifiedStarDecorator.js';
+const leaf=(value:string):NodeSnapshot=>({id:'r',typeKey:'rect',container:false,attributes:{fill:value},children:[]});
+const doc=(value:string):DocumentSnapshot=>({width:800,height:600,children:[{id:'g',typeKey:'g',container:true,attributes:{},children:[leaf(value)]}]});
+test('modified-star standalone follows edit/save/edit/undo/redo, ancestors, new/deleted nodes and per-instance isolation',()=>{
+  const a=new ModifiedStarDecorator(),other=new ModifiedStarDecorator(),saved=doc('blue'),changed=doc('red');
+  a.onDocumentEvent({kind:'baseline',document:{...saved,children:[]}});
+  for(const n of [saved.children[0]!,saved.children[0]!.children[0]!])assert.equal(a.decorate({root:false,node:n,document:saved}),'*');
+  a.onDocumentEvent({kind:'baseline',document:saved});
+  assert.equal(a.decorate({root:true,document:saved}),undefined);
+  assert.equal(a.decorate({root:true,document:changed}),'*');
+  assert.equal(a.decorate({root:false,node:changed.children[0],document:changed}),'*');
+  assert.equal(a.decorate({root:false,node:changed.children[0]!.children[0],document:changed}),'*');
+  a.onDocumentEvent({kind:'change',document:changed});
+  assert.equal(a.decorate({root:true,document:saved}),undefined);
+  assert.equal(a.decorate({root:true,document:changed}),'*');
+  assert.equal(a.decorate({root:true,document:{...saved,children:[]}}),'*');
+  assert.equal(a.decorate({root:true,document:{...saved,width:900}}),'*');
+  assert.equal(other.decorate({root:true,document:saved}),'*');
+});

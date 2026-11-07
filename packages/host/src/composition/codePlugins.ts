@@ -1,3 +1,4 @@
+import StarPlugin from '@svgframe/plugin-tree-modified';
 import BoxTypePlugin from '@svgframe/plugin-tree-box-label';
 import BoxPlugin from '@svgframe/plugin-shape-box';
 import StatsPlugin from '@svgframe/plugin-command-stats';
@@ -11,6 +12,7 @@ export function installCodePlugins(installer:PluginInstaller):readonly string[]{
     ...installer.install(StatsPlugin,loader.manifest(import.meta.resolve('@svgframe/plugin-command-stats'))),
     ...installer.install(DirPlugin,loader.manifest(import.meta.resolve('@svgframe/plugin-command-dir'))),
     ...installer.install(BoxPlugin,loader.manifest(import.meta.resolve('@svgframe/plugin-shape-box'))),
-    ...installer.install(BoxTypePlugin,loader.manifest(import.meta.resolve('@svgframe/plugin-tree-box-label')))
+    ...installer.install(BoxTypePlugin,loader.manifest(import.meta.resolve('@svgframe/plugin-tree-box-label'))),
+    ...installer.install(StarPlugin,loader.manifest(import.meta.resolve('@svgframe/plugin-tree-modified')))
   ];
 }
