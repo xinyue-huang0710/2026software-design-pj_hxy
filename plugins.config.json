@@ -1,13 +1,16 @@
 {
-    "plugins":  [
-                    {
-                        "module":  "@svgframe/plugin-command-stats"
-                    },
-                    {
-                        "module":  "./plugins/command-dir"
-                    },
-                    {
-                        "module":  "@svgframe/plugin-shape-box"
-                    }
-                ]
+  "plugins": [
+    {
+      "module": "@svgframe/plugin-command-stats"
+    },
+    {
+      "module": "./plugins/command-dir"
+    },
+    {
+      "module": "@svgframe/plugin-shape-box"
+    },
+    {
+      "module": "@svgframe/plugin-tree-box-label"
+    }
+  ]
 }
